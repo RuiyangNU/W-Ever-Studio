@@ -77,3 +77,6 @@ crashlytics-build.properties
 
 # Visual Studio
 /.vscode/
+Assets/.DS_Store
+.DS_Store
+.vsconfig
