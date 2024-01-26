@@ -28,7 +28,23 @@ public class SaveLoadMenu : MonoBehaviour
 
 	bool saveMode;
 
-	public void Open(bool saveMode)
+    void Awake()
+    {
+		
+		//this.enabled = false;
+    }
+
+	public void LoadDefault()
+	{
+        Debug.Log("SL Menu Awake");
+
+        if (File.Exists(GetDefaultPath()))
+        {
+            Load(GetDefaultPath());
+        }
+    }
+
+    public void Open(bool saveMode)
 	{
 		this.saveMode = saveMode;
 		if (saveMode)
@@ -55,6 +71,7 @@ public class SaveLoadMenu : MonoBehaviour
 	public void Action()
 	{
 		string path = GetSelectedPath();
+		Debug.Log(path);
 		if (path == null)
 		{
 			return;
@@ -115,7 +132,17 @@ public class SaveLoadMenu : MonoBehaviour
 		return Path.Combine(Application.persistentDataPath, mapName + ".map");
 	}
 
-	void Save (string path)
+    string GetDefaultPath()
+    {
+        string mapName = "default";
+        if (mapName.Length == 0)
+        {
+            return null;
+        }
+        return Path.Combine(Application.persistentDataPath, mapName + ".map");
+    }
+
+    void Save (string path)
 	{
 		using var writer = new BinaryWriter(File.Open(path, FileMode.Create));
 		writer.Write(mapFileVersion);
@@ -134,7 +161,7 @@ public class SaveLoadMenu : MonoBehaviour
 		if (header <= mapFileVersion)
 		{
 			hexGrid.Load(reader, header);
-			HexMapCamera.ValidatePosition();
+			//HexMapCamera.ValidatePosition();
 		}
 		else
 		{

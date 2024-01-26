@@ -28,13 +28,14 @@ public class HexGameUI : MonoBehaviour
 		}
 		else
 		{
-			Shader.DisableKeyword("_HEX_MAP_EDIT_MODE");
+			//Shader.DisableKeyword("_HEX_MAP_EDIT_MODE");
 		}
 	}
 
 	void Update()
 	{
-		if (!EventSystem.current.IsPointerOverGameObject())
+
+        if (!EventSystem.current.IsPointerOverGameObject())
 		{
 			if (Input.GetMouseButtonDown(0))
 			{

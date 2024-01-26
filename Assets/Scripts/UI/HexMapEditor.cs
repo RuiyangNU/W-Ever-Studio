@@ -96,15 +96,31 @@ public class HexMapEditor : MonoBehaviour
 		terrainMaterial.DisableKeyword("_SHOW_GRID");
 		Shader.EnableKeyword("_HEX_MAP_EDIT_MODE");
 		SetEditMode(true);
-	}
+        Debug.Log("Change Editor Mode");
+    }
 
 	void Update()
 	{
+  //      if (Input.GetKeyDown(KeyCode.Tab))
+		//{
+  //          Debug.Log("Change THings");
+  //          if (!enabled)
+		//	{
+		//		SetEditMode(true);
+
+
+  //          }
+		//	else
+		//	{
+  //              SetEditMode(false);
+  //          }
+  //      }
+
 		if (!EventSystem.current.IsPointerOverGameObject())
 		{
 			if (Input.GetMouseButton(0))
 			{
-				HandleInput();
+                HandleInput();
 				return;
 			}
 			else

@@ -49,6 +49,8 @@ public class HexGrid : MonoBehaviour
 	Transform[] columns;
 	HexGridChunk[] chunks;
 	HexCell[] cells;
+	public GameObject editor;
+	public GameObject SaveLoader;
 
 	/// <summary>
 	/// The <see cref="HexCellShaderData"/> container
@@ -81,15 +83,36 @@ public class HexGrid : MonoBehaviour
 		cellShaderData = gameObject.AddComponent<HexCellShaderData>();
 		cellShaderData.Grid = this;
 		CreateMap(CellCountX, CellCountZ, Wrapping);
+
+		SaveLoader.GetComponent<SaveLoadMenu>().LoadDefault();
 	}
 
-	/// <summary>
-	/// Add a unit to the map.
-	/// </summary>
-	/// <param name="unit">Unit to add.</param>
-	/// <param name="location">Cell in which to place the unit.</param>
-	/// <param name="orientation">Orientation of the unit.</param>
-	public void AddUnit(HexUnit unit, HexCell location, float orientation)
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            
+			//GameObject editorUI = GameObject.Find("UI");
+			if (editor.activeInHierarchy == true)
+			{
+                Debug.Log("Closing UI");
+                editor.SetActive(false);
+			}
+			else
+			{
+                Debug.Log("Opening UI");
+                editor.SetActive(true);
+            }
+		}
+    }
+
+    /// <summary>
+    /// Add a unit to the map.
+    /// </summary>
+    /// <param name="unit">Unit to add.</param>
+    /// <param name="location">Cell in which to place the unit.</param>
+    /// <param name="orientation">Orientation of the unit.</param>
+    public void AddUnit(HexUnit unit, HexCell location, float orientation)
 	{
 		units.Add(unit);
 		unit.Grid = this;
