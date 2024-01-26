@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupUIText : MonoBehaviour, PopupUIElement
+public class ExampleUIText : PopupUIElement
 {
     private TextMeshProUGUI _text;
 
@@ -20,12 +20,12 @@ public class PopupUIText : MonoBehaviour, PopupUIElement
         
     }
 
-    public void OnUIClose()
+    override public void OnUIClose()
     {
         _text.enabled = false;
     }
 
-    public void OnUIOpen()
+    override public void OnUIOpen()
     {
         _text.enabled = true;
     }
