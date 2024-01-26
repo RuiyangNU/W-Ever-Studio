@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface PopupUIElement
+public abstract class PopupUIElement : MonoBehaviour
 {
-    public void OnUIClose();
-    public void OnUIOpen();
+    public abstract void OnUIClose();
+    public abstract void OnUIOpen();
 
 }
