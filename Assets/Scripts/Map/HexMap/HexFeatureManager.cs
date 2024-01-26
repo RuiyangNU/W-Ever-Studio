@@ -147,10 +147,12 @@ public class HexFeatureManager : MonoBehaviour
 	public void AddSpecialFeature(HexCell cell, Vector3 position)
 	{
 		HexHash hash = HexMetrics.SampleHashGrid(position);
-		Transform instance = Instantiate(special[cell.SpecialIndex - 1]);
+		Transform instance = Instantiate(special[3]);
+		//instance.position += new Vector3(0f, 2f, 0f);
+
 		instance.SetLocalPositionAndRotation(
-			HexMetrics.Perturb(position),
-			Quaternion.Euler(0f, 360f * hash.e, 0f));
+			HexMetrics.Perturb(position + new Vector3(0f, 1f, 0f)),
+			Quaternion.Euler(0f, 0f, 0f));
 		instance.SetParent(container, false);
 	}
 
