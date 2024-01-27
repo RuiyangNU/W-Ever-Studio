@@ -5,9 +5,8 @@ using UnityEngine;
 
 public interface IClickableUI
 {
-    PopupUI targetUI { get; set; }
+    PopupUI targetUI { get; }
     bool IsUIOpen { get; }
-    void OnClick();
     void OpenUI();
     void OnUIClose();
 }
