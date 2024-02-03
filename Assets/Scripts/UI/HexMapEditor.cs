@@ -101,20 +101,6 @@ public class HexMapEditor : MonoBehaviour
 
 	void Update()
 	{
-  //      if (Input.GetKeyDown(KeyCode.Tab))
-		//{
-  //          Debug.Log("Change THings");
-  //          if (!enabled)
-		//	{
-		//		SetEditMode(true);
-
-
-  //          }
-		//	else
-		//	{
-  //              SetEditMode(false);
-  //          }
-  //      }
 
 		if (!EventSystem.current.IsPointerOverGameObject())
 		{
@@ -290,11 +276,11 @@ public class HexMapEditor : MonoBehaviour
 			}
 			if (riverMode == OptionalToggle.No)
 			{
-				cell.RemoveRiver();
+				//cell.RemoveRiver();
 			}
 			if (roadMode == OptionalToggle.No)
 			{
-				cell.RemoveRoads();
+				//cell.RemoveRoads();
 			}
 			if (walledMode != OptionalToggle.Ignore)
 			{

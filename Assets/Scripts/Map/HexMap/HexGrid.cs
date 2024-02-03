@@ -52,6 +52,8 @@ public class HexGrid : MonoBehaviour
 	public GameObject editor;
 	public GameObject SaveLoader;
 
+	public int turnCount;
+
 	/// <summary>
 	/// The <see cref="HexCellShaderData"/> container
 	/// for cell visualization data.
@@ -104,6 +106,36 @@ public class HexGrid : MonoBehaviour
                 editor.SetActive(true);
             }
 		}
+
+
+		if (Input.GetKeyDown(KeyCode.Tab)) //The next turn, replacing it the key
+		{
+			UpdateTick();
+
+        }
+
+
+
+
+    }
+
+
+	public void UpdateTick()
+	{
+		//Do something
+		turnCount++;
+
+		// for all cell, call update
+
+		//update player
+		
+		//Update AI
+
+		//redraw map
+
+
+		Debug.Log(turnCount);
+
     }
 
     /// <summary>

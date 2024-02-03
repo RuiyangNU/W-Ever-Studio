@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
@@ -37,6 +38,7 @@ public class HexGameUI : MonoBehaviour
 
         if (!EventSystem.current.IsPointerOverGameObject())
 		{
+			Debug.Log(EventSystem.current.IsPointerOverGameObject());
 			if (Input.GetMouseButtonDown(0))
 			{
 				DoSelection();
