@@ -19,6 +19,7 @@ public class ExamplePopupUI : PopupUI
     override public void CloseUI()
     {
         _image.enabled = false;
+        Debug.Log("Check Close Popup");
 
         foreach (PopupUIElement child in children)
         {
