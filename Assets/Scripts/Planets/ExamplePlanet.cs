@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class ExamplePlanet : MonoBehaviour, IClickableUI
+public class ExamplePlanet : Planet, IClickableUI
 {
     [SerializeField]
     private PlanetInfoUI planetInfoUI;
