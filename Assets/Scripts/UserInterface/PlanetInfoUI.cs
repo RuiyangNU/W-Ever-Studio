@@ -7,6 +7,8 @@ public class PlanetInfoUI : PopupUI
     private IClickableUI linkedObject = null;
     private PlanetInfoDescription descriptionText;
 
+    public bool isUIOpen = false;
+
     // Start is called before the first frame update
     override protected void Start()
     {
@@ -41,6 +43,8 @@ public class PlanetInfoUI : PopupUI
         {
             child.OnUIOpen();
         }
+
+        isUIOpen = true;
     }
 
     override public void CloseUI()
@@ -52,7 +56,12 @@ public class PlanetInfoUI : PopupUI
             child.OnUIClose();
         }
 
-        linkedObject.OnUIClose();
-        linkedObject = null;
+        if (linkedObject != null)
+        {
+            linkedObject.OnUIClose();
+            linkedObject = null;
+        }
+
+        isUIOpen = false;
     }
 }

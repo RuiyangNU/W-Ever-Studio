@@ -19,7 +19,7 @@ public class ExamplePlanet : MonoBehaviour, IClickableUI
 
     void Update()
     {
-
+        isUIOpen = planetInfoUI.isUIOpen;
     }
 
     private void OnMouseDown()
@@ -46,11 +46,10 @@ public class ExamplePlanet : MonoBehaviour, IClickableUI
 
         planetInfoUI.SetInfoText(description);
         planetInfoUI.OpenUI();
-        isUIOpen = true;
     }
 
     public void OnUIClose()
     {
-        isUIOpen = false;
+
     }
 }
