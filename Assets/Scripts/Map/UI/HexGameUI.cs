@@ -65,6 +65,14 @@ public class HexGameUI : MonoBehaviour
 		{
 			selectedUnit = grid.GetCell(currentCellIndex).Unit;
 		}
+
+		foreach(HexDirection dir in Enum.GetValues(typeof(HexDirection)))
+		{
+			if(grid.GetCell(currentCellIndex).TryGetNeighbor(dir, out HexCell cell))
+			{
+				cell.EnableHighlight(Color.white);
+			}
+		}
 	}
 
 	void DoPathfinding()
