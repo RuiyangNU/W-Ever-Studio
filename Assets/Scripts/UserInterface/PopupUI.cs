@@ -8,7 +8,7 @@ public abstract class PopupUI : MonoBehaviour
     public List<PopupUIElement> children;
     public Image _image;
 
-    public void Start()
+    protected virtual void Start()
     {
         // Find children
         children = new List<PopupUIElement>();
