@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlanetInfoUI : PopupUI
 {
-    private IClickableUI linkedObject = null;
+    private Planet linkedObject = null;
     private PlanetInfoDescription descriptionText;
 
     public bool isUIOpen = false;
@@ -25,9 +25,14 @@ public class PlanetInfoUI : PopupUI
     /// <summary>
     /// Links the IClickableUI object to this UI. Will call the OnUIClose() method of the object when this UI is closed.
     /// </summary>
-    public void Link(IClickableUI obj)
+    public void Link(Planet obj)
     {
         linkedObject = obj;
+    }
+
+    private void UpdateInfo()
+    {
+
     }
 
     override public void OpenUI()
@@ -36,6 +41,8 @@ public class PlanetInfoUI : PopupUI
         {
             Debug.LogError("OpenUI was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
         }
+
+        UpdateInfo();
 
         _image.enabled = true;
 
