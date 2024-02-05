@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlanetInfoUI : PopupUI
 {
     private Planet linkedObject = null;
-    private PlanetInfoDescription descriptionText;
 
     public bool isUIOpen = false;
 
@@ -14,12 +15,7 @@ public class PlanetInfoUI : PopupUI
     {
         base.Start();
 
-        descriptionText = GetComponentInChildren<PlanetInfoDescription>();
-    }
-
-    public void SetInfoText(string newText)
-    {
-        descriptionText.SetText(newText);
+        CloseUI();
     }
 
     /// <summary>
@@ -27,12 +23,14 @@ public class PlanetInfoUI : PopupUI
     /// </summary>
     public void Link(Planet obj)
     {
+        if (linkedObject == null) { throw new NullReferenceException("Link was called but a null object was given."); }
+
         linkedObject = obj;
     }
 
     private void UpdateInfo()
     {
-
+        
     }
 
     override public void OpenUI()

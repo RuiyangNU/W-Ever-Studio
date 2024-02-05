@@ -43,8 +43,6 @@ public class ExamplePlanet : Planet, IClickableUI
     public void OpenUI()
     {
         planetInfoUI.Link(this); // Always call Link first so the UI can call OnUIClose() on this object when it closes!
-
-        planetInfoUI.SetInfoText(description);
         planetInfoUI.OpenUI();
     }
 
