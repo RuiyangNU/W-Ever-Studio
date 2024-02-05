@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlanetInfoShipyardButton : PopupUIElement
 {
+    public bool showOnOpen = true;
+
     private Image _image;
     private Button _button;
 
@@ -27,8 +29,11 @@ public class PlanetInfoShipyardButton : PopupUIElement
     }
     override public void OnUIOpen()
     {
-        _image.enabled = true;
-        _button.enabled = true;
-        buttonText.enabled = true;
+        if (showOnOpen)
+        {
+            _image.enabled = true;
+            _button.enabled = true;
+            buttonText.enabled = true;
+        }
     }
 }

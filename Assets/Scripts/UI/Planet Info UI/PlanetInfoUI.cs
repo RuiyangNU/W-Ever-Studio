@@ -6,7 +6,11 @@ using UnityEngine;
 
 public class PlanetInfoUI : PopupUI
 {
-    private Planet linkedObject = null;
+    private PlanetInfoCloseButton closeButton;
+    private PlanetInfoRefineryButton refineryButton;
+    private PlanetInfoShipyardButton shipyardButton;
+
+    private Planet linkedPlanet = null;
 
     public bool isUIOpen = false;
 
@@ -14,6 +18,10 @@ public class PlanetInfoUI : PopupUI
     override protected void Start()
     {
         base.Start();
+
+        closeButton = FindObjectOfType<PlanetInfoCloseButton>();
+        refineryButton = FindObjectOfType<PlanetInfoRefineryButton>();
+        shipyardButton = FindObjectOfType<PlanetInfoShipyardButton>();
 
         CloseUI();
     }
@@ -23,24 +31,28 @@ public class PlanetInfoUI : PopupUI
     /// </summary>
     public void Link(Planet obj)
     {
-        if (linkedObject == null) { throw new NullReferenceException("Link was called but a null object was given."); }
+        if (linkedPlanet == null) { throw new NullReferenceException("Link was called but a null object was given."); }
 
-        linkedObject = obj;
+        linkedPlanet = obj;
     }
 
-    private void UpdateInfo()
+    private void UpdateProperties()
     {
+        // refinery button
+        refineryButton.showOnOpen = linkedPlanet.numRefineries == linkedPlanet.refineryLimit;
         
+        // shipyard button
+        shipyardButton.showOnOpen = linkedPlanet.numShipyards == linkedPlanet.shipyardLimit;
     }
 
     override public void OpenUI()
     {
-        if (linkedObject == null)
+        if (linkedPlanet == null)
         {
             Debug.LogError("OpenUI was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
         }
 
-        UpdateInfo();
+        UpdateProperties();
 
         _image.enabled = true;
 
@@ -48,6 +60,7 @@ public class PlanetInfoUI : PopupUI
         {
             child.OnUIOpen();
         }
+
 
         isUIOpen = true;
     }
@@ -61,10 +74,10 @@ public class PlanetInfoUI : PopupUI
             child.OnUIClose();
         }
 
-        if (linkedObject != null)
+        if (linkedPlanet != null)
         {
-            linkedObject.OnUIClose();
-            linkedObject = null;
+            linkedPlanet.OnUIClose();
+            linkedPlanet = null;
         }
 
         isUIOpen = false;
