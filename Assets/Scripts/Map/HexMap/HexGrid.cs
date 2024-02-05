@@ -76,7 +76,7 @@ public class HexGrid : MonoBehaviour
 
 	HexCellShaderData cellShaderData;
 
-	public TextMeshPro turnText;
+	public GameObject turnText;
 
 	void Awake()
 	{
@@ -128,16 +128,19 @@ public class HexGrid : MonoBehaviour
 		//Do something
 		turnCount++;
 
-		// for all cell, call update
+		Debug.Log(turnText);
+        turnText.GetComponent<TextMeshPro>().text = "Turn: " + turnCount.ToString();
 
-		//update player
-		
-		//Update AI
+        // for all cell, call update
 
-		//redraw map
+        //update player
+
+        //Update AI
+
+        //redraw map
 
 
-		Debug.Log(turnCount);
+        Debug.Log(turnCount);
 
     }
 
