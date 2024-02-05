@@ -1,13 +1,13 @@
 using TMPro;
 
-public class PlanetInfoDescription : PopupUIElement
+public class PlanetDescription : PopupUIElement
 {
     private TextMeshProUGUI _text;
 
     // Start is called before the first frame update
     void Start()
     {
-        _text = gameObject.GetComponent<TextMeshProUGUI>();
+        _text = GetComponent<TextMeshProUGUI>();
     }
 
     public void SetText(string newText)
