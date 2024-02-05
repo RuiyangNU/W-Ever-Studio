@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    Dictionary<PlayerResource, float> dictionary_resources = 
+    public Dictionary<PlayerResource, float> dictionary_resources = 
         new Dictionary<PlayerResource, float>(){
                     {PlayerResource.METHANE, 0},
                     {PlayerResource.STEEL, 0}};
