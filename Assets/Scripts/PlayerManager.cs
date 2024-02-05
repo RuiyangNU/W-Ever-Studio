@@ -9,7 +9,6 @@ public class PlayerManager : MonoBehaviour
     {
         METHANE,
         STEEL,
-
     }
 
     Dictionary<PlayerResource, float> dictionary_resources = 
