@@ -24,6 +24,14 @@ public class PlayerManager : MonoBehaviour
         dictionary_resources[PlayerResource.STEEL] += resources[PlayerResource.STEEL];
     }
 
+    //Player's planets/claims
+    public List<HexCoordinates> ListOfCoordinates = new List<HexCoordinates>();
+
+    
+
+
+
+
 
     void Start()
     {
