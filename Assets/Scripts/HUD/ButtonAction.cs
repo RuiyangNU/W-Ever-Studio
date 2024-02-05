@@ -7,6 +7,7 @@ using TMPro;
 public class ButtonAction : MonoBehaviour  
 {  
     public GameManager GM;
+    public PlayerManager PM;
     //[SerializeField] GameManager GM;
      
     public TextMeshProUGUI myText;

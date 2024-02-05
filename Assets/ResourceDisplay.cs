@@ -6,7 +6,6 @@ using TMPro;
 public class ResourceDisplay : MonoBehaviour
 {
     // Start is called before the first frame update
-    public int fuck = 10;
     [SerializeField] TextMeshProUGUI ResourceValue;
     [SerializeField] PlayerManager PM;
     
