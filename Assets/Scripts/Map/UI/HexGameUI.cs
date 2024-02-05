@@ -38,7 +38,7 @@ public class HexGameUI : MonoBehaviour
 
         if (!EventSystem.current.IsPointerOverGameObject())
 		{
-			Debug.Log(EventSystem.current.IsPointerOverGameObject());
+			//Debug.Log(EventSystem.current.IsPointerOverGameObject());
 			if (Input.GetMouseButtonDown(0))
 			{
 				DoSelection();
@@ -64,15 +64,25 @@ public class HexGameUI : MonoBehaviour
 		if (currentCellIndex >= 0)
 		{
 			selectedUnit = grid.GetCell(currentCellIndex).Unit;
+            foreach (HexDirection dir in Enum.GetValues(typeof(HexDirection)))
+            {
+                if (grid.GetCell(currentCellIndex).TryGetNeighbor(dir, out HexCell cell))
+                {
+                    cell.EnableHighlight(Color.white);
+                }
+            }
 		}
-
-		foreach(HexDirection dir in Enum.GetValues(typeof(HexDirection)))
+		else
 		{
-			if(grid.GetCell(currentCellIndex).TryGetNeighbor(dir, out HexCell cell))
+			foreach (HexDirection dir in Enum.GetValues(typeof(HexDirection)))
 			{
-				cell.EnableHighlight(Color.white);
+				if (grid.GetCell(currentCellIndex).TryGetNeighbor(dir, out HexCell cell))
+				{
+					cell.DisableHighlight();
+				}
 			}
 		}
+
 	}
 
 	void DoPathfinding()

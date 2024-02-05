@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
+using TMPro;
 
 /// <summary>
 /// Component that represents an entire hexagon map.
@@ -74,6 +75,8 @@ public class HexGrid : MonoBehaviour
 	List<HexUnit> units = new();
 
 	HexCellShaderData cellShaderData;
+
+	public TextMeshPro turnText;
 
 	void Awake()
 	{
