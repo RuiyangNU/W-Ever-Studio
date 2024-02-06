@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using static PlayerManager;
+using static HexUnit;
 
 public class Fleet : MonoBehaviour, IClickableUI
 {
     private Fleet fleet;
+    private HexUnit hexUnit;
 
     public enum FleetOwner
     {
@@ -29,6 +31,11 @@ public class Fleet : MonoBehaviour, IClickableUI
     // Start is called before the first frame update
     void Start()
     {
+        hexUnit = GetComponent<HexUnit>();
+        if (hexUnit == null)
+        {
+            Debug.LogError("HexUnit not found");
+        }
         fleet = FindObjectOfType<Fleet>();
         fleetInfoUI = FindObjectOfType<FleetInfoUI>();
     }
@@ -53,6 +60,14 @@ public class Fleet : MonoBehaviour, IClickableUI
         if (health <= 0)
         {
             DestroyFleet();
+        }
+        if (actionPoints == 0)
+        {
+            actionPoints = 3;
+        }
+        else
+        {
+            actionPoints += 3;
         }
     }
 
