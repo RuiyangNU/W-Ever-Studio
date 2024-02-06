@@ -15,8 +15,8 @@ public class ResourceDisplay : MonoBehaviour
     {
         
         //Debug.Log(PM.dictionary_resources[PlayerManager.PlayerResource.METHANE]);
-        float meth = PM.dictionary_resources[PlayerManager.PlayerResource.METHANE];
-        float steel = PM.dictionary_resources[PlayerManager.PlayerResource.STEEL];
+        float meth = PM.playerResourcePool[PlayerManager.PlayerResource.METHANE];
+        float steel = PM.playerResourcePool[PlayerManager.PlayerResource.STEEL];
         ResourceValue.text = "Methane:" + meth.ToString() + "\n Steel:"+ steel.ToString();
     }
 }

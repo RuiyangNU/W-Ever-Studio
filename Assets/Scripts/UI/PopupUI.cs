@@ -35,4 +35,9 @@ public abstract class PopupUI : MonoBehaviour
     /// Closes the Popup UI.
     /// </summary>
     public abstract void CloseUI();
+
+    /// <summary>
+    /// Updates the PopupUI.
+    /// </summary>
+    public abstract void UpdateUI();
 }
