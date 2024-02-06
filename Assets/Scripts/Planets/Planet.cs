@@ -51,29 +51,32 @@ public class Planet : MonoBehaviour, IClickableUI
         OpenUI();
     }
 
+    public void OnMouseDown()
+    {
+        OpenUI();
+    }
+
     public void UpdateTick()
     {
-
+        return;
     }
 
     public Dictionary<PlayerResource, float> GetResources()
     {
         Dictionary<PlayerResource, float> generatedResources = new Dictionary<PlayerResource, float>();
-        generatedResources.Add(PlayerResource.METHANE, baseMethanePerTick);
-        generatedResources.Add(PlayerResource.STEEL, baseSteelPerTick);
+        generatedResources.Add(PlayerResource.METHANE, baseMethanePerTick * (1 + numRefineries));
+        generatedResources.Add(PlayerResource.STEEL, baseSteelPerTick * (1 + numRefineries));
 
         return generatedResources;
-    }
-    
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void OpenUI()
     {
+        if (planetInfoUI.isUIOpen)
+        {
+            return;
+        }
+
         planetInfoUI.Link(this);
         planetInfoUI.OpenUI();
     }
