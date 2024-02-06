@@ -22,17 +22,14 @@ public class Fleet : MonoBehaviour, IClickableUI
     public int actionPoints = 3;
     public FleetOwner owner;
 
-    private FleetInfoUI fleetInfoUI;
+    public PopupUI targetUI => null;
 
-    public PopupUI targetUI => fleetInfoUI;
-
-    public bool IsUIOpen => fleetInfoUI.isUIOpen;
+    public bool IsUIOpen => false; //TODO
 
     // Start is called before the first frame update
     void Start()
     {
         fleet = FindObjectOfType<Fleet>();
-        fleetInfoUI = FindObjectOfType<FleetInfoUI>();
     }
 
     public void SetProperties(FleetOwner o, float health, float damage, float speed, int actionPoints)
