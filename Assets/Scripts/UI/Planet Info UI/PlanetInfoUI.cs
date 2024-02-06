@@ -36,13 +36,14 @@ public class PlanetInfoUI : PopupUI
         linkedPlanet = obj;
     }
 
+
     private void UpdateProperties()
     {
         // refinery button
-        refineryButton.showOnOpen = linkedPlanet.numRefineries == linkedPlanet.refineryLimit;
+        refineryButton.showOnOpen = linkedPlanet.numRefineries == linkedPlanet.maxRefineries;
         
         // shipyard button
-        shipyardButton.showOnOpen = linkedPlanet.numShipyards == linkedPlanet.shipyardLimit;
+        shipyardButton.showOnOpen = linkedPlanet.numShipyards == linkedPlanet.maxShipyards;
     }
 
     override public void OpenUI()
@@ -50,6 +51,7 @@ public class PlanetInfoUI : PopupUI
         if (linkedPlanet == null)
         {
             Debug.LogError("OpenUI was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
+            return;
         }
 
         UpdateProperties();
@@ -81,5 +83,17 @@ public class PlanetInfoUI : PopupUI
         }
 
         isUIOpen = false;
+    }
+
+    public override void UpdateUI()
+    {
+        if (linkedPlanet == null)
+        {
+            Debug.LogError("UpdateUI was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
+            return;
+        }
+
+        CloseUI();
+        OpenUI();
     }
 }

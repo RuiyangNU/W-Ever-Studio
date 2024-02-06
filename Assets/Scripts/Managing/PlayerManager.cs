@@ -26,13 +26,9 @@ public class PlayerManager : MonoBehaviour
     }
 
 
-    void Start()
+    void Awake()
     {
-        playerResourcePool = new Dictionary<PlayerResource, float>()
-        {
-             {PlayerResource.METHANE, 0},
-             {PlayerResource.STEEL, 0}
-        };
+        playerResourcePool = PlayerDefaultSettings.DEFAULT_STARTING_RESOURCES;
     }
 
     // Update is called once per frame
@@ -68,7 +64,10 @@ public class PlayerManager : MonoBehaviour
                 playerResourcePool.Add(res, resources[res]);
             }
 
-            playerResourcePool[res] += resources[res];
+            else
+            {
+                playerResourcePool[res] += resources[res];
+            }
         }
     }
 
@@ -81,7 +80,10 @@ public class PlayerManager : MonoBehaviour
                 playerResourcePool.Add(res, resources[res]);
             }
 
-            playerResourcePool[res] -= resources[res];
+            else
+            {
+                playerResourcePool[res] -= resources[res];
+            }
         }
     }
 
