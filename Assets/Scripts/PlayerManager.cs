@@ -11,7 +11,9 @@ public class PlayerManager : MonoBehaviour
         STEEL,
     }
 
-    Dictionary<PlayerResource, float> dictionary_resources = 
+    public List<Planet> playerControlledPlanets = new List<Planet>();
+
+    Dictionary<PlayerResource, float> playerResourcePool = 
         new Dictionary<PlayerResource, float>(){
                     {PlayerResource.METHANE, 0},
                     {PlayerResource.STEEL, 0}};
@@ -19,14 +21,18 @@ public class PlayerManager : MonoBehaviour
 
     public void UpdateTickResources(Dictionary<PlayerResource, float> resources) {
         // add resources from this function to the resource pool
-        dictionary_resources[PlayerResource.METHANE] += resources[PlayerResource.METHANE];
-        dictionary_resources[PlayerResource.STEEL] += resources[PlayerResource.STEEL];
+        playerResourcePool[PlayerResource.METHANE] += resources[PlayerResource.METHANE];
+        playerResourcePool[PlayerResource.STEEL] += resources[PlayerResource.STEEL];
     }
 
 
     void Start()
     {
-        
+        playerResourcePool = new Dictionary<PlayerResource, float>()
+        {
+             {PlayerResource.METHANE, 0},
+             {PlayerResource.STEEL, 0}
+        };
     }
 
     // Update is called once per frame
@@ -34,4 +40,62 @@ public class PlayerManager : MonoBehaviour
     {
         
     }
+
+    public void UpdateTick()
+    {
+        foreach (Planet p in playerControlledPlanets)
+        {
+            AddToResourcePool(p.GetTickResources());
+        }
+    }
+
+    public void AddPlanet(Planet p)
+    {
+        playerControlledPlanets.Add(p);
+    }
+
+    public void RemovePlanet(Planet p)
+    {
+        playerControlledPlanets.Remove(p);
+    }
+
+    public void AddToResourcePool(Dictionary<PlayerResource, float> resources)
+    {
+        foreach (PlayerResource res in resources.Keys)
+        {
+            if (!(playerResourcePool.ContainsKey(res)))
+            {
+                playerResourcePool.Add(res, resources[res]);
+            }
+
+            playerResourcePool[res] += resources[res];
+        }
+    }
+
+    public void RemoveFromResourcePool(Dictionary<PlayerResource, float> resources)
+    {
+        foreach (PlayerResource res in resources.Keys)
+        {
+            if (!(playerResourcePool.ContainsKey(res)))
+            {
+                playerResourcePool.Add(res, resources[res]);
+            }
+
+            playerResourcePool[res] -= resources[res];
+        }
+    }
+
+    public bool QueryResources(Dictionary<PlayerResource, float> resources)
+    {
+        foreach (PlayerResource res in resources.Keys)
+        {
+            if (!(playerResourcePool.ContainsKey(res)) || playerResourcePool[res] < resources[res])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

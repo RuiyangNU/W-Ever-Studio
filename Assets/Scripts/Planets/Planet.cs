@@ -46,6 +46,14 @@ public class Planet : MonoBehaviour, IClickableUI
         this.shipyardLimit = shipyardLimit;
     }
 
+    public void BuildRefinery()
+    {
+        if (numRefineries < refineryLimit)
+        {
+
+        }
+    }
+
     public void OnClick()
     {
         OpenUI();
@@ -61,7 +69,7 @@ public class Planet : MonoBehaviour, IClickableUI
         return;
     }
 
-    public Dictionary<PlayerResource, float> GetResources()
+    public Dictionary<PlayerResource, float> GetTickResources()
     {
         Dictionary<PlayerResource, float> generatedResources = new Dictionary<PlayerResource, float>();
         generatedResources.Add(PlayerResource.METHANE, baseMethanePerTick * (1 + numRefineries));
