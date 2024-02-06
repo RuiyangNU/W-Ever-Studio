@@ -14,8 +14,7 @@ public class PlanetInfoRefineryButton : PopupUIElement
 
     private TextMeshProUGUI buttonText;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _image = GetComponent<Image>();
         _button = GetComponent<Button>();
