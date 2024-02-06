@@ -118,3 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02a53a0519a14a3dbd05a9caea06395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 50
+  damage: 50
+  speed: 50
+  actionPoints: 3
+  owner: 0
