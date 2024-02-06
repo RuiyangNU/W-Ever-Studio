@@ -31,11 +31,6 @@ public class Fleet : MonoBehaviour, IClickableUI
     // Start is called before the first frame update
     void Start()
     {
-        hexUnit = GetComponent<HexUnit>();
-        if (hexUnit == null)
-        {
-            Debug.LogError("HexUnit not found");
-        }
         fleet = FindObjectOfType<Fleet>();
         fleetInfoUI = FindObjectOfType<FleetInfoUI>();
     }
@@ -61,14 +56,7 @@ public class Fleet : MonoBehaviour, IClickableUI
         {
             DestroyFleet();
         }
-        if (actionPoints == 0)
-        {
-            actionPoints = 3;
-        }
-        else
-        {
-            actionPoints += 3;
-        }
+        actionPoints = 3;
     }
 
     public void DestroyFleet()
@@ -79,13 +67,10 @@ public class Fleet : MonoBehaviour, IClickableUI
     // Update is called once per frame
     void Update()
     {
-        UpdateTick();
     }
 
     public void OpenUI()
     {
-        fleetInfoUI.Link(this);
-        fleetInfoUI.OpenUI();
     }
 
     public void OnUIClose()
