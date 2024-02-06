@@ -68,7 +68,7 @@ public class Planet : MonoBehaviour, IClickableUI
             playerManager.RemoveFromResourcePool(cost);
             numRefineries++;
 
-
+            planetInfoUI.UpdateUI();
         }
 
         return;
@@ -83,7 +83,7 @@ public class Planet : MonoBehaviour, IClickableUI
     {
         if (numShipyards >= maxShipyards)
         {
-            Debug.LogWarning("Tried to build a refinery, but the planet already has the maximum number of refineries.");
+            Debug.LogWarning("Tried to build a shipyard, but the planet already has the maximum number of shipyards.");
             return;
         }
 
@@ -93,6 +93,8 @@ public class Planet : MonoBehaviour, IClickableUI
             // Enough resources, build refinery
             playerManager.RemoveFromResourcePool(cost);
             numShipyards++;
+
+            planetInfoUI.UpdateUI();
         }
 
         return;

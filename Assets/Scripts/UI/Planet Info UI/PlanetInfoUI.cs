@@ -9,6 +9,7 @@ public class PlanetInfoUI : PopupUI
     private PlanetInfoCloseButton closeButton;
     private PlanetInfoRefineryButton refineryButton;
     private PlanetInfoShipyardButton shipyardButton;
+    private PlanetInfoText infoText;
 
     private Planet linkedPlanet = null;
 
@@ -22,6 +23,7 @@ public class PlanetInfoUI : PopupUI
         closeButton = FindObjectOfType<PlanetInfoCloseButton>();
         refineryButton = FindObjectOfType<PlanetInfoRefineryButton>();
         shipyardButton = FindObjectOfType<PlanetInfoShipyardButton>();
+        infoText = FindObjectOfType<PlanetInfoText>();
 
         CloseUI();
     }
@@ -31,7 +33,7 @@ public class PlanetInfoUI : PopupUI
     /// </summary>
     public void Link(Planet obj)
     {
-        if (linkedPlanet == null) { throw new NullReferenceException("Link was called but a null object was given."); }
+        if (obj == null) { throw new NullReferenceException("Link was called but a null object was given."); }
 
         linkedPlanet = obj;
     }
@@ -40,10 +42,37 @@ public class PlanetInfoUI : PopupUI
     private void UpdateProperties()
     {
         // refinery button
-        refineryButton.showOnOpen = linkedPlanet.numRefineries == linkedPlanet.maxRefineries;
+        refineryButton.showOnOpen = linkedPlanet.numRefineries < linkedPlanet.maxRefineries;
         
         // shipyard button
-        shipyardButton.showOnOpen = linkedPlanet.numShipyards == linkedPlanet.maxShipyards;
+        shipyardButton.showOnOpen = linkedPlanet.numShipyards < linkedPlanet.maxShipyards;
+
+        // info text
+        string text = "Refineries: " + linkedPlanet.numRefineries + ", Limit: " + linkedPlanet.maxRefineries + "\n";
+        text += "Shipyards: " + linkedPlanet.numShipyards + ", Limit: " + linkedPlanet.maxShipyards + "\n";
+        infoText.SetText(text);
+    }
+
+    public void BuildRefinery()
+    {
+        if (linkedPlanet == null)
+        {
+            Debug.LogError("BuildRefinery was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
+            return;
+        }
+
+        linkedPlanet.BuildRefinery();
+    }
+
+    public void BuildShipyard()
+    {
+        if (linkedPlanet == null)
+        {
+            Debug.LogError("BuildShipyard was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
+            return;
+        }
+
+        linkedPlanet.BuildShipyard();
     }
 
     override public void OpenUI()
@@ -85,6 +114,18 @@ public class PlanetInfoUI : PopupUI
         isUIOpen = false;
     }
 
+    private void CloseUIWithoutUnlink()
+    {
+        _image.enabled = false;
+
+        foreach (PopupUIElement child in children)
+        {
+            child.OnUIClose();
+        }
+
+        isUIOpen = false;
+    }
+
     public override void UpdateUI()
     {
         if (linkedPlanet == null)
@@ -93,7 +134,7 @@ public class PlanetInfoUI : PopupUI
             return;
         }
 
-        CloseUI();
+        CloseUIWithoutUnlink();
         OpenUI();
     }
 }

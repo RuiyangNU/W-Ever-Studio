@@ -118,10 +118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f011e79332288a4e89d8803b4950089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSteelPerTick: 0
-  baseMethanePerTick: 0
-  refineryLimit: 0
-  shipyardLimit: 0
+  baseSteelPerTick: 5
+  baseMethanePerTick: 5
+  maxRefineries: 1
+  maxShipyards: 1
   numRefineries: 0
   numShipyards: 0
   owner: 0
