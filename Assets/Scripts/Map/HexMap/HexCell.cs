@@ -105,11 +105,19 @@ public class HexCell
 	/// <summary>
 	/// Reference to the planet
 	/// </summary>
-	public Planet planet = null;
+	public Planet planet;
+
+	/// <summary>
+	/// Reference to the fleet
+	/// </summary>
+	 public Fleet fleet;
 
 	public void UpdateTick()
 	{
+		planet.UpdateTick();
+		fleet.UpdateTick();
 
+		//Update Cell Value
 	}
 
     /// <summary>

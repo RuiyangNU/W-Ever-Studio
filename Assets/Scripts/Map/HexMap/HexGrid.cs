@@ -73,8 +73,9 @@ public class HexGrid : MonoBehaviour
 	int currentCenterColumnIndex = -1;
 
 	List<HexUnit> units = new();
+    List<Fleet> fleets = new();
 
-	HexCellShaderData cellShaderData;
+    HexCellShaderData cellShaderData;
 
 	public GameObject turnText;
 
@@ -157,6 +158,20 @@ public class HexGrid : MonoBehaviour
 	}
 
     /// <summary>
+    /// Add a unit to the map.
+    /// </summary>
+    /// <param name="unit">Unit to add.</param>
+    /// <param name="location">Cell in which to place the unit.</param>
+    /// <param name="orientation">Orientation of the unit.</param>
+    public void AddFleet(Fleet fleet, HexCell location, float orientation)
+    {
+        fleets.Add(fleet);
+        fleet.hexUnit.Grid = this;
+        fleet.hexUnit.Location = location;
+        fleet.hexUnit.Orientation = orientation;
+    }
+
+    /// <summary>
     /// Add a planet/system to the map
     /// 
     /// </summary>
@@ -181,13 +196,25 @@ public class HexGrid : MonoBehaviour
 		unit.Die();
 	}
 
-	/// <summary>
-	/// Make a game object a child of a map column.
-	/// </summary>
-	/// <param name="child"><see cref="Transform"/>
-	/// of the child game object.</param>
-	/// <param name="columnIndex">Index of the parent column.</param>
-	public void MakeChildOfColumn(Transform child, int columnIndex) =>
+    /// <summary>
+    /// Remove a fleet from the map.
+    /// </summary>
+    /// <param name="fleet">The fleet to remove.</param>
+    public void RemoveFleet(Fleet fleet)
+    {
+        fleets.Remove(fleet);
+        //unit.Die();
+		fleet.DestroyFleet();
+		//delete the fleet
+    }
+
+    /// <summary>
+    /// Make a game object a child of a map column.
+    /// </summary>
+    /// <param name="child"><see cref="Transform"/>
+    /// of the child game object.</param>
+    /// <param name="columnIndex">Index of the parent column.</param>
+    public void MakeChildOfColumn(Transform child, int columnIndex) =>
 		child.SetParent(columns[columnIndex], false);
 
 	/// <summary>
@@ -275,7 +302,16 @@ public class HexGrid : MonoBehaviour
 		units.Clear();
 	}
 
-	void OnEnable()
+    void ClearFleets()
+    {
+        for (int i = 0; i < fleets.Count; i++)
+        {
+            //fleets[i].hexUnit.Die();
+        }
+        fleets.Clear();
+    }
+
+    void OnEnable()
 	{
 		if (!HexMetrics.noiseSource)
 		{

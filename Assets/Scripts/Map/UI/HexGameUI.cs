@@ -13,6 +13,7 @@ public class HexGameUI : MonoBehaviour
 	int currentCellIndex = -1;
 	int prevCellIndex = -1;
 	HexUnit selectedUnit;
+	Fleet selectedFleet;
 
 	/// <summary>
 	/// Set whether map edit mode is active.
@@ -68,7 +69,11 @@ public class HexGameUI : MonoBehaviour
         }
 		if (currentCellIndex >= 0)
 		{
-			selectedUnit = grid.GetCell(currentCellIndex).Unit;
+			//selectedUnit = grid.GetCell(currentCellIndex).Unit;
+
+			selectedFleet = grid.GetCell(currentCellIndex).fleet;
+			selectedUnit = selectedFleet.hexUnit;
+
             grid.GetCell(currentCellIndex).EnableHighlight(Color.white);
 			prevCellIndex = currentCellIndex;
 		}

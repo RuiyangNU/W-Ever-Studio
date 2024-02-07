@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
@@ -141,12 +142,20 @@ public class HexMapEditor : MonoBehaviour
 	void CreateUnit()
 	{
 		HexCell cell = GetCellUnderCursor();
-		if (cell && !cell.Unit)
+		if (cell && !cell.Unit && !cell.fleet)
 		{
-			hexGrid.AddUnit(
-				Instantiate(HexUnit.unitPrefab), cell, Random.Range(0f, 360f)
+			HexUnit unit = Instantiate(HexUnit.unitPrefab);
+			Fleet fleet = new Fleet();
+			//set default
+			fleet.hexUnit = unit;
+            hexGrid.AddUnit(
+                unit, cell, Random.Range(0f, 360f)
 			);
-		}
+            hexGrid.AddFleet(
+                fleet, cell, Random.Range(0f, 360f)
+            );
+
+        }
 	}
 
 	void DestroyUnit()
