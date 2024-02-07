@@ -4,61 +4,31 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-
-
-//Resource Management
-    
+    // Start is called before the first frame update
     public enum PlayerResource
     {
         METHANE,
         STEEL,
-
     }
 
-    public Dictionary<PlayerResource, float> dictionary_resources = 
+    public List<Planet> playerControlledPlanets = new List<Planet>();
+
+    public Dictionary<PlayerResource, float> playerResourcePool = 
         new Dictionary<PlayerResource, float>(){
                     {PlayerResource.METHANE, 0},
                     {PlayerResource.STEEL, 0}};
         
 
-
-    public void UpdateTickResourcesSinglePlanet(Dictionary<PlayerResource, float> resources) {
+    public void UpdateTickResources(Dictionary<PlayerResource, float> resources) {
         // add resources from this function to the resource pool
-        dictionary_resources[PlayerResource.METHANE] += resources[PlayerResource.METHANE];
-        dictionary_resources[PlayerResource.STEEL] += resources[PlayerResource.STEEL];
-    }
-
-        //Use when adding or removing resources outside of ticks, ex. purchasing a ship
-    public void ChangeResource(PlayerResource resourceType, float Value){
-        dictionary_resources[resourceType] += Value;
-
+        playerResourcePool[PlayerResource.METHANE] += resources[PlayerResource.METHANE];
+        playerResourcePool[PlayerResource.STEEL] += resources[PlayerResource.STEEL];
     }
 
 
-//Player's planets/claims
-    public List<HexCoordinates> ListOfCordinates = new List<HexCoordinates>();
-
-    
-    public void AddPlanet(HexCoordinates planetCord){
-        ListOfCordinates.Add(planetCord);
-    }
-
-   //update resources based on claimed planets
-   public void UpdateTickResourcesAllPlanets(){
-        foreach(var Cord in ListOfCordinates){
-            //Access planet and then its resources as a dictionary
-            //Pass dictionary into UpdateTickResourcesSinglePlanet()
-
-            return;
-        }
-
-   }
-
-
-
-    void Start()
+    void Awake()
     {
-        
+        playerResourcePool = PlayerDefaultSettings.DEFAULT_STARTING_RESOURCES;
     }
 
     // Update is called once per frame
@@ -66,4 +36,68 @@ public class PlayerManager : MonoBehaviour
     {
         
     }
+
+    public void UpdateTick()
+    {
+        foreach (Planet p in playerControlledPlanets)
+        {
+            AddToResourcePool(p.GetTickResources());
+        }
+    }
+
+    public void AddPlanet(Planet p)
+    {
+        playerControlledPlanets.Add(p);
+    }
+
+    public void RemovePlanet(Planet p)
+    {
+        playerControlledPlanets.Remove(p);
+    }
+
+    public void AddToResourcePool(Dictionary<PlayerResource, float> resources)
+    {
+        foreach (PlayerResource res in resources.Keys)
+        {
+            if (!(playerResourcePool.ContainsKey(res)))
+            {
+                playerResourcePool.Add(res, resources[res]);
+            }
+
+            else
+            {
+                playerResourcePool[res] += resources[res];
+            }
+        }
+    }
+
+    public void RemoveFromResourcePool(Dictionary<PlayerResource, float> resources)
+    {
+        foreach (PlayerResource res in resources.Keys)
+        {
+            if (!(playerResourcePool.ContainsKey(res)))
+            {
+                playerResourcePool.Add(res, resources[res]);
+            }
+
+            else
+            {
+                playerResourcePool[res] -= resources[res];
+            }
+        }
+    }
+
+    public bool QueryResources(Dictionary<PlayerResource, float> resources)
+    {
+        foreach (PlayerResource res in resources.Keys)
+        {
+            if (!(playerResourcePool.ContainsKey(res)) || playerResourcePool[res] < resources[res])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

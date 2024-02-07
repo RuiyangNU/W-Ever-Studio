@@ -26,4 +26,9 @@ public class ExamplePopupUI : PopupUI
             child.OnUIClose();
         }
     }
+
+    public override void UpdateUI()
+    {
+        return;
+    }
 }
