@@ -597,11 +597,16 @@ public class HexCell
 					neighbor.Chunk.Refresh();
 				}
 			}
-			if (Unit)
-			{
-				Unit.ValidateLocation();
-			}
-		}
+			//if (Unit)
+			//{
+			//	Unit.ValidateLocation();
+			//}
+
+            if (fleet)
+            {
+                fleet.hexUnit.ValidateLocation();
+            }
+        }
 	}
 
 	/// <summary>

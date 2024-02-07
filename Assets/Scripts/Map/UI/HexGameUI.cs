@@ -72,9 +72,18 @@ public class HexGameUI : MonoBehaviour
 			//selectedUnit = grid.GetCell(currentCellIndex).Unit;
 
 			selectedFleet = grid.GetCell(currentCellIndex).fleet;
-			selectedUnit = selectedFleet.hexUnit;
+			//Debug.Log(selectedFleet);
+			if (selectedFleet != null)
+			{
+                selectedUnit = selectedFleet.hexUnit;
+			}
+			else
+			{
+				selectedUnit = null;
+			}
+			
 
-            grid.GetCell(currentCellIndex).EnableHighlight(Color.white);
+			grid.GetCell(currentCellIndex).EnableHighlight(Color.white);
 			prevCellIndex = currentCellIndex;
 		}
 		else

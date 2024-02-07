@@ -142,15 +142,17 @@ public class HexMapEditor : MonoBehaviour
 	void CreateUnit()
 	{
 		HexCell cell = GetCellUnderCursor();
-		if (cell && !cell.Unit && !cell.fleet)
+		if (cell && !cell.fleet)
 		{
 			HexUnit unit = Instantiate(HexUnit.unitPrefab);
-			Fleet fleet = new Fleet();
-			//set default
-			fleet.hexUnit = unit;
-            hexGrid.AddUnit(
-                unit, cell, Random.Range(0f, 360f)
-			);
+			Fleet fleet = Instantiate(Fleet.fleetPrefab);
+            //set default
+            fleet.hexUnit = unit;
+			unit.fleet = fleet;
+   //         hexGrid.AddUnit(
+   //             unit, cell, Random.Range(0f, 360f)
+			//);
+
             hexGrid.AddFleet(
                 fleet, cell, Random.Range(0f, 360f)
             );
@@ -161,13 +163,22 @@ public class HexMapEditor : MonoBehaviour
 	void DestroyUnit()
 	{
 		HexCell cell = GetCellUnderCursor();
-		if (cell && cell.Unit)
-		{
-			hexGrid.RemoveUnit(cell.Unit);
-		}
+		//if (cell && cell.Unit)
+		//{
+		//	hexGrid.RemoveUnit(cell.Unit);
+		//}
 	}
 
-	void HandleInput()
+    void DestroyFleet()
+    {
+        HexCell cell = GetCellUnderCursor();
+        if (cell && cell.fleet)
+        {
+            hexGrid.RemoveFleet(cell.fleet);
+        }
+    }
+
+    void HandleInput()
 	{
 		HexCell currentCell = GetCellUnderCursor();
 		if (currentCell)

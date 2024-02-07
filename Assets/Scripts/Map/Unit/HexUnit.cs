@@ -13,6 +13,8 @@ public class HexUnit : MonoBehaviour
 
 	public static HexUnit unitPrefab;
 
+	public Fleet fleet;
+
 	public HexGrid Grid { get; set; }
 
 	/// <summary>
@@ -27,10 +29,12 @@ public class HexUnit : MonoBehaviour
 			{
 				HexCell location = Grid.GetCell(locationCellIndex);
 				Grid.DecreaseVisibility(location, VisionRange);
-				location.Unit = null;
+				//location.Unit = null;
+				location.fleet = null;
 			}
 			locationCellIndex = value.Index;
-			value.Unit = this;
+			//value.Unit = this;
+			value.fleet = this.fleet;
 			Grid.IncreaseVisibility(value, VisionRange);
 			transform.localPosition = value.Position;
 			Grid.MakeChildOfColumn(transform, value.ColumnIndex);
@@ -80,7 +84,7 @@ public class HexUnit : MonoBehaviour
 	/// <param name="cell">Cell to check.</param>
 	/// <returns>Whether the unit could occupy the cell.</returns>
 	public bool IsValidDestination(HexCell cell) =>
-		cell.IsExplored && !cell.Unit;
+		cell.IsExplored  && !cell.fleet;
 
 	/// <summary>
 	/// Travel along a path.
@@ -89,10 +93,12 @@ public class HexUnit : MonoBehaviour
 	public void Travel(List<int> path)
 	{
 		HexCell location = Grid.GetCell(locationCellIndex);
-		location.Unit = null;
+		//location.Unit = null;
+		location.fleet = null;
 		location = Grid.GetCell(path[^1]);
 		locationCellIndex = location.Index;
-		location.Unit = this;
+		//location.Unit = this;
+		location.fleet = this.fleet;
 		pathToTravel = path;
 		StopAllCoroutines();
 		StartCoroutine(TravelPath());
@@ -251,7 +257,7 @@ public class HexUnit : MonoBehaviour
 	{
 		HexCell location = Grid.GetCell(locationCellIndex);
 		Grid.DecreaseVisibility(location, VisionRange);
-		location.Unit = null;
+		//location.Unit = null;
 		Destroy(gameObject);
 	}
 

@@ -18,7 +18,10 @@ public class HexGrid : MonoBehaviour
 	[SerializeField]
 	HexUnit unitPrefab;
 
-	[SerializeField]
+    [SerializeField]
+    Fleet fleetPrefab;
+
+    [SerializeField]
 	Texture2D noiseSource;
 	 
 	[SerializeField]
@@ -86,7 +89,8 @@ public class HexGrid : MonoBehaviour
 		HexMetrics.noiseSource = noiseSource;
 		HexMetrics.InitializeHashGrid(seed);
 		HexUnit.unitPrefab = unitPrefab;
-		cellShaderData = gameObject.AddComponent<HexCellShaderData>();
+        Fleet.fleetPrefab = fleetPrefab;
+        cellShaderData = gameObject.AddComponent<HexCellShaderData>();
 		cellShaderData.Grid = this;
 		CreateMap(CellCountX, CellCountZ, Wrapping);
 
@@ -166,6 +170,7 @@ public class HexGrid : MonoBehaviour
     public void AddFleet(Fleet fleet, HexCell location, float orientation)
     {
         fleets.Add(fleet);
+		location.fleet = fleet;
         fleet.hexUnit.Grid = this;
         fleet.hexUnit.Location = location;
         fleet.hexUnit.Orientation = orientation;
@@ -479,7 +484,13 @@ public class HexGrid : MonoBehaviour
 		{
 			units[i].Save(writer);
 		}
-	}
+
+        //writer.Write(fleets.Count);
+        //for (int i = 0; i < fleets.Count; i++)
+        //{
+        //    units[i].Save(writer);
+        //}
+    }
 
 	/// <summary>
 	/// Load the map.

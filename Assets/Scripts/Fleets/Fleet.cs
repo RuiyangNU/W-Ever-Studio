@@ -21,6 +21,8 @@ public class Fleet : MonoBehaviour, IClickableUI
     public int actionPoints = 3;
     public FleetOwner owner;
 
+    public static Fleet fleetPrefab;
+
     // getters and setters for stats
     public float Health
     {
