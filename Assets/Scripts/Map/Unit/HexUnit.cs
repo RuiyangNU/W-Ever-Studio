@@ -55,7 +55,9 @@ public class HexUnit : MonoBehaviour
 	/// <summary>
 	/// Speed of the unit, in cells per turn.
 	/// </summary>
-	public int Speed => 3;
+	public int Speed => 2;
+
+	public int ActionPoint => 3;
 
 	/// <summary>
 	/// Vision range of the unit, in cells.
@@ -235,9 +237,7 @@ public class HexUnit : MonoBehaviour
 		}
 		else
 		{
-			moveCost = edgeType == HexEdgeType.Flat ? 5 : 10;
-			moveCost +=
-				toCell.UrbanLevel + toCell.FarmLevel + toCell.PlantLevel;
+			moveCost = edgeType == HexEdgeType.Flat ? 1 : 1;
 		}
 
 

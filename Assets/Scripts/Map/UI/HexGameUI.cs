@@ -11,7 +11,7 @@ public class HexGameUI : MonoBehaviour
 	HexGrid grid;
 
 	int currentCellIndex = -1;
-
+	int prevCellIndex = -1;
 	HexUnit selectedUnit;
 
 	/// <summary>
@@ -29,7 +29,7 @@ public class HexGameUI : MonoBehaviour
 		}
 		else
 		{
-			//Shader.DisableKeyword("_HEX_MAP_EDIT_MODE");
+			Shader.DisableKeyword("_HEX_MAP_EDIT_MODE");
 		}
 	}
 
@@ -61,26 +61,20 @@ public class HexGameUI : MonoBehaviour
 	{
 		grid.ClearPath();
 		UpdateCurrentCell();
+		if(prevCellIndex >= 0)
+		{
+            //selectedUnit = grid.GetCell(prevCellIndex).Unit;
+            grid.GetCell(prevCellIndex).DisableHighlight();
+        }
 		if (currentCellIndex >= 0)
 		{
 			selectedUnit = grid.GetCell(currentCellIndex).Unit;
-            foreach (HexDirection dir in Enum.GetValues(typeof(HexDirection)))
-            {
-                if (grid.GetCell(currentCellIndex).TryGetNeighbor(dir, out HexCell cell))
-                {
-                    cell.EnableHighlight(Color.white);
-                }
-            }
+            grid.GetCell(currentCellIndex).EnableHighlight(Color.white);
+			prevCellIndex = currentCellIndex;
 		}
 		else
 		{
-			foreach (HexDirection dir in Enum.GetValues(typeof(HexDirection)))
-			{
-				if (grid.GetCell(currentCellIndex).TryGetNeighbor(dir, out HexCell cell))
-				{
-					cell.DisableHighlight();
-				}
-			}
+
 		}
 
 	}
