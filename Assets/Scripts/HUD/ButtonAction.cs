@@ -6,20 +6,21 @@ using TMPro;
   
 public class ButtonAction : MonoBehaviour  
 {  
-    public GameManager GM;
-    public PlayerManager PM;
+    public GameManager gm;
+    public PlayerManager pm;
     //[SerializeField] GameManager GM;
-     
+    
     public TextMeshProUGUI myText;
 
-      public void OnButtonPress(){
+    public void OnButtonPress(){
+      
+      //Debug.Log(GM.turnNumber);
+        gm.UpdateTick();
+        //gm.turnNumber++;
         //Debug.Log(GM.turnNumber);
         
-         GM.turnNumber++;
-         //Debug.Log(GM.turnNumber);
-         
-         myText.text = "Day " + GM.turnNumber;  
-         Debug.Log("Button clicked " + GM.turnNumber + " times.");
+        myText.text = "Turn " + gm.turnNumber;  
+        Debug.Log("Button clicked " + gm.turnNumber + " times.");
            
     }  
 }  

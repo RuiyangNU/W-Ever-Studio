@@ -5,8 +5,23 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    private PlayerManager pm;
     public int turnNumber = 0;
+    private HexGrid hg;
+
+
+    public void UpdateTick(){
+        turnNumber ++;
+        pm.UpdateTick();
+        //hg.UpdateTick();
+
+
+    }
+
+    void Awake() {
+        pm = FindObjectOfType<PlayerManager>();
+        hg = FindObjectOfType<HexGrid>();
+    }
 
     void Start()
     {
