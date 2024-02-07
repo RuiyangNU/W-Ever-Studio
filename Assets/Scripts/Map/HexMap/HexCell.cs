@@ -8,6 +8,11 @@ using System.IO;
 [System.Serializable]
 public class HexCell
 {
+
+	public Planet planet
+	{ get; set; }
+
+
 	/// <summary>
 	/// Hexagonal coordinates unique to the cell.
 	/// </summary>
@@ -44,10 +49,89 @@ public class HexCell
 	public int ColumnIndex
 	{ get; set; }
 
+    /// <summary>
+    /// Distance data used by pathfiding algorithm.
+    /// </summary>
+    public int Distance
+    {
+        get => distance;
+        set => distance = value;
+    }
+
+    /// <summary>
+    /// Unit currently occupying the cell, if any.
+    /// </summary>
+    public HexUnit Unit
+    { get; set; }
+
+    /// <summary>
+    /// Pathing data used by pathfinding algorithm.
+    /// </summary>
+    public int PathFromIndex
+    { get; set; }
+
+    /// <summary>
+    /// Heuristic data used by pathfinding algorithm.
+    /// </summary>
+    public int SearchHeuristic
+    { get; set; }
+
+    /// <summary>
+    /// Search priority used by pathfinding algorithm.
+    /// </summary>
+    public int SearchPriority => distance + SearchHeuristic;
+
+    /// <summary>
+    /// Search phases data used by pathfinding algorithm.
+    /// </summary>
+    public int SearchPhase
+    { get; set; }
+
+    /// <summary>
+    /// Linked list reference used by <see cref="HexCellPriorityQueue"/>
+    /// for pathfinding.
+    /// </summary>
+    [field: System.NonSerialized]
+    public HexCell NextWithSamePriority
+    { get; set; }
+
+    HexFlags flags;
+
+    HexValues values;
+
+    int distance;
+
+    int visibility;
+
 	/// <summary>
-	/// Surface elevation level.
+	/// Reference to the planet
 	/// </summary>
-	public int Elevation
+	//public Planet planet;
+
+	/// <summary>
+	/// Reference to the fleet
+	/// </summary>
+	 public Fleet fleet;
+
+	public void UpdateTick()
+	{
+		//planet.UpdateTick();
+		if (planet)
+		{
+            planet.UpdateTick();
+		}
+		if (fleet)
+		{
+            fleet.UpdateTick();
+        }
+
+		//Update Cell Value
+	}
+
+    /// <summary>
+    /// Surface elevation level.
+    /// </summary>
+    public int Elevation
 	{
 		get => values.Elevation;
 		set
@@ -121,11 +205,6 @@ public class HexCell
 	public bool HasRiver => flags.HasAny(HexFlags.River);
 
 	/// <summary>
-	/// Whether a river begins or ends in the cell.
-	/// </summary>
-	public bool HasRiverBeginOrEnd => HasIncomingRiver != HasOutgoingRiver;
-
-	/// <summary>
 	/// Whether the cell contains roads.
 	/// </summary>
 	public bool HasRoads => flags.HasAny(HexFlags.Roads);
@@ -146,19 +225,6 @@ public class HexCell
 	public Vector3 Position
 	{ get; set; }
 
-	/// <summary>
-	/// Vertical positions the the stream bed, if applicable.
-	/// </summary>
-	public float StreamBedY =>
-		(Elevation + HexMetrics.streamBedElevationOffset) *
-		HexMetrics.elevationStep;
-
-	/// <summary>
-	/// Vertical position of the river's surface, if applicable.
-	/// </summary>
-	public float RiverSurfaceY =>
-		(Elevation + HexMetrics.waterElevationOffset) *
-		HexMetrics.elevationStep;
 
 	/// <summary>
 	/// Vertical position of the water surface, if applicable.
@@ -294,59 +360,7 @@ public class HexCell
 			flags.Without(HexFlags.Explorable);
 	}
 
-	/// <summary>
-	/// Distance data used by pathfiding algorithm.
-	/// </summary>
-	public int Distance
-	{
-		get => distance;
-		set => distance = value;
-	}
 
-	/// <summary>
-	/// Unit currently occupying the cell, if any.
-	/// </summary>
-	public HexUnit Unit
-	{ get; set; }
-
-	/// <summary>
-	/// Pathing data used by pathfinding algorithm.
-	/// </summary>
-	public int PathFromIndex
-	{ get; set; }
-
-	/// <summary>
-	/// Heuristic data used by pathfinding algorithm.
-	/// </summary>
-	public int SearchHeuristic
-	{ get; set; }
-
-	/// <summary>
-	/// Search priority used by pathfinding algorithm.
-	/// </summary>
-	public int SearchPriority => distance + SearchHeuristic;
-
-	/// <summary>
-	/// Search phases data used by pathfinding algorithm.
-	/// </summary>
-	public int SearchPhase
-	{ get; set; }
-
-	/// <summary>
-	/// Linked list reference used by <see cref="HexCellPriorityQueue"/>
-	/// for pathfinding.
-	/// </summary>
-	[field: System.NonSerialized]
-	public HexCell NextWithSamePriority
-	{ get; set; }
-
-	HexFlags flags;
-
-	HexValues values;
-
-	int distance;
-
-	int visibility;
 
 	/// <summary>
 	/// Increment visibility level.
@@ -457,14 +471,6 @@ public class HexCell
 		Chunk.Refresh();
 	}
 
-	/// <summary>
-	/// Remove both incoming and outgoing rivers, if they exist.
-	/// </summary>
-	public void RemoveRiver()
-	{
-		RemoveOutgoingRiver();
-		RemoveIncomingRiver();
-	}
 
 	/// <summary>
 	/// Define an outgoing river.
@@ -599,11 +605,16 @@ public class HexCell
 					neighbor.Chunk.Refresh();
 				}
 			}
-			if (Unit)
-			{
-				Unit.ValidateLocation();
-			}
-		}
+			//if (Unit)
+			//{
+			//	Unit.ValidateLocation();
+			//}
+
+            if (fleet)
+            {
+                fleet.hexUnit.ValidateLocation();
+            }
+        }
 	}
 
 	/// <summary>

@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// Component that applies UI commands to the hex map.
@@ -28,7 +30,11 @@ public class HexMapEditor : MonoBehaviour
 	bool applyElevation = true;
 	bool applyWaterLevel = true;
 
-	bool applyUrbanLevel, applyFarmLevel, applyPlantLevel, applySpecialIndex;
+	bool applyPlanet = true;
+	int activePlanetLevel;
+
+
+    bool applyUrbanLevel, applyFarmLevel, applyPlantLevel, applySpecialIndex;
 
 	enum OptionalToggle
 	{
@@ -52,6 +58,10 @@ public class HexMapEditor : MonoBehaviour
 	public void SetApplyWaterLevel(bool toggle) => applyWaterLevel = toggle;
 
 	public void SetWaterLevel(float level) => activeWaterLevel = (int)level;
+
+	public void SetApplyPlanet(bool toggle) => applyPlanet = toggle;
+
+	public void SetPlanetLevel(float level) => activePlanetLevel = (int)level;
 
 	public void SetApplyUrbanLevel(bool toggle) => applyUrbanLevel = toggle;
 
@@ -101,20 +111,6 @@ public class HexMapEditor : MonoBehaviour
 
 	void Update()
 	{
-  //      if (Input.GetKeyDown(KeyCode.Tab))
-		//{
-  //          Debug.Log("Change THings");
-  //          if (!enabled)
-		//	{
-		//		SetEditMode(true);
-
-
-  //          }
-		//	else
-		//	{
-  //              SetEditMode(false);
-  //          }
-  //      }
 
 		if (!EventSystem.current.IsPointerOverGameObject())
 		{
@@ -134,6 +130,7 @@ public class HexMapEditor : MonoBehaviour
 				if (Input.GetKey(KeyCode.LeftShift))
 				{
 					DestroyUnit();
+					DestroyFleet();
 				}
 				else
 				{
@@ -155,24 +152,63 @@ public class HexMapEditor : MonoBehaviour
 	void CreateUnit()
 	{
 		HexCell cell = GetCellUnderCursor();
-		if (cell && !cell.Unit)
+		if (cell && !cell.fleet)
 		{
-			hexGrid.AddUnit(
-				Instantiate(HexUnit.unitPrefab), cell, Random.Range(0f, 360f)
-			);
-		}
+			HexUnit unit = Instantiate(HexUnit.unitPrefab);
+			Fleet fleet = Instantiate(Fleet.fleetPrefab);
+            //set default
+            fleet.hexUnit = unit;
+			unit.fleet = fleet;
+   //         hexGrid.AddUnit(
+   //             unit, cell, Random.Range(0f, 360f)
+			//);
+
+            hexGrid.AddFleet(
+                fleet, cell, Random.Range(0f, 360f)
+            );
+
+        }
 	}
 
-	void DestroyUnit()
+    void CreatePlanet()
+    {
+        HexCell cell = GetCellUnderCursor();
+        if (cell && !cell.planet)
+        {
+            Planet planet = Instantiate(Planet.planetPrefab);
+            //set default
+            hexGrid.AddPlanet(
+				planet, cell
+            );
+
+            planet.transform.localPosition = cell.Position;
+			planet.SetProperties(Planet.PlanetOwner.PLAYER);
+            //         hexGrid.AddUnit(
+            //             unit, cell, Random.Range(0f, 360f)
+            //);
+
+        }
+    }
+
+    void DestroyUnit()
 	{
 		HexCell cell = GetCellUnderCursor();
-		if (cell && cell.Unit)
-		{
-			hexGrid.RemoveUnit(cell.Unit);
-		}
+		//if (cell && cell.Unit)
+		//{
+		//	hexGrid.RemoveUnit(cell.Unit);
+		//}
 	}
 
-	void HandleInput()
+    void DestroyFleet()
+    {
+        HexCell cell = GetCellUnderCursor();
+        if (cell && cell.fleet)
+        {
+            hexGrid.RemoveFleet(cell.fleet);
+        }
+    }
+
+    void HandleInput()
 	{
 		HexCell currentCell = GetCellUnderCursor();
 		if (currentCell)
@@ -260,6 +296,18 @@ public class HexMapEditor : MonoBehaviour
 	{
 		if (cell)
 		{
+			//New Setup
+			if (applyPlanet)
+			{
+				//cell.planet
+				CreatePlanet();
+
+
+            }
+
+
+
+			//Old Setup
 			if (activeTerrainTypeIndex >= 0)
 			{
 				cell.TerrainTypeIndex = activeTerrainTypeIndex;
@@ -290,11 +338,11 @@ public class HexMapEditor : MonoBehaviour
 			}
 			if (riverMode == OptionalToggle.No)
 			{
-				cell.RemoveRiver();
+				//cell.RemoveRiver();
 			}
 			if (roadMode == OptionalToggle.No)
 			{
-				cell.RemoveRoads();
+				//cell.RemoveRoads();
 			}
 			if (walledMode != OptionalToggle.Ignore)
 			{

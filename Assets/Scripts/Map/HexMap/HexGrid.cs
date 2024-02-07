@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
+using TMPro;
 
 /// <summary>
 /// Component that represents an entire hexagon map.
@@ -17,7 +18,13 @@ public class HexGrid : MonoBehaviour
 	[SerializeField]
 	HexUnit unitPrefab;
 
-	[SerializeField]
+    [SerializeField]
+    Fleet fleetPrefab;
+
+    [SerializeField]
+    Planet planetPrefab;
+
+    [SerializeField]
 	Texture2D noiseSource;
 	 
 	[SerializeField]
@@ -52,6 +59,8 @@ public class HexGrid : MonoBehaviour
 	public GameObject editor;
 	public GameObject SaveLoader;
 
+	public int turnCount;
+
 	/// <summary>
 	/// The <see cref="HexCellShaderData"/> container
 	/// for cell visualization data.
@@ -70,8 +79,11 @@ public class HexGrid : MonoBehaviour
 	int currentCenterColumnIndex = -1;
 
 	List<HexUnit> units = new();
+    List<Fleet> fleets = new();
 
-	HexCellShaderData cellShaderData;
+    HexCellShaderData cellShaderData;
+
+	public GameObject turnText;
 
 	void Awake()
 	{
@@ -80,7 +92,11 @@ public class HexGrid : MonoBehaviour
 		HexMetrics.noiseSource = noiseSource;
 		HexMetrics.InitializeHashGrid(seed);
 		HexUnit.unitPrefab = unitPrefab;
-		cellShaderData = gameObject.AddComponent<HexCellShaderData>();
+        Fleet.fleetPrefab = fleetPrefab;
+		Planet.planetPrefab = planetPrefab;
+
+
+        cellShaderData = gameObject.AddComponent<HexCellShaderData>();
 		cellShaderData.Grid = this;
 		CreateMap(CellCountX, CellCountZ, Wrapping);
 
@@ -104,6 +120,32 @@ public class HexGrid : MonoBehaviour
                 editor.SetActive(true);
             }
 		}
+
+
+
+
+
+
+    }
+
+
+	public void UpdateTick()
+	{
+		//Do something
+
+        // for all cell, call update
+		foreach(HexCell cell in cells)
+		{
+			cell.UpdateTick();
+		}
+
+        //update player
+
+        //Update AI
+
+        //redraw map
+
+
     }
 
     /// <summary>
@@ -120,23 +162,66 @@ public class HexGrid : MonoBehaviour
 		unit.Orientation = orientation;
 	}
 
-	/// <summary>
-	/// Remove a unit from the map.
-	/// </summary>
-	/// <param name="unit">The unit to remove.</param>
-	public void RemoveUnit(HexUnit unit)
+    /// <summary>
+    /// Add a unit to the map.
+    /// </summary>
+    /// <param name="unit">Unit to add.</param>
+    /// <param name="location">Cell in which to place the unit.</param>
+    /// <param name="orientation">Orientation of the unit.</param>
+    public void AddFleet(Fleet fleet, HexCell location, float orientation)
+    {
+        fleets.Add(fleet);
+		location.fleet = fleet;
+        fleet.hexUnit.Grid = this;
+        fleet.hexUnit.Location = location;
+        fleet.hexUnit.Orientation = orientation;
+    }
+
+    /// <summary>
+    /// Add a planet/system to the map
+    /// 
+    /// </summary>
+    /// <param name=""
+    public void AddPlanet(Planet planet, HexCell location)
+    {
+        //Setup for the planet
+        location.planet = planet;
+
+        //units.Add(unit);
+        //unit.Grid = this;
+        //unit.Location = location;
+        //unit.Orientation = orientation;
+    }
+
+    /// <summary>
+    /// Remove a unit from the map.
+    /// </summary>
+    /// <param name="unit">The unit to remove.</param>
+    public void RemoveUnit(HexUnit unit)
 	{
 		units.Remove(unit);
 		unit.Die();
 	}
 
-	/// <summary>
-	/// Make a game object a child of a map column.
-	/// </summary>
-	/// <param name="child"><see cref="Transform"/>
-	/// of the child game object.</param>
-	/// <param name="columnIndex">Index of the parent column.</param>
-	public void MakeChildOfColumn(Transform child, int columnIndex) =>
+    /// <summary>
+    /// Remove a fleet from the map.
+    /// </summary>
+    /// <param name="fleet">The fleet to remove.</param>
+    public void RemoveFleet(Fleet fleet)
+    {
+        fleets.Remove(fleet);
+        //unit.Die();
+		fleet.DestroyFleet();
+		//delete the fleet
+    }
+
+    /// <summary>
+    /// Make a game object a child of a map column.
+    /// </summary>
+    /// <param name="child"><see cref="Transform"/>
+    /// of the child game object.</param>
+    /// <param name="columnIndex">Index of the parent column.</param>
+    public void MakeChildOfColumn(Transform child, int columnIndex) =>
 		child.SetParent(columns[columnIndex], false);
 
 	/// <summary>
@@ -224,7 +309,16 @@ public class HexGrid : MonoBehaviour
 		units.Clear();
 	}
 
-	void OnEnable()
+    void ClearFleets()
+    {
+        for (int i = 0; i < fleets.Count; i++)
+        {
+            //fleets[i].hexUnit.Die();
+        }
+        fleets.Clear();
+    }
+
+    void OnEnable()
 	{
 		if (!HexMetrics.noiseSource)
 		{
@@ -392,7 +486,13 @@ public class HexGrid : MonoBehaviour
 		{
 			units[i].Save(writer);
 		}
-	}
+
+        //writer.Write(fleets.Count);
+        //for (int i = 0; i < fleets.Count; i++)
+        //{
+        //    units[i].Save(writer);
+        //}
+    }
 
 	/// <summary>
 	/// Load the map.

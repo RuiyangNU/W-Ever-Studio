@@ -8,6 +8,8 @@ using static PlanetSettings;
 public class Planet : MonoBehaviour, IClickableUI
 {
 
+
+    public static Planet planetPrefab;
     public enum PlanetOwner
     {
         NONE,

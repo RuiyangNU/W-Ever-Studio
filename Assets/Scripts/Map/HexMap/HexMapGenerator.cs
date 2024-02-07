@@ -644,7 +644,7 @@ public class HexMapGenerator : MonoBehaviour
 				}
 				if (isValidOrigin)
 				{
-					riverBudget -= CreateRiver(origin);
+					//riverBudget -= CreateRiver(origin);
 				}
 			}
 		}

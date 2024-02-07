@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public void UpdateTick(){
         turnNumber ++;
         pm.UpdateTick();
-        //hg.UpdateTick();
+        hg.UpdateTick();
 
 
     }

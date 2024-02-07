@@ -21,6 +21,8 @@ public class Fleet : MonoBehaviour, IClickableUI
     public int actionPoints = 3;
     public FleetOwner owner;
 
+    public static Fleet fleetPrefab;
+
     // getters and setters for stats
     public float Health
     {
@@ -47,7 +49,7 @@ public class Fleet : MonoBehaviour, IClickableUI
     }
 
     // reference to the HexUnit class
-    public HexUnit fleetPrefab;
+    public HexUnit hexUnit;
 
     // fleet limiting per unit
     public int numFleets = DEFAULT_STARTING_FLEETS;
@@ -149,6 +151,9 @@ public class Fleet : MonoBehaviour, IClickableUI
 
     public void DestroyFleet()
     {
+        HexCell location = hexUnit.Grid.GetCell(hexUnit.locationCellIndex);
+        location.fleet = null;
+        hexUnit.Die();
         Destroy(gameObject);
     }
 
