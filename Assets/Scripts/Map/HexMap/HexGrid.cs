@@ -126,12 +126,12 @@ public class HexGrid : MonoBehaviour
 	public void UpdateTick()
 	{
 		//Do something
-		turnCount++;
-
-		Debug.Log(turnText);
-        turnText.GetComponent<TextMeshPro>().text = "Turn: " + turnCount.ToString();
 
         // for all cell, call update
+		foreach(HexCell cell in cells)
+		{
+			cell.UpdateTick();
+		}
 
         //update player
 
@@ -139,8 +139,6 @@ public class HexGrid : MonoBehaviour
 
         //redraw map
 
-
-        Debug.Log(turnCount);
 
     }
 
@@ -158,11 +156,26 @@ public class HexGrid : MonoBehaviour
 		unit.Orientation = orientation;
 	}
 
-	/// <summary>
-	/// Remove a unit from the map.
-	/// </summary>
-	/// <param name="unit">The unit to remove.</param>
-	public void RemoveUnit(HexUnit unit)
+    /// <summary>
+    /// Add a planet/system to the map
+    /// 
+    /// </summary>
+    /// <param name=""
+    public void AddPlanet(Planet planet, HexCell location, bool playerOwned)
+    {
+		//Setup for the planet
+
+        //units.Add(unit);
+        //unit.Grid = this;
+        //unit.Location = location;
+        //unit.Orientation = orientation;
+    }
+
+    /// <summary>
+    /// Remove a unit from the map.
+    /// </summary>
+    /// <param name="unit">The unit to remove.</param>
+    public void RemoveUnit(HexUnit unit)
 	{
 		units.Remove(unit);
 		unit.Die();

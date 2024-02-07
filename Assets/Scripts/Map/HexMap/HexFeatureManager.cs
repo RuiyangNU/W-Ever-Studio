@@ -156,16 +156,33 @@ public class HexFeatureManager : MonoBehaviour
 		instance.SetParent(container, false);
 	}
 
-	/// <summary>
-	/// Add a wall along the edge between two cells.
-	/// </summary>
-	/// <param name="near">Near edge.</param>
-	/// <param name="nearCell">Near cell.</param>
-	/// <param name="far">Far edge.</param>
-	/// <param name="farCell">Far cell.</param>
-	/// <param name="hasRiver">Whether a river crosses the edge.</param>
-	/// <param name="hasRoad">Whether a road crosses the edge.</param>
-	public void AddWall(
+    /// <summary>
+    /// Add a planet feature for a cell.
+    /// </summary>
+    /// <param name="cell">Cell with planet feature.</param>
+    /// <param name="position">Planet position.</param>
+    public void AddPlanetFeature(HexCell cell, Vector3 position)
+    {
+        HexHash hash = HexMetrics.SampleHashGrid(position);
+        Transform instance = Instantiate(special[3]);
+        //instance.position += new Vector3(0f, 2f, 0f);
+
+        instance.SetLocalPositionAndRotation(
+            HexMetrics.Perturb(position + new Vector3(0f, 1f, 0f)),
+            Quaternion.Euler(0f, 0f, 0f));
+        instance.SetParent(container, false);
+    }
+
+    /// <summary>
+    /// Add a wall along the edge between two cells.
+    /// </summary>
+    /// <param name="near">Near edge.</param>
+    /// <param name="nearCell">Near cell.</param>
+    /// <param name="far">Far edge.</param>
+    /// <param name="farCell">Far cell.</param>
+    /// <param name="hasRiver">Whether a river crosses the edge.</param>
+    /// <param name="hasRoad">Whether a road crosses the edge.</param>
+    public void AddWall(
 		EdgeVertices near, HexCell nearCell,
 		EdgeVertices far, HexCell farCell,
 		bool hasRiver, bool hasRoad)

@@ -102,6 +102,10 @@ public class HexCell
 
     int visibility;
 
+	/// <summary>
+	/// Reference to the planet
+	/// </summary>
+	public Planet planet = null;
 
 	public void UpdateTick()
 	{
