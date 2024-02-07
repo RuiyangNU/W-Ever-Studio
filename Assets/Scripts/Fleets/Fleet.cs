@@ -151,6 +151,9 @@ public class Fleet : MonoBehaviour, IClickableUI
 
     public void DestroyFleet()
     {
+        HexCell location = hexUnit.Grid.GetCell(hexUnit.locationCellIndex);
+        location.fleet = null;
+        hexUnit.Die();
         Destroy(gameObject);
     }
 

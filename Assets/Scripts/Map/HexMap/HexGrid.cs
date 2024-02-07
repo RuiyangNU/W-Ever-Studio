@@ -22,6 +22,9 @@ public class HexGrid : MonoBehaviour
     Fleet fleetPrefab;
 
     [SerializeField]
+    Planet planetPrefab;
+
+    [SerializeField]
 	Texture2D noiseSource;
 	 
 	[SerializeField]
@@ -90,6 +93,9 @@ public class HexGrid : MonoBehaviour
 		HexMetrics.InitializeHashGrid(seed);
 		HexUnit.unitPrefab = unitPrefab;
         Fleet.fleetPrefab = fleetPrefab;
+		Planet.planetPrefab = planetPrefab;
+
+
         cellShaderData = gameObject.AddComponent<HexCellShaderData>();
 		cellShaderData.Grid = this;
 		CreateMap(CellCountX, CellCountZ, Wrapping);
@@ -116,11 +122,6 @@ public class HexGrid : MonoBehaviour
 		}
 
 
-		if (Input.GetKeyDown(KeyCode.Tab)) //The next turn, replacing it the key
-		{
-			UpdateTick();
-
-        }
 
 
 
@@ -181,9 +182,10 @@ public class HexGrid : MonoBehaviour
     /// 
     /// </summary>
     /// <param name=""
-    public void AddPlanet(Planet planet, HexCell location, bool playerOwned)
+    public void AddPlanet(Planet planet, HexCell location)
     {
-		//Setup for the planet
+        //Setup for the planet
+        location.planet = planet;
 
         //units.Add(unit);
         //unit.Grid = this;

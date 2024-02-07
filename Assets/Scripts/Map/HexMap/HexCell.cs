@@ -9,7 +9,8 @@ using System.IO;
 public class HexCell
 {
 
-	//public HexPlanet Planet;
+	public Planet planet
+	{ get; set; }
 
 
 	/// <summary>
@@ -105,7 +106,7 @@ public class HexCell
 	/// <summary>
 	/// Reference to the planet
 	/// </summary>
-	public Planet planet;
+	//public Planet planet;
 
 	/// <summary>
 	/// Reference to the fleet
@@ -114,8 +115,15 @@ public class HexCell
 
 	public void UpdateTick()
 	{
-		planet.UpdateTick();
-		fleet.UpdateTick();
+		//planet.UpdateTick();
+		if (planet)
+		{
+            planet.UpdateTick();
+		}
+		if (fleet)
+		{
+            fleet.UpdateTick();
+        }
 
 		//Update Cell Value
 	}

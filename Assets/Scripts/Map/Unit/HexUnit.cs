@@ -41,7 +41,7 @@ public class HexUnit : MonoBehaviour
 		}
 	}
 
-	int locationCellIndex = -1, currentTravelLocationCellIndex = -1;
+	public int locationCellIndex = -1, currentTravelLocationCellIndex = -1;
 
 	/// <summary>
 	/// Orientation that the unit is facing.
@@ -59,9 +59,7 @@ public class HexUnit : MonoBehaviour
 	/// <summary>
 	/// Speed of the unit, in cells per turn.
 	/// </summary>
-	public int Speed => 2;
-
-	public int ActionPoint => 3;
+	public int Speed => 3;
 
 	/// <summary>
 	/// Vision range of the unit, in cells.
@@ -84,7 +82,7 @@ public class HexUnit : MonoBehaviour
 	/// <param name="cell">Cell to check.</param>
 	/// <returns>Whether the unit could occupy the cell.</returns>
 	public bool IsValidDestination(HexCell cell) =>
-		cell.IsExplored  && !cell.fleet;
+		cell.IsExplored  && !cell.fleet && (Grid.GetCell(locationCellIndex).Coordinates.DistanceTo(cell.Coordinates) <= fleet.ActionPoints);
 
 	/// <summary>
 	/// Travel along a path.
@@ -100,8 +98,12 @@ public class HexUnit : MonoBehaviour
 		//location.Unit = this;
 		location.fleet = this.fleet;
 		pathToTravel = path;
+		int length = path.Count-1;
+
+		Debug.Log(path);
 		StopAllCoroutines();
 		StartCoroutine(TravelPath());
+		fleet.actionPoints -= length;
 	}
 
 	IEnumerator TravelPath()

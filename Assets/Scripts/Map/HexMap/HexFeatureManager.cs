@@ -26,7 +26,10 @@ public class HexFeatureManager : MonoBehaviour
 	[SerializeField]
 	Transform[] special;
 
-	Transform container;
+    [SerializeField]
+    Transform[] planets;
+
+    Transform container;
 
 	/// <summary>
 	/// Clear all features.
@@ -155,23 +158,6 @@ public class HexFeatureManager : MonoBehaviour
 			Quaternion.Euler(0f, 0f, 0f));
 		instance.SetParent(container, false);
 	}
-
-    /// <summary>
-    /// Add a planet feature for a cell.
-    /// </summary>
-    /// <param name="cell">Cell with planet feature.</param>
-    /// <param name="position">Planet position.</param>
-    public void AddPlanetFeature(HexCell cell, Vector3 position)
-    {
-        HexHash hash = HexMetrics.SampleHashGrid(position);
-        Transform instance = Instantiate(special[3]);
-        //instance.position += new Vector3(0f, 2f, 0f);
-
-        instance.SetLocalPositionAndRotation(
-            HexMetrics.Perturb(position + new Vector3(0f, 1f, 0f)),
-            Quaternion.Euler(0f, 0f, 0f));
-        instance.SetParent(container, false);
-    }
 
     /// <summary>
     /// Add a wall along the edge between two cells.
