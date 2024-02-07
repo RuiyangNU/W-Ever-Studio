@@ -19,11 +19,7 @@ public class PlayerManager : MonoBehaviour
                     {PlayerResource.STEEL, 0}};
         
 
-    public void UpdateTickResources(Dictionary<PlayerResource, float> resources) {
-        // add resources from this function to the resource pool
-        playerResourcePool[PlayerResource.METHANE] += resources[PlayerResource.METHANE];
-        playerResourcePool[PlayerResource.STEEL] += resources[PlayerResource.STEEL];
-    }
+
 
 
     void Awake()
