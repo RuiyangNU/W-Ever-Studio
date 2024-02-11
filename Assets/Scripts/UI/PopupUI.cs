@@ -15,12 +15,12 @@ public abstract class PopupUI : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             Transform child = transform.GetChild(i);
-            Debug.Log(child.name);
+            //Debug.Log(child.name);
             PopupUIElement childScript = child.GetComponent<PopupUIElement>();
 
             if (childScript != null)
             {
-                Debug.Log(childScript.name);
+                //Debug.Log(childScript.name);
                 children.Add(childScript);
             }
         }
