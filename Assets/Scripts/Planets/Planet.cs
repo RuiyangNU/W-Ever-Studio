@@ -36,14 +36,29 @@ public class Planet : MonoBehaviour, IClickableUI
 
     public bool IsUIOpen => planetInfoUI.isUIOpen;
 
+    private Renderer rend;
+
     void Awake()
     {
         playerManager = FindObjectOfType<PlayerManager>();
         planetInfoUI = FindObjectOfType<PlanetInfoUI>();
+        rend = GetComponent<Renderer>();
+        
     }
 
     void Update()
     {
+        if (owner == PlanetOwner.PLAYER){
+            rend.material.SetColor("_BaseColor", Color.green);
+        }
+        if (owner == PlanetOwner.ENEMY) {
+            rend.material.SetColor("_BaseColor", Color.red);
+        }
+        if (owner == PlanetOwner.NONE){
+            rend.material.SetColor("_BaseColor", Color.grey);
+        }
+
+
         if (prevOwner != PlanetOwner.PLAYER && owner == PlanetOwner.PLAYER)
         {
             playerManager.AddPlanet(this);

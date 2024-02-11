@@ -20,7 +20,28 @@ public class HexUnit : MonoBehaviour
 	/// <summary>
 	/// Cell that the unit occupies.
 	/// </summary>
-	public HexCell Location
+	private Renderer rend;
+
+    void Awake()
+    {
+		rend = GetComponentInChildren<Renderer>();
+	}
+
+    private void Update()
+    {	
+		if (fleet.owner == Fleet.FleetOwner.PLAYER)
+        {
+			rend.material.SetColor("_BaseColor", Color.green);
+
+		}
+		if (fleet.owner == Fleet.FleetOwner.ENEMY)
+		{
+			rend.material.SetColor("_BaseColor", Color.red);
+
+		}
+	}
+
+    public HexCell Location
 	{
 		get => Grid.GetCell(locationCellIndex);
 		set
