@@ -44,8 +44,8 @@ public class FleetInfoUI : PopupUI
 
         // info text
         string text = "Fleets: " + linkedFleet.numFleets + "\n" + "Health: " + linkedFleet.health + "\n" +
-            "Damage: " + linkedFleet.damage + "\n" + "Speed: " + linkedFleet.speed + "\n" + "Action Points: "
-            + linkedFleet.actionPoints;
+        "Damage: " + linkedFleet.damage + "\n" + "Speed: " + linkedFleet.speed + "\n" + "Action Points: "
+        + linkedFleet.actionPoints;
         infoText.SetText(text);
     }
 
