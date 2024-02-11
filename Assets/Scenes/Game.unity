@@ -6599,6 +6599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnNumber: 0
+  hexGrid: {fileID: 1571186511}
 --- !u!4 &757183779
 Transform:
   m_ObjectHideFlags: 0
