@@ -58,28 +58,32 @@ public class HexGameUI : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// The Current Function to select a fleet or an empty cell
+	/// </summary>
 	void DoSelection()
 	{
 		grid.ClearPath();
 		UpdateCurrentCell();
 		if(prevCellIndex >= 0)
 		{
-            //selectedUnit = grid.GetCell(prevCellIndex).Unit;
             grid.GetCell(prevCellIndex).DisableHighlight();
         }
 		if (currentCellIndex >= 0)
 		{
-			//selectedUnit = grid.GetCell(currentCellIndex).Unit;
+
 
 			selectedFleet = grid.GetCell(currentCellIndex).fleet;
-			//Debug.Log(selectedFleet);
+
 			if (selectedFleet != null)
 			{
                 selectedUnit = selectedFleet.hexUnit;
+				selectedFleet.OpenUI();
 			}
 			else
 			{
 				selectedUnit = null;
+				
 			}
 			
 
@@ -92,6 +96,7 @@ public class HexGameUI : MonoBehaviour
 		}
 
 	}
+	
 
 	void DoPathfinding()
 	{
