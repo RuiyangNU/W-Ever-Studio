@@ -104,12 +104,13 @@ public class HexUnit : MonoBehaviour
 	/// <returns>Whether the unit could occupy the cell.</returns>
 	public bool IsValidDestination(HexCell cell) =>
 		cell.IsExplored  && !cell.fleet && (Grid.GetCell(locationCellIndex).Coordinates.DistanceTo(cell.Coordinates) <= fleet.ActionPoints);
+	public bool IsValidCombat(HexCell cell) => cell.IsExplored && cell.fleet && (Grid.GetCell(locationCellIndex).Coordinates.DistanceTo(cell.Coordinates) <= fleet.ActionPoints);
 
-	/// <summary>
-	/// Travel along a path.
-	/// </summary>
-	/// <param name="path">List of cells that describe a valid path.</param>
-	public void Travel(List<int> path)
+    /// <summary>
+    /// Travel along a path.
+    /// </summary>
+    /// <param name="path">List of cells that describe a valid path.</param>
+    public void Travel(List<int> path)
 	{
 		HexCell location = Grid.GetCell(locationCellIndex);
 		//location.Unit = null;
