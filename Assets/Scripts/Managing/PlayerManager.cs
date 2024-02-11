@@ -13,17 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     public List<Planet> playerControlledPlanets = new List<Planet>();
 
-    public Dictionary<PlayerResource, float> playerResourcePool = 
-        new Dictionary<PlayerResource, float>(){
-                    {PlayerResource.METHANE, 0},
-                    {PlayerResource.STEEL, 0}};
-        
-
-    public void UpdateTickResources(Dictionary<PlayerResource, float> resources) {
-        // add resources from this function to the resource pool
-        playerResourcePool[PlayerResource.METHANE] += resources[PlayerResource.METHANE];
-        playerResourcePool[PlayerResource.STEEL] += resources[PlayerResource.STEEL];
-    }
+    public Dictionary<PlayerResource, float> playerResourcePool;
 
 
     void Awake()
@@ -47,12 +37,20 @@ public class PlayerManager : MonoBehaviour
 
     public void AddPlanet(Planet p)
     {
+        if (playerControlledPlanets.Contains(p))
+        {
+            Debug.LogWarning("Tried to add " + p.name + " to PlayerManager, but " + p.name + " was already in the list.");
+            return;
+        }
         playerControlledPlanets.Add(p);
     }
 
     public void RemovePlanet(Planet p)
     {
-        playerControlledPlanets.Remove(p);
+        if (!(playerControlledPlanets.Remove(p)))
+        {
+            Debug.LogWarning("Tried to remove " + p.name + " from PlayerManager, but " + p.name + " was not in the list.");
+        }
     }
 
     public void AddToResourcePool(Dictionary<PlayerResource, float> resources)

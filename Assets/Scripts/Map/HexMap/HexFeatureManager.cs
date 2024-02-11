@@ -26,7 +26,10 @@ public class HexFeatureManager : MonoBehaviour
 	[SerializeField]
 	Transform[] special;
 
-	Transform container;
+    [SerializeField]
+    Transform[] planets;
+
+    Transform container;
 
 	/// <summary>
 	/// Clear all features.
@@ -156,16 +159,16 @@ public class HexFeatureManager : MonoBehaviour
 		instance.SetParent(container, false);
 	}
 
-	/// <summary>
-	/// Add a wall along the edge between two cells.
-	/// </summary>
-	/// <param name="near">Near edge.</param>
-	/// <param name="nearCell">Near cell.</param>
-	/// <param name="far">Far edge.</param>
-	/// <param name="farCell">Far cell.</param>
-	/// <param name="hasRiver">Whether a river crosses the edge.</param>
-	/// <param name="hasRoad">Whether a road crosses the edge.</param>
-	public void AddWall(
+    /// <summary>
+    /// Add a wall along the edge between two cells.
+    /// </summary>
+    /// <param name="near">Near edge.</param>
+    /// <param name="nearCell">Near cell.</param>
+    /// <param name="far">Far edge.</param>
+    /// <param name="farCell">Far cell.</param>
+    /// <param name="hasRiver">Whether a river crosses the edge.</param>
+    /// <param name="hasRoad">Whether a road crosses the edge.</param>
+    public void AddWall(
 		EdgeVertices near, HexCell nearCell,
 		EdgeVertices far, HexCell farCell,
 		bool hasRiver, bool hasRoad)

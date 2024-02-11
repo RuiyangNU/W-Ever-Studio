@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
@@ -10,8 +11,9 @@ public class HexGameUI : MonoBehaviour
 	HexGrid grid;
 
 	int currentCellIndex = -1;
-
+	int prevCellIndex = -1;
 	HexUnit selectedUnit;
+	Fleet selectedFleet;
 
 	/// <summary>
 	/// Set whether map edit mode is active.
@@ -28,7 +30,7 @@ public class HexGameUI : MonoBehaviour
 		}
 		else
 		{
-			//Shader.DisableKeyword("_HEX_MAP_EDIT_MODE");
+			Shader.DisableKeyword("_HEX_MAP_EDIT_MODE");
 		}
 	}
 
@@ -37,6 +39,7 @@ public class HexGameUI : MonoBehaviour
 
         if (!EventSystem.current.IsPointerOverGameObject())
 		{
+			//Debug.Log(EventSystem.current.IsPointerOverGameObject());
 			if (Input.GetMouseButtonDown(0))
 			{
 				DoSelection();
@@ -59,10 +62,35 @@ public class HexGameUI : MonoBehaviour
 	{
 		grid.ClearPath();
 		UpdateCurrentCell();
+		if(prevCellIndex >= 0)
+		{
+            //selectedUnit = grid.GetCell(prevCellIndex).Unit;
+            grid.GetCell(prevCellIndex).DisableHighlight();
+        }
 		if (currentCellIndex >= 0)
 		{
-			selectedUnit = grid.GetCell(currentCellIndex).Unit;
+			//selectedUnit = grid.GetCell(currentCellIndex).Unit;
+
+			selectedFleet = grid.GetCell(currentCellIndex).fleet;
+			//Debug.Log(selectedFleet);
+			if (selectedFleet != null)
+			{
+                selectedUnit = selectedFleet.hexUnit;
+			}
+			else
+			{
+				selectedUnit = null;
+			}
+			
+
+			grid.GetCell(currentCellIndex).EnableHighlight(Color.white);
+			prevCellIndex = currentCellIndex;
 		}
+		else
+		{
+
+		}
+
 	}
 
 	void DoPathfinding()

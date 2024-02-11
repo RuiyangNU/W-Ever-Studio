@@ -2842,7 +2842,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &333297600
 Transform:
   m_ObjectHideFlags: 0
@@ -11602,6 +11602,7 @@ MonoBehaviour:
   seed: 1234
   editor: {fileID: 2142000446}
   SaveLoader: {fileID: 1642458562}
+  turnCount: 0
 --- !u!4 &1571186512
 Transform:
   m_ObjectHideFlags: 0

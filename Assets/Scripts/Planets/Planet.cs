@@ -8,6 +8,8 @@ using static PlanetSettings;
 public class Planet : MonoBehaviour, IClickableUI
 {
 
+
+    public static Planet planetPrefab;
     public enum PlanetOwner
     {
         NONE,
@@ -24,6 +26,7 @@ public class Planet : MonoBehaviour, IClickableUI
     public int numRefineries = DEFAULT_STARTING_REFINERIES;
     public int numShipyards = DEFAULT_STARTING_SHIPYARDS;
 
+    public PlanetOwner prevOwner = PlanetOwner.NONE;
     public PlanetOwner owner = DEFAULT_OWNER;
 
     private PlayerManager playerManager;
@@ -37,6 +40,19 @@ public class Planet : MonoBehaviour, IClickableUI
     {
         playerManager = FindObjectOfType<PlayerManager>();
         planetInfoUI = FindObjectOfType<PlanetInfoUI>();
+    }
+
+    void Update()
+    {
+        if (prevOwner != PlanetOwner.PLAYER && owner == PlanetOwner.PLAYER)
+        {
+            playerManager.AddPlanet(this);
+        }
+        if (prevOwner == PlanetOwner.PLAYER && owner != PlanetOwner.PLAYER)
+        {
+            playerManager.RemovePlanet(this);
+        }
+        prevOwner = owner;
     }
 
     public void SetProperties(PlanetOwner o = PlanetOwner.NONE, float baseSteelPerTick = 1.0f, float baseMethanePerTick = 1.0f, int maxRefineries = 1, int maxShipyards = 1)
