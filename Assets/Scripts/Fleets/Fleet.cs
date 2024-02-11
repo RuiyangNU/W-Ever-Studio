@@ -47,7 +47,7 @@ public class Fleet : MonoBehaviour, IClickableUI
     }
 
     // reference to the HexUnit class
-    public HexUnit fleetPrefab;
+    public HexUnit hexUnit;
 
     // fleet limiting per unit
     public int numFleets = DEFAULT_STARTING_FLEETS;
