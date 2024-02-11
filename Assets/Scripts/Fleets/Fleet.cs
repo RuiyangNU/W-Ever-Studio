@@ -19,6 +19,7 @@ public class Fleet : MonoBehaviour, IClickableUI
     public float damage = 50.0f;
     public float speed = 50.0f;
     public int actionPoints = 3;
+
     public FleetOwner owner;
 
     public static Fleet fleetPrefab;
@@ -62,10 +63,13 @@ public class Fleet : MonoBehaviour, IClickableUI
 
     public bool IsUIOpen => fleetInfoUI.isUIOpen;
 
+    private Renderer rend;
+
     void Awake()
     {
         playerManager = FindObjectOfType<PlayerManager>();
         fleetInfoUI = FindObjectOfType<FleetInfoUI>();
+        rend = GetComponent<Renderer>();
     }
 
     // set the intial properties of a fleet
@@ -104,9 +108,6 @@ public class Fleet : MonoBehaviour, IClickableUI
         {
             playerManager.RemoveFromResourcePool(cost);
 
-            // need to instantiate the fleet prefab here so it shows up on the map
-
-
             numFleets++;
 
 
@@ -123,7 +124,7 @@ public class Fleet : MonoBehaviour, IClickableUI
 
     public void OnMouseDown()
     {
-        OpenUI();
+        OnClick();
     }
 
     public void UpdateTick()
@@ -133,7 +134,6 @@ public class Fleet : MonoBehaviour, IClickableUI
             DestroyFleet();
         }
         actionPoints = 3;
-        // reset combat flag
         return;
     }
 
@@ -155,6 +155,11 @@ public class Fleet : MonoBehaviour, IClickableUI
         fleetInfoUI.Link(this);
         fleetInfoUI.OpenUI();
     }
+
+    public void CloseUI() {
+
+    }
+
 
     public void OnUIClose()
     {
