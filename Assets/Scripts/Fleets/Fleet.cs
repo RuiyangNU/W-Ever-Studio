@@ -157,6 +157,11 @@ public class Fleet : MonoBehaviour, IClickableUI
     }
 
     public void CloseUI() {
+        if (!fleetInfoUI.isUIOpen)
+        {
+            return;
+        }
+        fleetInfoUI.CloseUI();
 
     }
 
