@@ -26,6 +26,7 @@ public class HexUnit : MonoBehaviour
     {
 		rend = GetComponentInChildren<Renderer>();
 	}
+
     private void Update()
     {	
 		if (fleet.owner == Fleet.FleetOwner.PLAYER)
@@ -38,9 +39,8 @@ public class HexUnit : MonoBehaviour
 			rend.material.SetColor("_BaseColor", Color.red);
 
 		}
-
-
 	}
+
     public HexCell Location
 	{
 		get => Grid.GetCell(locationCellIndex);
