@@ -30,6 +30,7 @@ public class Planet : MonoBehaviour, IClickableUI
     public PlanetOwner owner = DEFAULT_OWNER;
 
     private PlayerManager playerManager;
+    private EnemyManager enemyManager;
     private PlanetInfoUI planetInfoUI;
 
     public PopupUI targetUI => planetInfoUI;
@@ -41,6 +42,7 @@ public class Planet : MonoBehaviour, IClickableUI
     void Awake()
     {
         playerManager = FindObjectOfType<PlayerManager>();
+        enemyManager = FindObjectOfType<EnemyManager>();
         planetInfoUI = FindObjectOfType<PlanetInfoUI>();
         rend = GetComponent<Renderer>();
         
@@ -58,7 +60,7 @@ public class Planet : MonoBehaviour, IClickableUI
             rend.material.SetColor("_BaseColor", Color.grey);
         }
 
-
+        //Add to player list if planet is owned by player
         if (prevOwner != PlanetOwner.PLAYER && owner == PlanetOwner.PLAYER)
         {
             playerManager.AddPlanet(this);
@@ -67,6 +69,17 @@ public class Planet : MonoBehaviour, IClickableUI
         {
             playerManager.RemovePlanet(this);
         }
+
+        //Add to enemy list if planet is owned by enemy
+        if (prevOwner != PlanetOwner.ENEMY && owner == PlanetOwner.ENEMY)
+        {
+            enemyManager.AddPlanet(this);
+        }
+        if (prevOwner == PlanetOwner.ENEMY && owner != PlanetOwner.ENEMY)
+        {
+            enemyManager.RemovePlanet(this);
+        }
+
         prevOwner = owner;
     }
 
