@@ -11,6 +11,8 @@ public class EnemyManager : MonoBehaviour
 
     public List<Planet> enemyControlledPlanets = new List<Planet>();
 
+    public List<Fleet> enemyControlledFleets = new List<Fleet>();
+
 
 
     public void AddPlanet(Planet p)
@@ -31,6 +33,32 @@ public class EnemyManager : MonoBehaviour
         {
             Debug.LogWarning("Tried to remove " + p.name + " from EnemyManager, but " + p.name + " was not in the list.");
         }
+    }
+
+
+    public void AddFleet(Fleet f)
+    {
+
+
+        if (enemyControlledFleets.Contains(f))
+        {
+            Debug.LogWarning("Tried to add " + f.name + " to EnemyManager, but " + f.name + " was already in the list.");
+            return;
+        }
+        enemyControlledFleets.Add(f);
+    }
+
+    public void RemoveFleet(Fleet f)
+    {
+        if (!(enemyControlledFleets.Remove(f)))
+        {
+            Debug.LogWarning("Tried to remove " + f.name + " from EnemyManager, but " + f.name + " was not in the list.");
+        }
+    }
+
+    public void SimpleAi()
+    {
+
     }
 
 

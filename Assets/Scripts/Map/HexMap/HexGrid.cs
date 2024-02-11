@@ -215,6 +215,12 @@ public class HexGrid : MonoBehaviour
 		//delete the fleet
     }
 
+
+	//public void Open
+
+
+
+
     /// <summary>
     /// Make a game object a child of a map column.
     /// </summary>

@@ -113,6 +113,8 @@ public class HexCell
 	/// </summary>
 	 public Fleet fleet;
 
+	public bool hasFleet => fleet != null;
+
 	public void UpdateTick()
 	{
 		//planet.UpdateTick();

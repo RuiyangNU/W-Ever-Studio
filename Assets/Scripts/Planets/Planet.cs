@@ -7,6 +7,9 @@ using static PlanetSettings;
 
 public class Planet : MonoBehaviour, IClickableUI
 {
+    public HexGrid hexGrid;
+    public int locationCellIndex = -1;
+
 
 
     public static Planet planetPrefab;
@@ -36,6 +39,8 @@ public class Planet : MonoBehaviour, IClickableUI
     public PopupUI targetUI => planetInfoUI;
 
     public bool IsUIOpen => planetInfoUI.isUIOpen;
+
+    public HexCell getCurrentCell => hexGrid.GetCell(locationCellIndex);
 
     private Renderer rend;
 
@@ -90,6 +95,11 @@ public class Planet : MonoBehaviour, IClickableUI
         this.baseMethanePerTick = baseMethanePerTick;
         this.maxRefineries = maxRefineries;
         this.maxShipyards = maxShipyards;
+    }
+
+    public void SetLocation(int cellLocationIndex)
+    {
+        this.locationCellIndex = cellLocationIndex;
     }
 
     /// <summary>
