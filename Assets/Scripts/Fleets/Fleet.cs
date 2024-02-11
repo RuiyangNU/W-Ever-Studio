@@ -119,7 +119,6 @@ public class Fleet : MonoBehaviour, IClickableUI
 
     public void OnClick()
     {
-        Debug.Log("This fleet was clicked");
         OpenUI();
     }
 
@@ -156,6 +155,11 @@ public class Fleet : MonoBehaviour, IClickableUI
         fleetInfoUI.Link(this);
         fleetInfoUI.OpenUI();
     }
+
+    public void CloseUI() {
+
+    }
+
 
     public void OnUIClose()
     {
