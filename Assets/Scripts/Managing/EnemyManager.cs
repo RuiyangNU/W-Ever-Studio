@@ -19,7 +19,7 @@ public class EnemyManager : MonoBehaviour
         
         if (enemyControlledPlanets.Contains(p))
         {
-            Debug.LogWarning("Tried to add " + p.name + " to PlayerManager, but " + p.name + " was already in the list.");
+            Debug.LogWarning("Tried to add " + p.name + " to EnemyManager, but " + p.name + " was already in the list.");
             return;
         }
         enemyControlledPlanets.Add(p);
@@ -29,7 +29,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (!(enemyControlledPlanets.Remove(p)))
         {
-            Debug.LogWarning("Tried to remove " + p.name + " from PlayerManager, but " + p.name + " was not in the list.");
+            Debug.LogWarning("Tried to remove " + p.name + " from EnemyManager, but " + p.name + " was not in the list.");
         }
     }
 
