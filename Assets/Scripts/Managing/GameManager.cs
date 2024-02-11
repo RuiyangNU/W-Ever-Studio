@@ -46,6 +46,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CreateFleet(HexCell cell, Fleet.FleetOwner owner)
+    {
+        //HexCell cell = GetCellUnderCursor();
+        if (cell && !cell.fleet)
+        {
+            HexUnit unit = Instantiate(HexUnit.unitPrefab);
+            Fleet fleet = Instantiate(Fleet.fleetPrefab);
+            //set default
+            fleet.hexUnit = unit;
+            unit.fleet = fleet;
+            fleet.owner = owner;
+            //         hexGrid.AddUnit(
+            //             unit, cell, Random.Range(0f, 360f)
+            //);
+
+            hexGrid.AddFleet(
+                fleet, cell, Random.Range(0f, 360f)
+            );
+
+        }
+    }
+
     void Awake() {
         pm = FindObjectOfType<PlayerManager>();
         hg = FindObjectOfType<HexGrid>();

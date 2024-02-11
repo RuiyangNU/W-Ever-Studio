@@ -134,7 +134,7 @@ public class HexMapEditor : MonoBehaviour
 				}
 				else
 				{
-					CreateUnit();
+					CreateFleet();
 				}
 				return;
 			}
@@ -149,7 +149,7 @@ public class HexMapEditor : MonoBehaviour
 	HexCell GetCellUnderCursor() =>
 		hexGrid.GetCell(Camera.main.ScreenPointToRay(Input.mousePosition));
 
-	void CreateUnit()
+	void CreateFleet()
 	{
 		HexCell cell = GetCellUnderCursor();
 		if (cell && !cell.fleet)
