@@ -14,23 +14,22 @@ public class GameManager : MonoBehaviour
         turnNumber ++;
         pm.UpdateTick();
         hg.UpdateTick();
+    }
 
+    public void HandleCombat(Fleet attacker, Fleet defender)
+    {
+        // Record stats
+        float attackerDamage = attacker.Damage;
+        float defenderDamage = defender.Damage;
+        float attackerHealth = attacker.Health;
+        float defenderHealth = defender.Health;
 
+        defender.Health -= attackerDamage;
+        attacker.Health -= defenderDamage;
     }
 
     void Awake() {
         pm = FindObjectOfType<PlayerManager>();
         hg = FindObjectOfType<HexGrid>();
-    }
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

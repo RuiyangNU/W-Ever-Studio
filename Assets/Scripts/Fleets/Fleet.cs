@@ -116,18 +116,6 @@ public class Fleet : MonoBehaviour, IClickableUI
         return;
     }
 
-    // maybe move this to game manager
-    public void AttackFleet(Fleet yourFleet, Fleet targetFleet)
-    {
-        targetFleet.health -= yourFleet.damage;
-
-        if (targetFleet.health <= 0)
-        {
-            targetFleet.DestroyFleet();
-        }
-    }
-
-
     public void OnClick()
     {
         OpenUI();
