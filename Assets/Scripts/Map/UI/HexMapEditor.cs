@@ -30,7 +30,7 @@ public class HexMapEditor : MonoBehaviour
 	bool applyElevation = true;
 	bool applyWaterLevel = true;
 
-	bool applyPlanet = true;
+	bool applyPlanet = false;
 	int activePlanetLevel;
 
 
