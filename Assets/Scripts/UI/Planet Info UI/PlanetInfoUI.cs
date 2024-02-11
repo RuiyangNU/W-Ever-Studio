@@ -89,6 +89,7 @@ public class PlanetInfoUI : PopupUI
 
         foreach (PopupUIElement child in children)
         {
+            //Debug.Log(child);
             child.OnUIOpen();
         }
 
