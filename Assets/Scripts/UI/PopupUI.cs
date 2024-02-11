@@ -19,6 +19,7 @@ public abstract class PopupUI : MonoBehaviour
 
             if (childScript != null)
             {
+
                 children.Add(childScript);
             }
         }
