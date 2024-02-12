@@ -16,8 +16,8 @@ public class ResourceDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float meth = playerManager.playerResourcePool[PlayerManager.PlayerResource.METHANE];
-        float steel = playerManager.playerResourcePool[PlayerManager.PlayerResource.STEEL];
-        resourceText.text = "Methane:" + meth.ToString() + "\n Steel:"+ steel.ToString();
+        float meth = playerManager.PlayerMethane;
+        float steel = playerManager.PlayerSteel;
+        resourceText.text = "Methane:" + Mathf.Floor(meth).ToString() + "\n Steel:"+ Mathf.Floor(steel).ToString();
     }
 }

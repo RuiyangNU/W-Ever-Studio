@@ -126,7 +126,7 @@ public class HexUnit : MonoBehaviour
 		//Debug.Log(path);
 		StopAllCoroutines();
 		StartCoroutine(TravelPath());
-		fleet.actionPoints -= length;
+		fleet.RemoveActionPoints(length);
 	}
 
 	IEnumerator TravelPath()

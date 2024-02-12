@@ -152,7 +152,7 @@ public class HexGameUI : MonoBehaviour
                         selectedUnit);
 
                     selectedUnit.Travel(grid.GetPath());
-					selectedFleet.actionPoints = 0;
+					selectedFleet.RemoveActionPoints(100);
                     grid.ClearPath();
                     return;
 

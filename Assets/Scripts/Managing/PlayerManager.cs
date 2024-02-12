@@ -15,6 +15,8 @@ public class PlayerManager : MonoBehaviour
 
     public Dictionary<PlayerResource, float> playerResourcePool;
 
+    public float PlayerMethane => playerResourcePool[PlayerResource.METHANE];
+    public float PlayerSteel => playerResourcePool[PlayerResource.STEEL];
 
     void Awake()
     {

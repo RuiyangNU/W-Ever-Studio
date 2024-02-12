@@ -40,20 +40,14 @@ public class GameManager : MonoBehaviour
     public void StartCombat(Fleet attacker, Fleet defender)
     {
         // Record stats
-        float attackerDamage = attacker.Damage;
-        float defenderDamage = defender.Damage;
-        float attackerHealth = attacker.Health;
-        float defenderHealth = defender.Health;
+        float attackerDamageBeforeCombat = attacker.Damage;
+        float defenderDamageBeforeCombat = defender.Damage;
+        float attackerHealthBeforeCombat = attacker.Health;
+        float defenderHealthBeforeCombat = defender.Health;
 
-        defender.Health -= attackerDamage;
-        attacker.Health -= defenderDamage;
+        defender.RemoveHealth(attackerDamageBeforeCombat);
 
-
-        if (attackerHealth <= 0) {
-            attacker.DestroyFleet();
-        }
-
-        if (defenderHealth <= 0.1 && attacker != null) {
+        if (Mathf.Abs(defender.Health) <= Mathf.Epsilon && attacker != null) {
 
             //Temp solution of checking if it is removing player or enemy fleet
             enemyManager.RemoveFleet(attacker);
@@ -62,8 +56,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            attacker.actionPoints = 0;
+            attacker.RemoveActionPoints(100);
         }
+    }
+
+    public void CapturePlanet(Fleet fleet, Planet p)
+    {
+
     }
 
     public void CreatePlanet(HexCell cell, Planet.PlanetOwner owner)
@@ -102,6 +101,18 @@ public class GameManager : MonoBehaviour
                 fleet, cell, Random.Range(0f, 360f)
             );
 
+        }
+    }
+
+
+    public void AddPlanetToCell(HexCell cell, Planet planet)
+    {
+        if (cell && !cell.planet)
+        {
+            hexGrid.AddPlanet(planet, cell);
+
+            planet.transform.localPosition = cell.Position;
+            planet.SetLocation(cell.Index);
         }
     }
 
