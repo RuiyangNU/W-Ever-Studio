@@ -624,7 +624,20 @@ public class HexGrid : MonoBehaviour
 		currentPathFromIndex = fromCell.Index;
 		currentPathToIndex = toCell.Index;
 		currentPathExists = Search(fromCell, toCell, unit);
-		ShowPath(unit.Speed);
+		List<int> path = GetPath();
+
+        if (path.Count - 1 > unit.fleet.actionPoints)
+		{
+
+            currentPathExists = false;
+			ClearPath();
+
+		}
+		else
+		{
+            ShowPath(unit.Speed);
+        }
+		
 	}
 
 	bool Search(HexCell fromCell, HexCell toCell, HexUnit unit)

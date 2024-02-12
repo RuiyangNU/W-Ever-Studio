@@ -112,10 +112,7 @@ public class Fleet : MonoBehaviour, IClickableUI
 
     public void UpdateTick()
     {
-        if (health == 0)
-        {
-            DestroyFleet();
-        }
+
         actionPoints = 3;
         return;
     }
