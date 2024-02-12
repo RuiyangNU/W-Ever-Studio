@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void HandleCombat(Fleet attacker, Fleet defender)
+    public void StartCombat(Fleet attacker, Fleet defender)
     {
         // Record stats
         float attackerDamage = attacker.Damage;
@@ -36,6 +36,23 @@ public class GameManager : MonoBehaviour
 
         defender.Health -= attackerDamage;
         attacker.Health -= defenderDamage;
+
+
+        if (attackerHealth <= 0) {
+            attacker.DestroyFleet();
+        }
+
+        if (defenderHealth <= 0.1 && attacker != null) {
+
+            //Temp solution of checking if it is removing player or enemy fleet
+            em.RemoveFleet(attacker);
+            em.RemoveFleet(defender);
+            defender.DestroyFleet();
+        }
+        else
+        {
+            attacker.actionPoints = 0;
+        }
     }
 
     public void CreatePlanet(HexCell cell, Planet.PlanetOwner owner)
