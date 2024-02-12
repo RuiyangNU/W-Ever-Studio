@@ -209,6 +209,7 @@ public class HexMapEditor : MonoBehaviour
     void HandleInput()
 	{
 		HexCell currentCell = GetCellUnderCursor();
+		Debug.Log(currentCell.Coordinates);
 		if (currentCell)
 		{
 			if (previousCellIndex >= 0 &&
