@@ -626,7 +626,7 @@ public class HexGrid : MonoBehaviour
 		currentPathExists = Search(fromCell, toCell, unit);
 		List<int> path = GetPath();
 
-        if (path.Count - 1 > unit.fleet.actionPoints)
+        if (path.Count - 1 > unit.fleet.ActionPoints)
 		{
 
             currentPathExists = false;
