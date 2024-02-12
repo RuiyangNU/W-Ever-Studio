@@ -86,9 +86,14 @@ public class PlanetInfoText : PopupUIElement
 
         if (planet.UnderAttack)
         {
-            text += "Capturing! " + planet.captureTimer + " Turns Remaining - Shipyard port sabotaged.";
+            text += "Capturing! " + planet.captureTimer + " Turns Remaining";
+
+            if (planet.owner != Planet.PlanetOwner.NONE)
+            {
+                text += "- Shipyard port sabotaged.";
+            }
         }
-        else if (planet.Occupied)
+        else if (planet.Occupied && planet.owner != Planet.PlanetOwner.NONE)
         {
             text += "Occupied - Shipyard port disabled.";
         }
