@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct EnemyAiTask
+{
+    public int id;
+}
 public class EnemyManager : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -12,6 +16,11 @@ public class EnemyManager : MonoBehaviour
     public List<Planet> enemyControlledPlanets = new List<Planet>();
 
     public List<Fleet> enemyControlledFleets = new List<Fleet>();
+
+    //public enum AiTask
+    //{
+    //    IDLE,
+    //}
 
 
 

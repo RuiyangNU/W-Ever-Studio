@@ -123,7 +123,7 @@ public class HexUnit : MonoBehaviour
 		pathToTravel = path;
 		int length = path.Count-1;
 
-		Debug.Log(path);
+		//Debug.Log(path);
 		StopAllCoroutines();
 		StartCoroutine(TravelPath());
 		fleet.actionPoints -= length;
