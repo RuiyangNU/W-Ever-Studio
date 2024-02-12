@@ -60,6 +60,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CapturePlanet(Fleet fleet, Planet p)
+    {
+
+    }
+
     public void CreatePlanet(HexCell cell, Planet.PlanetOwner owner)
     {
         //HexCell cell = GetCellUnderCursor();
@@ -96,6 +101,18 @@ public class GameManager : MonoBehaviour
                 fleet, cell, Random.Range(0f, 360f)
             );
 
+        }
+    }
+
+
+    public void AddPlanetToCell(HexCell cell, Planet planet)
+    {
+        if (cell && !cell.planet)
+        {
+            hexGrid.AddPlanet(planet, cell);
+
+            planet.transform.localPosition = cell.Position;
+            planet.SetLocation(cell.Index);
         }
     }
 

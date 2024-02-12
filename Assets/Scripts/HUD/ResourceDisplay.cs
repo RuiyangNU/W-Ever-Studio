@@ -18,6 +18,6 @@ public class ResourceDisplay : MonoBehaviour
     {
         float meth = playerManager.PlayerMethane;
         float steel = playerManager.PlayerSteel;
-        resourceText.text = "Methane:" + meth.ToString() + "\n Steel:"+ steel.ToString();
+        resourceText.text = "Methane:" + Mathf.Floor(meth).ToString() + "\n Steel:"+ Mathf.Floor(steel).ToString();
     }
 }

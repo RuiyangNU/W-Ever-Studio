@@ -29,47 +29,57 @@ public class PlanetInfoText : PopupUIElement
     {
         Planet planet = planetInfoUI.linkedPlanet;
 
-        string text = "Refineries: " + planet.numRefineries + ", Limit: " + planet.maxRefineries + "\n";
-        text += "Shipyards: " + planet.numShipyards + ", Limit: " + planet.maxShipyards + "\n";
+        string text = "";
 
-        if (planet.owner == Planet.PlanetOwner.NONE)
+        if (planet.owner == Planet.PlanetOwner.ENEMY)
         {
-            text += "\n";
+            text = "Enemy Controlled - No Information";
+        }
 
-            text += "Methane: ";
-            if (planet.baseMethanePerTick <= 0)
-            {
-                text += "None\n";
-            }
-            else if (planet.baseMethanePerTick <= 2)
-            {
-                text += "Low\n";
-            }
-            else if (planet.baseMethanePerTick <= 5)
-            {
-                text += "Medium\n";
-            }
-            else
-            {
-                text += "High\n";
-            }
+        else
+        {
+            text += "Refineries: " + planet.numRefineries + ", Limit: " + planet.maxRefineries + "\n";
+            text += "Shipyards: " + planet.numShipyards + ", Limit: " + planet.maxShipyards + "\n";
 
-            text += "Steel: ";
-            if (planet.baseSteelPerTick <= 0)
+            if (planet.owner == Planet.PlanetOwner.NONE)
             {
-                text += "None\n";
-            }
-            else if (planet.baseSteelPerTick <= 2)
-            {
-                text += "Low\n";
-            }
-            else if (planet.baseSteelPerTick <= 5)
-            {
-                text += "Medium\n";
-            }
-            else
-            {
-                text += "High\n";
+                text += "\n";
+
+                text += "Methane: ";
+                if (planet.baseMethanePerTick <= 0)
+                {
+                    text += "None\n";
+                }
+                else if (planet.baseMethanePerTick <= 2)
+                {
+                    text += "Low\n";
+                }
+                else if (planet.baseMethanePerTick <= 5)
+                {
+                    text += "Medium\n";
+                }
+                else
+                {
+                    text += "High\n";
+                }
+
+                text += "Steel: ";
+                if (planet.baseSteelPerTick <= 0)
+                {
+                    text += "None\n";
+                }
+                else if (planet.baseSteelPerTick <= 2)
+                {
+                    text += "Low\n";
+                }
+                else if (planet.baseSteelPerTick <= 5)
+                {
+                    text += "Medium\n";
+                }
+                else
+                {
+                    text += "High\n";
+                }
             }
         }
 
