@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using System.Linq;
 /// <summary>
 /// Component that manages the game UI.
 /// </summary>
@@ -14,12 +14,18 @@ public class HexGameUI : MonoBehaviour
 	int prevCellIndex = -1;
 	HexUnit selectedUnit;
 	Fleet selectedFleet;
+	public GameManager gameManager;
 
-	/// <summary>
-	/// Set whether map edit mode is active.
-	/// </summary>
-	/// <param name="toggle">Whether edit mode is enabled.</param>
-	public void SetEditMode(bool toggle)
+    public void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
+    /// <summary>
+    /// Set whether map edit mode is active.
+    /// </summary>
+    /// <param name="toggle">Whether edit mode is enabled.</param>
+    public void SetEditMode(bool toggle)
 	{
 		enabled = !toggle;
 		grid.ShowUI(!toggle);
@@ -75,7 +81,7 @@ public class HexGameUI : MonoBehaviour
 
 			selectedFleet = grid.GetCell(currentCellIndex).fleet;
 
-			if (selectedFleet != null)
+			if (selectedFleet != null && selectedFleet.owner == Fleet.FleetOwner.PLAYER)
 			{
                 selectedUnit = selectedFleet.hexUnit;
 				selectedFleet.OpenUI();
@@ -109,7 +115,12 @@ public class HexGameUI : MonoBehaviour
 					selectedUnit.Location,
 					grid.GetCell(currentCellIndex),
 					selectedUnit);
-			}
+			}else if(currentCellIndex >= 0 &&
+                selectedUnit.IsValidCombat(grid.GetCell(currentCellIndex))) {
+
+                grid.ClearPath();
+
+            }
 			else
 			{
 				grid.ClearPath();
@@ -121,9 +132,38 @@ public class HexGameUI : MonoBehaviour
 	{
 		if (grid.HasPath)
 		{
-			selectedUnit.Travel(grid.GetPath());
+
+            selectedUnit.Travel(grid.GetPath());
 			grid.ClearPath();
-		}
+		}else if (selectedUnit.IsValidCombat(grid.GetCell(currentCellIndex)))
+		{
+			//Debug.Log("Yes or No");De
+            HexCell destination = grid.GetCell(currentCellIndex);
+            if (destination.fleet != null)
+            {
+
+                gameManager.StartCombat(selectedFleet, destination.fleet);
+
+                if (destination.fleet == null && selectedFleet != null)
+                {
+                    grid.FindPath(
+                        selectedUnit.Location,
+                        grid.GetCell(currentCellIndex),
+                        selectedUnit);
+
+                    selectedUnit.Travel(grid.GetPath());
+					selectedFleet.actionPoints = 0;
+                    grid.ClearPath();
+                    return;
+
+				}
+				else if (selectedFleet == null)
+                {
+                    
+                }
+                
+            }
+        }
 	}
 
 	bool UpdateCurrentCell()
