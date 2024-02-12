@@ -129,7 +129,29 @@ public class HexUnit : MonoBehaviour
 		fleet.RemoveActionPoints(length);
 	}
 
-	IEnumerator TravelPath()
+	/// <summary>
+	/// Limited Travel
+	/// </summary>
+	/// <param name="path"></param>
+    public void TravelByStep(List<int> path, int step)
+    {
+        HexCell location = Grid.GetCell(locationCellIndex);
+        //location.Unit = null;
+        location.fleet = null;
+        location = Grid.GetCell(path[^1]);
+        locationCellIndex = location.Index;
+        //location.Unit = this;
+        location.fleet = this.fleet;
+		pathToTravel = path.GetRange(0, step + 1);
+        int length = path.Count - 1;
+
+        //Debug.Log(path);
+        StopAllCoroutines();
+        StartCoroutine(TravelPath());
+        fleet.ActionPoints -= length;
+    }
+
+    IEnumerator TravelPath()
 	{
 		Vector3 a, b, c = Grid.GetCell(pathToTravel[0]).Position;
 		yield return LookAt(Grid.GetCell(pathToTravel[1]).Position);

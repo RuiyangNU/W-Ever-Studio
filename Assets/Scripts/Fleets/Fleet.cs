@@ -58,6 +58,8 @@ public class Fleet : MonoBehaviour, IClickableUI
     // reference to the HexUnit class
     public HexUnit hexUnit;
 
+    public EnemyAiTask enemyTask = null;
+
     private PlayerManager playerManager;
     private FleetInfoUI fleetInfoUI;
 
