@@ -5,17 +5,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlanetInfoRefineryButton : PopupUIElement
+public class BuildRefineryButton : PopupUIElement
 {
-    public bool showOnOpen = true;
+    private PlanetInfoUI planetInfoUI;
 
     private Image _image;
     private Button _button;
 
     private TextMeshProUGUI buttonText;
 
+    private bool showOnOpen = true;
+
     void Awake()
     {
+        planetInfoUI = FindObjectOfType<PlanetInfoUI>();
         _image = GetComponent<Image>();
         _button = GetComponent<Button>();
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
@@ -29,6 +32,9 @@ public class PlanetInfoRefineryButton : PopupUIElement
     }
     override public void OnUIOpen()
     {
+        Planet planet = planetInfoUI.linkedPlanet;
+        showOnOpen = planet.owner == Planet.PlanetOwner.PLAYER && planet.numRefineries < planet.maxRefineries;
+
         if (showOnOpen)
         {
             _image.enabled = true;

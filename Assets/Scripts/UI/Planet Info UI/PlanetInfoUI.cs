@@ -3,15 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static Fleet;
 
 public class PlanetInfoUI : PopupUI
 {
-    private PlanetInfoCloseButton closeButton;
-    private PlanetInfoRefineryButton refineryButton;
-    private PlanetInfoShipyardButton shipyardButton;
-    private PlanetInfoText infoText;
-
-    private Planet linkedPlanet = null;
+    public Planet linkedPlanet = null;
 
     public bool isUIOpen = false;
 
@@ -19,12 +15,6 @@ public class PlanetInfoUI : PopupUI
     override protected void Start()
     {
         base.Start();
-
-        closeButton = FindObjectOfType<PlanetInfoCloseButton>();
-        refineryButton = FindObjectOfType<PlanetInfoRefineryButton>();
-        shipyardButton = FindObjectOfType<PlanetInfoShipyardButton>();
-        infoText = FindObjectOfType<PlanetInfoText>();
-
         CloseUI();
     }
 
@@ -36,21 +26,7 @@ public class PlanetInfoUI : PopupUI
         if (obj == null) { throw new NullReferenceException("Link was called but a null object was given."); }
 
         linkedPlanet = obj;
-    }
-
-
-    private void UpdateProperties()
-    {
-        // refinery button
-        refineryButton.showOnOpen = linkedPlanet.numRefineries < linkedPlanet.maxRefineries;
-        
-        // shipyard button
-        shipyardButton.showOnOpen = linkedPlanet.numShipyards < linkedPlanet.maxShipyards;
-
-        // info text
-        string text = "Refineries: " + linkedPlanet.numRefineries + ", Limit: " + linkedPlanet.maxRefineries + "\n";
-        text += "Shipyards: " + linkedPlanet.numShipyards + ", Limit: " + linkedPlanet.maxShipyards + "\n";
-        infoText.SetText(text);
+        UpdateUI();
     }
 
     public void BuildRefinery()
@@ -75,6 +51,17 @@ public class PlanetInfoUI : PopupUI
         linkedPlanet.BuildShipyard();
     }
 
+    public void BuildDestroyer()
+    {
+        if (linkedPlanet == null)
+        {
+            Debug.LogError("BuildDestroyer was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
+            return;
+        }
+
+        linkedPlanet.BuildShip(ShipID.DESTROYER);
+    }
+
     override public void OpenUI()
     {
         if (linkedPlanet == null)
@@ -83,15 +70,12 @@ public class PlanetInfoUI : PopupUI
             return;
         }
 
-        UpdateProperties();
-
         _image.enabled = true;
 
         foreach (PopupUIElement child in children)
         {
             child.OnUIOpen();
         }
-
 
         isUIOpen = true;
     }
@@ -134,7 +118,10 @@ public class PlanetInfoUI : PopupUI
             return;
         }
 
-        CloseUIWithoutUnlink();
-        OpenUI();
+        if (isUIOpen)
+        {
+            CloseUIWithoutUnlink();
+            OpenUI();
+        }
     }
 }

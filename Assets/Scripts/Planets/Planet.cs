@@ -4,15 +4,13 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using static PlayerManager;
 using static PlanetSettings;
+using static Fleet;
 
 public class Planet : MonoBehaviour, IClickableUI
 {
-    public HexGrid hexGrid;
-    public int locationCellIndex = -1;
-
-
-
+    [SerializeField]
     public static Planet planetPrefab;
+
     public enum PlanetOwner
     {
         NONE,
@@ -20,6 +18,25 @@ public class Planet : MonoBehaviour, IClickableUI
         ENEMY
     }
 
+    /*
+     * Control
+     */
+    private Renderer rend;
+
+    private GameManager gameManager;
+    private PlayerManager playerManager;
+    private EnemyManager enemyManager;
+    private PlanetInfoUI planetInfoUI;
+    private HexGrid hexGrid;
+
+    public PlanetOwner prevOwner = PlanetOwner.NONE;
+    public PlanetOwner owner = DEFAULT_OWNER;
+
+    public int locationCellIndex = -1;
+
+    /*
+     * Stats
+     */
     public float baseSteelPerTick = DEFAULT_STEEL_PER_TICK;
     public float baseMethanePerTick = DEFAULT_METHANE_PER_TICK;
 
@@ -29,28 +46,28 @@ public class Planet : MonoBehaviour, IClickableUI
     public int numRefineries = DEFAULT_STARTING_REFINERIES;
     public int numShipyards = DEFAULT_STARTING_SHIPYARDS;
 
-    public PlanetOwner prevOwner = PlanetOwner.NONE;
-    public PlanetOwner owner = DEFAULT_OWNER;
-
-    private PlayerManager playerManager;
-    private EnemyManager enemyManager;
-    private PlanetInfoUI planetInfoUI;
+    /*
+     * Shipyard
+     */
+    public ShipID shipyardFleet = ShipID.NONE;
+    public int shipyardTurnsLeft = -1;
 
     public PopupUI targetUI => planetInfoUI;
 
     public bool IsUIOpen => planetInfoUI.isUIOpen;
 
-    public HexCell getCurrentCell => hexGrid.GetCell(locationCellIndex);
+    public HexCell CurrentCell => hexGrid.GetCell(locationCellIndex);
 
-    private Renderer rend;
 
     void Awake()
     {
+        gameManager = FindObjectOfType<GameManager>(); 
         playerManager = FindObjectOfType<PlayerManager>();
         enemyManager = FindObjectOfType<EnemyManager>();
         planetInfoUI = FindObjectOfType<PlanetInfoUI>();
+        hexGrid = FindObjectOfType<HexGrid>();
+
         rend = GetComponent<Renderer>();
-        
     }
 
     void Update()
@@ -109,6 +126,12 @@ public class Planet : MonoBehaviour, IClickableUI
     /// </summary>
     public void BuildRefinery()
     {
+        if (owner != PlanetOwner.PLAYER)
+        {
+            Debug.LogWarning("Tried to build a refinery, but the planet was not owned by the player.");
+            return;
+        }
+
         if (numRefineries >= maxRefineries)
         {
             Debug.LogWarning("Tried to build a refinery, but the planet already has the maximum number of refineries.");
@@ -135,6 +158,12 @@ public class Planet : MonoBehaviour, IClickableUI
     /// </summary>
     public void BuildShipyard()
     {
+        if (owner != PlanetOwner.PLAYER)
+        {
+            Debug.LogWarning("Tried to build a shipyard, but the planet was not owned by the player.");
+            return;
+        }
+
         if (numShipyards >= maxShipyards)
         {
             Debug.LogWarning("Tried to build a shipyard, but the planet already has the maximum number of shipyards.");
@@ -154,6 +183,56 @@ public class Planet : MonoBehaviour, IClickableUI
         return;
     }
 
+    public void BuildShip(ShipID shipID)
+    {
+        if (owner != PlanetOwner.PLAYER)
+        {
+            Debug.LogWarning("Tried to build a ship, but the planet was not owned by the player.");
+            return;
+        }
+
+        if (numShipyards == 0)
+        {
+            Debug.LogWarning("Tried to build a ship, but the planet has no shipyards.");
+            return;
+        }
+
+        if (shipyardFleet != ShipID.NONE)
+        {
+            return;
+        }
+
+        Dictionary<PlayerResource, float> cost = FleetSettings.GetShipCost(shipID);
+        if (playerManager.QueryResources(cost))
+        {
+            // Enough resources, build ship
+            playerManager.RemoveFromResourcePool(cost);
+            shipyardFleet = shipID;
+            shipyardTurnsLeft = FleetSettings.TurnsToBuild(shipID);
+
+            planetInfoUI.UpdateUI();
+        }
+    }
+
+    public void SpawnPlayerShip(ShipID shipID)
+    {
+        if (owner != PlanetOwner.PLAYER)
+        {
+            Debug.LogWarning("Spawning a player controlled ship at a non-player controlled planet.");
+        }
+
+        switch (shipID)
+        {
+            case ShipID.NONE:
+                Debug.LogError("Tried to spawn a player controlled ship, but the ship type was NONE.");
+                return;
+
+            case ShipID.DESTROYER:
+                gameManager.CreateFleet(CurrentCell, FleetOwner.PLAYER);
+                break;
+        }
+    }
+
     public void OnClick()
     {
         OpenUI();
@@ -166,7 +245,33 @@ public class Planet : MonoBehaviour, IClickableUI
 
     public void UpdateTick()
     {
-        return;
+        if (shipyardTurnsLeft > 0)
+        {
+            if (shipyardFleet == ShipID.NONE)
+            {
+                Debug.LogError("Shipyard timer was counting down, but the ship type is NONE.");
+            }
+            shipyardTurnsLeft--;
+        }
+        else if (shipyardTurnsLeft == 0)
+        {
+            if (shipyardFleet == ShipID.NONE)
+            {
+                Debug.LogError("Shipyard tried to spawn a ship, but the ship type is NONE.");
+            }
+            else
+            {
+                SpawnPlayerShip(shipyardFleet);
+            }
+
+            shipyardTurnsLeft = -1;
+            shipyardFleet = ShipID.NONE;
+        }
+
+        if (planetInfoUI.linkedPlanet == this)
+        {
+            planetInfoUI.UpdateUI();
+        }
     }
 
     public Dictionary<PlayerResource, float> GetTickResources()
@@ -180,11 +285,6 @@ public class Planet : MonoBehaviour, IClickableUI
 
     public void OpenUI()
     {
-        if (planetInfoUI.isUIOpen)
-        {
-            return;
-        }
-
         planetInfoUI.Link(this);
         planetInfoUI.OpenUI();
     }
