@@ -4,17 +4,21 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlanetInfoShipyardButton : PopupUIElement
+public class OpenShipyardButton : PopupUIElement
 {
-    public bool showOnOpen = true;
+    private PlanetInfoUI planetInfoUI;
 
     private Image _image;
     private Button _button;
 
     private TextMeshProUGUI buttonText;
 
-    void Awake()
+    private bool showOnOpen = false;
+
+    // Start is called before the first frame update
+    void Start()
     {
+        planetInfoUI = FindObjectOfType<PlanetInfoUI>();
         _image = GetComponent<Image>();
         _button = GetComponent<Button>();
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
@@ -28,6 +32,9 @@ public class PlanetInfoShipyardButton : PopupUIElement
     }
     override public void OnUIOpen()
     {
+        Planet planet = planetInfoUI.linkedPlanet;
+        showOnOpen = planet.owner == Planet.PlanetOwner.PLAYER && planet.numShipyards > 0;
+
         if (showOnOpen)
         {
             _image.enabled = true;

@@ -183,9 +183,7 @@ public class HexMapEditor : MonoBehaviour
 
             planet.transform.localPosition = cell.Position;
 			planet.SetProperties(Planet.PlanetOwner.PLAYER);
-            //         hexGrid.AddUnit(
-            //             unit, cell, Random.Range(0f, 360f)
-            //);
+			planet.SetLocation(cell.Index);
 
         }
     }

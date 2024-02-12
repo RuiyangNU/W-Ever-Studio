@@ -4,26 +4,37 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private PlayerManager pm;
-    private EnemyManager em;
-    public int turnNumber = 0;
-    private HexGrid hg;
-    public HexGrid hexGrid;
-    public GameState gameState;
+
     public enum GameState
     {
+        INPROGRESS,
         WIN,
-        LOSS,
-        INPROGRESS
+        LOSE,
+    }
 
+    private PlayerManager playerManager;
+    private EnemyManager enemyManager;
+    private HexGrid hexGrid;
+
+    public int turnNumber = 0;
+    public GameState gameState;
+
+    private void Awake()
+    {
+        playerManager = FindObjectOfType<PlayerManager>();
+        enemyManager = FindObjectOfType<EnemyManager>();
+        hexGrid = FindObjectOfType<HexGrid>();
+    }
+
+    private void Update()
+    {
+        CheckWin();
     }
 
     public void UpdateTick(){
         turnNumber ++;
-        pm.UpdateTick();
-        hg.UpdateTick();
-        
+        playerManager.UpdateTick();
+        hexGrid.UpdateTick();
     }
 
     public void StartCombat(Fleet attacker, Fleet defender)
@@ -94,33 +105,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Awake() {
-        pm = FindObjectOfType<PlayerManager>();
-        em = FindObjectOfType<EnemyManager>();
-        hg = FindObjectOfType<HexGrid>();
-        
-    }
-    private void Update()
-    {
-        CheckWin();
-    }
-
     void CheckWin()
     {
-        if (em.enemyControlledPlanets.Count == pm.playerControlledPlanets.Count ||
-            em.enemyControlledPlanets.Count * pm.playerControlledPlanets.Count > 0)
+        if (enemyManager.enemyControlledPlanets.Count == playerManager.playerControlledPlanets.Count ||
+            enemyManager.enemyControlledPlanets.Count * playerManager.playerControlledPlanets.Count > 0)
         {
 
             gameState = GameState.INPROGRESS;
         }
         
-        else if(em.enemyControlledPlanets.Count == 0)
+        else if(enemyManager.enemyControlledPlanets.Count == 0)
         {
             gameState = GameState.WIN;
         }
-        else if (pm.playerControlledPlanets.Count == 0)
+        else if (playerManager.playerControlledPlanets.Count == 0)
         {
-            gameState = GameState.LOSS;
+            gameState = GameState.LOSE;
         }
         
     }

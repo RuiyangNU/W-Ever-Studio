@@ -36,28 +36,13 @@ public class FleetInfoUI : PopupUI
         linkedFleet = obj;
     }
 
-
     private void UpdateProperties()
     {
-        // fleet button
-        fleetButton.showOnOpen = linkedFleet.numFleets < linkedFleet.maxFleets;
-
         // info text
         string text = "Fleets: " + linkedFleet.numFleets + "\n" + "Health: " + linkedFleet.health + "\n" +
         "Damage: " + linkedFleet.damage + "\n" + "Speed: " + linkedFleet.speed + "\n" + "Action Points: "
         + linkedFleet.actionPoints;
         infoText.SetText(text);
-    }
-
-    public void BuildFleet()
-    {
-        if (linkedFleet == null)
-        {
-            Debug.LogError("BuildRefinery was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
-            return;
-        }
-
-        linkedFleet.BuildFleet();
     }
 
     override public void OpenUI()

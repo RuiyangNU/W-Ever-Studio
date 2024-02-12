@@ -10,9 +10,32 @@ public static class FleetSettings
 
     public static readonly float DEFAULT_METHANE_PER_TICK = 1.0f;
 
-    public static readonly Dictionary<PlayerResource, float> fleetCost = new Dictionary<PlayerResource, float>
+    public static readonly Dictionary<PlayerResource, float> destroyerCost = new Dictionary<PlayerResource, float>
     {
         { PlayerResource.METHANE, 5.0f },
         { PlayerResource.STEEL, 20.0f },
     };
+
+    public static int TurnsToBuild(ShipID shipID)
+    {
+        switch (shipID)
+        {
+            case ShipID.DESTROYER:
+                return 3;
+
+            default:
+                return -1;
+        }
+    }
+    public static Dictionary<PlayerResource, float> GetShipCost(ShipID shipID)
+    {
+        switch (shipID)
+        {
+            case ShipID.DESTROYER:
+                return destroyerCost;
+
+            default:
+                return null;
+        }
+    }
 }
