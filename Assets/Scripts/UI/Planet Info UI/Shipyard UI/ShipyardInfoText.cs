@@ -36,8 +36,19 @@ public class ShipyardInfoText : PopupUIElement
         }
         else
         {
-            text = "Turns left: ";
-            text += (planet.shipyardTurnsLeft + 1).ToString();
+            if (planet.UnderAttack)
+            {
+                text += "Sabotaged";
+            }
+            else if (planet.Occupied)
+            {
+                text += "Overcrowded";
+            }
+            else
+            {
+                text = "Turns left: ";
+                text += (planet.shipyardTurnsLeft + 1).ToString();
+            }
         }
 
         SetText(text);

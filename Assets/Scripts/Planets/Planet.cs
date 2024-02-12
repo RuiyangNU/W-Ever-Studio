@@ -5,6 +5,7 @@ using UnityEngine;
 using static PlayerManager;
 using static PlanetSettings;
 using static Fleet;
+using System.Text.RegularExpressions;
 
 public class Planet : MonoBehaviour, IClickableUI
 {
@@ -32,6 +33,8 @@ public class Planet : MonoBehaviour, IClickableUI
     public PlanetOwner prevOwner = PlanetOwner.NONE;
     public PlanetOwner owner = DEFAULT_OWNER;
 
+    public int captureTimer = DEFAULT_CAPTURE_TIMER;
+
     public int locationCellIndex = -1;
 
     /*
@@ -52,13 +55,22 @@ public class Planet : MonoBehaviour, IClickableUI
     public ShipID shipyardFleet = ShipID.NONE;
     public int shipyardTurnsLeft = -1;
 
+    /*
+     * Properties
+     */
     public PopupUI targetUI => planetInfoUI;
 
     public bool IsUIOpen => planetInfoUI.isUIOpen;
 
     public HexCell CurrentCell => hexGrid.GetCell(locationCellIndex);
 
+    public bool Occupied => CurrentCell.fleet;
 
+    public bool UnderAttack => CurrentCell.fleet && convert(CurrentCell.fleet.owner) != owner;
+
+    /*
+     * Initializers and Updaters
+     */
     void Awake()
     {
         gameManager = FindObjectOfType<GameManager>(); 
@@ -115,6 +127,72 @@ public class Planet : MonoBehaviour, IClickableUI
         prevOwner = owner;
     }
 
+    public void UpdateTick()
+    {
+        // Capturing
+        Fleet occupyingFleet = CurrentCell.fleet;
+        if (occupyingFleet && convert(occupyingFleet.owner) != owner)
+        {
+            captureTimer--;
+
+            if (captureTimer == 0)
+            {
+                Capture(convert(occupyingFleet.owner));
+            }
+        }
+        else
+        {
+            captureTimer = DEFAULT_CAPTURE_TIMER;
+        }
+
+        // Shipyards
+        if (shipyardTurnsLeft > 0)
+        {
+            if (shipyardFleet == ShipID.NONE)
+            {
+                Debug.LogError("Shipyard timer was counting down, but the ship type is NONE.");
+            }
+            shipyardTurnsLeft--;
+        }
+        else if (shipyardTurnsLeft == 0)
+        {
+            if (shipyardFleet == ShipID.NONE)
+            {
+                Debug.LogError("Shipyard tried to spawn a ship, but the ship type is NONE.");
+            }
+            else
+            {
+                if (!Occupied)
+                {
+                    SpawnPlayerShip(shipyardFleet);
+
+                    shipyardTurnsLeft = -1;
+                    shipyardFleet = ShipID.NONE;
+                }
+            }
+        }
+
+        UpdateUIIfLinked();
+    }
+
+    /// <summary>
+    /// TODO: Refactor and remove this function!!
+    /// </summary>
+    private PlanetOwner convert(FleetOwner o)
+    {
+        switch (o)
+        {
+            case FleetOwner.ENEMY:
+                return PlanetOwner.ENEMY;
+
+            case FleetOwner.PLAYER:
+                return PlanetOwner.PLAYER;
+
+            default:
+                return PlanetOwner.NONE;
+        }
+    }
+
     public void SetProperties(PlanetOwner o = PlanetOwner.NONE, float baseSteelPerTick = 1.0f, float baseMethanePerTick = 1.0f, int maxRefineries = 1, int maxShipyards = 1)
     {
         this.owner = o;
@@ -128,6 +206,10 @@ public class Planet : MonoBehaviour, IClickableUI
     {
         this.locationCellIndex = cellLocationIndex;
     }
+
+    /*
+     * Buildings
+     */
 
     /// <summary>
     /// Builds a refinery at this planet, if there are more spaces for refineries and if the player
@@ -155,7 +237,7 @@ public class Planet : MonoBehaviour, IClickableUI
             playerManager.RemoveFromResourcePool(cost);
             numRefineries++;
 
-            planetInfoUI.UpdateUI();
+            UpdateUIIfLinked();
         }
 
         return;
@@ -187,12 +269,11 @@ public class Planet : MonoBehaviour, IClickableUI
             playerManager.RemoveFromResourcePool(cost);
             numShipyards++;
 
-            planetInfoUI.UpdateUI();
+            UpdateUIIfLinked();
         }
 
         return;
     }
-
     public void BuildShip(ShipID shipID)
     {
         if (owner != PlanetOwner.PLAYER)
@@ -220,7 +301,7 @@ public class Planet : MonoBehaviour, IClickableUI
             shipyardFleet = shipID;
             shipyardTurnsLeft = FleetSettings.TurnsToBuild(shipID);
 
-            planetInfoUI.UpdateUI();
+            UpdateUIIfLinked();
         }
     }
 
@@ -243,6 +324,40 @@ public class Planet : MonoBehaviour, IClickableUI
         }
     }
 
+    /*
+     * Resources
+     */
+    public Dictionary<PlayerResource, float> GetTickResources()
+    {
+        Dictionary<PlayerResource, float> generatedResources = new Dictionary<PlayerResource, float>();
+        generatedResources.Add(PlayerResource.METHANE, baseMethanePerTick * (1 + numRefineries));
+        generatedResources.Add(PlayerResource.STEEL, baseSteelPerTick * (1 + numRefineries));
+
+        return generatedResources;
+    }
+
+    /*
+     * Combat
+     */
+
+    public void Capture(PlanetOwner newOwner)
+    {
+        if (newOwner == this.owner) { return; }
+
+        numRefineries = 0;
+        numShipyards = 0;
+
+        shipyardFleet = ShipID.NONE;
+        shipyardTurnsLeft = -1;
+
+        this.owner = newOwner;
+
+        UpdateUIIfLinked();
+    }
+
+    /*
+     * UI
+     */
     public void OnClick()
     {
         OpenUI();
@@ -251,46 +366,6 @@ public class Planet : MonoBehaviour, IClickableUI
     public void OnMouseDown()
     {
         OpenUI();
-    }
-
-    public void UpdateTick()
-    {
-        if (shipyardTurnsLeft > 0)
-        {
-            if (shipyardFleet == ShipID.NONE)
-            {
-                Debug.LogError("Shipyard timer was counting down, but the ship type is NONE.");
-            }
-            shipyardTurnsLeft--;
-        }
-        else if (shipyardTurnsLeft == 0)
-        {
-            if (shipyardFleet == ShipID.NONE)
-            {
-                Debug.LogError("Shipyard tried to spawn a ship, but the ship type is NONE.");
-            }
-            else
-            {
-                SpawnPlayerShip(shipyardFleet);
-            }
-
-            shipyardTurnsLeft = -1;
-            shipyardFleet = ShipID.NONE;
-        }
-
-        if (planetInfoUI.linkedPlanet == this)
-        {
-            planetInfoUI.UpdateUI();
-        }
-    }
-
-    public Dictionary<PlayerResource, float> GetTickResources()
-    {
-        Dictionary<PlayerResource, float> generatedResources = new Dictionary<PlayerResource, float>();
-        generatedResources.Add(PlayerResource.METHANE, baseMethanePerTick * (1 + numRefineries));
-        generatedResources.Add(PlayerResource.STEEL, baseSteelPerTick * (1 + numRefineries));
-
-        return generatedResources;
     }
 
     public void OpenUI()
@@ -302,5 +377,13 @@ public class Planet : MonoBehaviour, IClickableUI
     public void OnUIClose()
     {
         
+    }
+
+    private void UpdateUIIfLinked()
+    {
+        if (IsUIOpen && planetInfoUI.linkedPlanet == this)
+        {
+            planetInfoUI.UpdateUI();
+        }
     }
 }

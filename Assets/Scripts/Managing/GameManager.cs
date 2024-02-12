@@ -60,11 +60,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CapturePlanet(Fleet fleet, Planet p)
-    {
-
-    }
-
     public void CreatePlanet(HexCell cell, Planet.PlanetOwner owner)
     {
         //HexCell cell = GetCellUnderCursor();
