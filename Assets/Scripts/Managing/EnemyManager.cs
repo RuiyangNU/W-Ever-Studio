@@ -60,8 +60,23 @@ public class EnemyManager : MonoBehaviour
     {
         int randomIndex = Random.Range(0, enemyControlledPlanets.Count);
         Planet spawningPlanet = enemyControlledPlanets[randomIndex];
-        gameManager.CreateFleet(spawningPlanet.CurrentCell, Fleet.FleetOwner.ENEMY);
-        AddFleet(spawningPlanet.CurrentCell.fleet);
+        if (spawningPlanet.CurrentCell.fleet == null && enemyControlledFleets.Count <= 5)
+        {
+            gameManager.CreateFleet(spawningPlanet.CurrentCell, Fleet.FleetOwner.ENEMY);
+            AddFleet(spawningPlanet.CurrentCell.fleet);
+
+            //Attack Force
+            AssignAiTast(spawningPlanet.CurrentCell.fleet, 1);
+        }
+        else if(spawningPlanet.CurrentCell.fleet == null && enemyControlledFleets.Count > 5)
+        {
+            //Go to neighbors, don't generate fleet
+            gameManager.CreateFleet(spawningPlanet.CurrentCell, Fleet.FleetOwner.ENEMY);
+            AddFleet(spawningPlanet.CurrentCell.fleet);
+
+            //Garrison
+            AssignAiTast(spawningPlanet.CurrentCell.fleet, 0);
+        }
 
     }
 
