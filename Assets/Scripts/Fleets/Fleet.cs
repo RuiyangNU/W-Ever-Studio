@@ -21,10 +21,10 @@ public class Fleet : MonoBehaviour, IClickableUI
     }
 
     // properties of an indiviual fleet
-    public float health = 50.0f;
-    public float damage = 50.0f;
-    public float speed = 50.0f;
-    public int actionPoints = 3;
+    private float health = 50.0f;
+    private float damage = 50.0f;
+    private float speed = 50.0f;
+    private int actionPoints = 3;
 
     public FleetOwner owner;
 
@@ -58,10 +58,6 @@ public class Fleet : MonoBehaviour, IClickableUI
     // reference to the HexUnit class
     public HexUnit hexUnit;
 
-    // fleet limiting per unit
-    public int numFleets = DEFAULT_STARTING_FLEETS;
-    public int maxFleets = 5;
-
     private PlayerManager playerManager;
     private FleetInfoUI fleetInfoUI;
 
@@ -79,14 +75,13 @@ public class Fleet : MonoBehaviour, IClickableUI
     }
 
     // set the intial properties of a fleet
-    public void SetProperties(FleetOwner o, float health, float damage, float speed, int maxFleets, int actionPoints)
+    public void SetProperties(FleetOwner o, float health, float damage, float speed, int actionPoints)
     {
         this.owner = o;
         this.health = health;
         this.damage = damage;
         this.speed = speed;
         this.actionPoints = actionPoints;
-        this.maxFleets = maxFleets;
     }
 
     // grid call travel(path) on HexUnit, Hexunit will determine an action type, if it is movement, retrieve coordinates and
@@ -100,6 +95,34 @@ public class Fleet : MonoBehaviour, IClickableUI
 
     // function that makes a hex unit that represents itself
 
+   
+
+    public void UpdateTick()
+    {
+        actionPoints = 3;
+        UpdateUIIfLinked();
+
+        return;
+    }
+
+    public void DestroyFleet()
+    {
+        HexCell location = hexUnit.Grid.GetCell(hexUnit.locationCellIndex);
+        location.fleet = null;
+        hexUnit.Die();
+
+        if (fleetInfoUI.linkedFleet == this)
+        {
+            fleetInfoUI.CloseUI();
+        }
+
+        Destroy(gameObject);
+    }
+
+    /*
+     * UI
+     */
+
     public void OnClick()
     {
         OpenUI();
@@ -110,44 +133,50 @@ public class Fleet : MonoBehaviour, IClickableUI
         OnClick();
     }
 
-    public void UpdateTick()
-    {
-
-        actionPoints = 3;
-        return;
-    }
-
-    public void DestroyFleet()
-    {
-        HexCell location = hexUnit.Grid.GetCell(hexUnit.locationCellIndex);
-        location.fleet = null;
-        hexUnit.Die();
-        Destroy(gameObject);
-    }
-
     public void OpenUI()
     {
-        if (fleetInfoUI.isUIOpen)
+        if (!UpdateUIIfLinked())
         {
-            return;
+            fleetInfoUI.Link(this);
+            fleetInfoUI.OpenUI();
         }
-
-        fleetInfoUI.Link(this);
-        fleetInfoUI.OpenUI();
     }
 
-    public void CloseUI() {
-        if (!fleetInfoUI.isUIOpen)
+    private bool UpdateUIIfLinked()
+    {
+        if (IsUIOpen && fleetInfoUI.linkedFleet == this)
         {
-            return;
+            fleetInfoUI.UpdateUI();
+            return true;
         }
-        fleetInfoUI.CloseUI();
 
+        return false;
     }
-
 
     public void OnUIClose()
     {
 
+    }
+
+    /*
+     * Modifiers
+     */
+
+    public void AddHealth(float h)
+    {
+        this.health += h;
+        UpdateUIIfLinked();
+    }
+
+    public void RemoveHealth(float h)
+    {
+        this.health -= h;
+        UpdateUIIfLinked();
+    }
+
+    public void RemoveActionPoints(int ap)
+    {
+        this.actionPoints = Mathf.Max(0, this.actionPoints - ap);
+        UpdateUIIfLinked();
     }
 }

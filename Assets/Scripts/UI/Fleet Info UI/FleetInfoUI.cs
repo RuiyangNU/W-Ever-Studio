@@ -6,11 +6,7 @@ using UnityEngine;
 
 public class FleetInfoUI : PopupUI
 {
-    private FleetInfoCloseButton closeButton;
-    private FleetInfoFleetButton fleetButton;
-    private FleetInfoText infoText;
-
-    private Fleet linkedFleet = null;
+    public Fleet linkedFleet = null;
 
     public bool isUIOpen = false;
 
@@ -18,10 +14,6 @@ public class FleetInfoUI : PopupUI
     override protected void Start()
     {
         base.Start();
-
-        closeButton = FindObjectOfType<FleetInfoCloseButton>();
-        fleetButton = FindObjectOfType<FleetInfoFleetButton>();
-        infoText = FindObjectOfType<FleetInfoText>();
 
         CloseUI();
     }
@@ -36,15 +28,6 @@ public class FleetInfoUI : PopupUI
         linkedFleet = obj;
     }
 
-    private void UpdateProperties()
-    {
-        // info text
-        string text = "Fleets: " + linkedFleet.numFleets + "\n" + "Health: " + linkedFleet.health + "\n" +
-        "Damage: " + linkedFleet.damage + "\n" + "Speed: " + linkedFleet.speed + "\n" + "Action Points: "
-        + linkedFleet.actionPoints;
-        infoText.SetText(text);
-    }
-
     override public void OpenUI()
     {
         if (linkedFleet == null)
@@ -52,8 +35,6 @@ public class FleetInfoUI : PopupUI
             Debug.LogError("OpenUI was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
             return;
         }
-
-        UpdateProperties();
 
         _image.enabled = true;
 

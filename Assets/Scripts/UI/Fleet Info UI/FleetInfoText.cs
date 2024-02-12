@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class FleetInfoText : PopupUIElement
 {
+    private FleetInfoUI fleetInfoUI;
+
     private TextMeshProUGUI _text;
 
     private void Awake()
     {
+        fleetInfoUI = FindObjectOfType<FleetInfoUI>();
         _text = GetComponent<TextMeshProUGUI>();
     }
 
@@ -24,6 +27,12 @@ public class FleetInfoText : PopupUIElement
 
     public override void OnUIOpen()
     {
+        Fleet fleet = fleetInfoUI.linkedFleet;
+        string text = "HP: " + fleet.Health + "\n";
+        text += "ATK: " + fleet.Damage + "\n";
+        text += "AP: " + fleet.ActionPoints;
+
+        SetText(text);
         _text.enabled = true;
     }
 }
