@@ -56,8 +56,8 @@ public class GameManager : MonoBehaviour
         if (defenderHealth <= 0.1 && attacker != null) {
 
             //Temp solution of checking if it is removing player or enemy fleet
-            em.RemoveFleet(attacker);
-            em.RemoveFleet(defender);
+            enemyManager.RemoveFleet(attacker);
+            enemyManager.RemoveFleet(defender);
             defender.DestroyFleet();
         }
         else
