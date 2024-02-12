@@ -72,15 +72,25 @@ public class Planet : MonoBehaviour, IClickableUI
 
     void Update()
     {
+        Color displayColor = new Color();
+
         if (owner == PlanetOwner.PLAYER){
-            rend.material.SetColor("_BaseColor", Color.green);
+            displayColor = Color.green * 0.5f;
         }
         if (owner == PlanetOwner.ENEMY) {
-            rend.material.SetColor("_BaseColor", Color.red);
+            displayColor = Color.red * 0.5f;
         }
         if (owner == PlanetOwner.NONE){
-            rend.material.SetColor("_BaseColor", Color.grey);
+            displayColor = Color.grey * 0.5f;
         }
+
+        if (planetInfoUI.linkedPlanet == this)
+        {
+            displayColor *= 2f;
+        }
+
+        displayColor.a = 1; // Correct alpha
+        rend.material.SetColor("_BaseColor", displayColor);
 
         //Add to player list if planet is owned by player
         if (prevOwner != PlanetOwner.PLAYER && owner == PlanetOwner.PLAYER)
