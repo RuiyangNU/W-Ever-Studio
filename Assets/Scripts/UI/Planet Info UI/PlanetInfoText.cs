@@ -33,7 +33,8 @@ public class PlanetInfoText : PopupUIElement
 
         if (planet.owner == Planet.PlanetOwner.ENEMY)
         {
-            text = "Enemy Controlled - No Information";
+            text += "Enemy Controlled - No Information\n";
+            text += "\n";
         }
 
         else
@@ -81,6 +82,15 @@ public class PlanetInfoText : PopupUIElement
                     text += "High\n";
                 }
             }
+        }
+
+        if (planet.UnderAttack)
+        {
+            text += "Capturing! " + planet.captureTimer + " Turns Remaining - Shipyard port sabotaged.";
+        }
+        else if (planet.Occupied)
+        {
+            text += "Occupied - Shipyard port disabled.";
         }
 
         SetText(text);

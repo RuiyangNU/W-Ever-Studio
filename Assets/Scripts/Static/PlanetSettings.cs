@@ -6,6 +6,9 @@ using static Planet;
 
 public static class PlanetSettings
 {
+    /*
+     * Stats
+     */
     public static readonly float DEFAULT_STEEL_PER_TICK = 1.0f;
     public static readonly float DEFAULT_METHANE_PER_TICK = 1.0f;
 
@@ -17,6 +20,12 @@ public static class PlanetSettings
 
     public static readonly PlanetOwner DEFAULT_OWNER = PlanetOwner.NONE;
 
+    public static readonly float DEFAULT_MAX_HEALTH = 150.0f;
+    public static readonly int DEFAULT_CAPTURE_TIMER = 3;
+
+    /*
+     * Buildings
+     */
     public static readonly Dictionary<PlayerResource, float> refineryCost = new Dictionary<PlayerResource, float>
     {
         { PlayerResource.METHANE, 10.0f },
