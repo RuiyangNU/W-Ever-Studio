@@ -7,6 +7,12 @@ using static FleetSettings;
 
 public class Fleet : MonoBehaviour, IClickableUI
 {
+    public enum ShipID
+    {
+        NONE,
+        DESTROYER
+    }
+
     // types of owners for a fleet
     public enum FleetOwner
     {
@@ -93,29 +99,6 @@ public class Fleet : MonoBehaviour, IClickableUI
     // function that takes the result of combat or movement and updates its parameters
 
     // function that makes a hex unit that represents itself
-
-    // make a fleet
-    public void BuildFleet()
-    {
-        if (numFleets >= maxFleets)
-        {
-            Debug.LogWarning("This cell is filled with fleets.");
-            return;
-        }
-
-        Dictionary<PlayerResource, float> cost = FleetSettings.fleetCost;
-        if (playerManager.QueryResources(cost))
-        {
-            playerManager.RemoveFromResourcePool(cost);
-
-            numFleets++;
-
-
-            fleetInfoUI.UpdateUI();
-        }
-
-        return;
-    }
 
     public void OnClick()
     {

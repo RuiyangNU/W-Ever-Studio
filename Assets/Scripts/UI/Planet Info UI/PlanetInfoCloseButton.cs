@@ -22,5 +22,4 @@ public class PlanetInfoCloseButton : PopupUIElement
         _image.enabled = true;
         _button.enabled = true;
     }
-
 }
