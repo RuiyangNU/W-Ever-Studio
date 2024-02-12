@@ -125,6 +125,8 @@ public class Planet : MonoBehaviour, IClickableUI
         }
 
         prevOwner = owner;
+
+        UpdateUIIfLinked();
     }
 
     public void UpdateTick()
