@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using static Planet;
+using static Fleet;
+using static UnityEngine.UI.GridLayoutGroup;
 
 /// <summary>
 /// Component representing a unit that occupies a cell of the hex map.
@@ -14,6 +17,7 @@ public class HexUnit : MonoBehaviour
 	public static HexUnit unitPrefab;
 
 	public Fleet fleet;
+	private FleetInfoUI fleetInfoUI;
 
 	public HexGrid Grid { get; set; }
 
@@ -25,21 +29,31 @@ public class HexUnit : MonoBehaviour
     void Awake()
     {
 		rend = GetComponentInChildren<Renderer>();
+
+		fleetInfoUI = FindObjectOfType<FleetInfoUI>();
 	}
 
     private void Update()
-    {	
-		if (fleet.owner == Fleet.FleetOwner.PLAYER)
+    {
+        Color displayColor = new Color();
+
+        if (fleet.owner == FleetOwner.PLAYER)
         {
-			rend.material.SetColor("_BaseColor", Color.green);
+            displayColor = Color.green * 0.5f;
+        }
+        if (fleet.owner == FleetOwner.ENEMY)
+        {
+            displayColor = Color.red * 0.5f;
+        }
 
-		}
-		if (fleet.owner == Fleet.FleetOwner.ENEMY)
-		{
-			rend.material.SetColor("_BaseColor", Color.red);
+        if (fleetInfoUI.linkedFleet == fleet)
+        {
+            displayColor *= 2f;
+        }
 
-		}
-	}
+        displayColor.a = 1; // Correct alpha
+        rend.material.SetColor("_BaseColor", displayColor);
+    }
 
     public HexCell Location
 	{

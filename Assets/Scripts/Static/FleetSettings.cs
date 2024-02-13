@@ -12,8 +12,8 @@ public static class FleetSettings
 
     public static readonly Dictionary<PlayerResource, float> destroyerCost = new Dictionary<PlayerResource, float>
     {
-        { PlayerResource.METHANE, 5.0f },
-        { PlayerResource.STEEL, 20.0f },
+        { PlayerResource.METHANE, 20.0f },
+        { PlayerResource.STEEL, 5.0f },
     };
 
     public static int TurnsToBuild(ShipID shipID)
