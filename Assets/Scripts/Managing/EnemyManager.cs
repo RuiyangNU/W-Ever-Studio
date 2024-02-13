@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -23,7 +24,7 @@ public class EnemyManager : MonoBehaviour
 
     public List<Fleet> enemyControlledFleets = new List<Fleet>();
 
-    public int spawnCoolDown; //Placeholder for spawning
+    public int spawnCoolDown = 0; //Placeholder for spawning
 
     //public enum AiTask
     //{
@@ -33,12 +34,27 @@ public class EnemyManager : MonoBehaviour
     public void Awake()
     {
         hexGrid = FindObjectOfType<HexGrid>();
+        gameManager = FindObjectOfType<GameManager>(); 
+        playerManager = FindObjectOfType<PlayerManager>();
     }
 
     public void UpdateTick()
     {
+        if (spawnCoolDown == 0)
+        {
+            SpawnEnemyFleet();
+            spawnCoolDown = 5;
+        }
+        else
+        {
+            spawnCoolDown--;
+        }
 
-        foreach(Fleet fleet in enemyControlledFleets) {
+        Debug.Log(enemyControlledFleets.Count);
+
+
+        foreach (Fleet fleet in enemyControlledFleets) {
+            Debug.Log(fleet.enemyTask.id);
             //Hold
             if (fleet != null && fleet.enemyTask.id == 0)
             {
@@ -47,7 +63,11 @@ public class EnemyManager : MonoBehaviour
             //Move to Enemy planet
             else if (fleet != null && fleet.enemyTask.id == 1)
             {
-                MoveAiFleetCell(fleet.enemyTask.targetPlanet.CurrentCell, fleet);
+                if(fleet.enemyTask.targetPlanet != null)
+                {
+                    MoveAiFleetCell(fleet.enemyTask.targetPlanet.CurrentCell, fleet);
+                }
+                
             }
 
         }
@@ -58,7 +78,7 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     public void SpawnEnemyFleet()
     {
-        int randomIndex = Random.Range(0, enemyControlledPlanets.Count);
+        int randomIndex = UnityEngine.Random.Range(0, enemyControlledPlanets.Count);
         Planet spawningPlanet = enemyControlledPlanets[randomIndex];
         if (spawningPlanet.CurrentCell.fleet == null && enemyControlledFleets.Count <= 5)
         {
@@ -136,7 +156,7 @@ public class EnemyManager : MonoBehaviour
                 //No reachable planet, change ai task, currently to idel
                 if (p == null)
                 {
-                    task.id = 0;
+                    //task.id = 0;
                     return;
                 }
 
@@ -156,9 +176,15 @@ public class EnemyManager : MonoBehaviour
         int distance = 10000;
         Planet planet = null;
         HexCell currentCell = hexGrid.GetCell(fleet.hexUnit.locationCellIndex);
+        Debug.Log("If there is some planet" + playerManager.playerControlledPlanets.Count);
+
         foreach (Planet p in playerManager.playerControlledPlanets)
         {
-            hexGrid.FindPath(currentCell, hexGrid.GetCell(p.locationCellIndex), fleet.hexUnit);
+            Debug.Log("Some unit" + fleet.hexUnit);
+
+            hexGrid.FindPath(currentCell, p.CurrentCell, fleet.hexUnit);
+
+            //Debug
             if (hexGrid.HasPath)
             {
                 int d = hexGrid.GetPath().Count - 1;
@@ -171,7 +197,7 @@ public class EnemyManager : MonoBehaviour
         }
 
 
-        return planet;
+        return playerManager.playerControlledPlanets[0];
     }
     
 
@@ -182,6 +208,7 @@ public class EnemyManager : MonoBehaviour
     /// <param name="fleet"></param>
     public void MoveAiFleetCell(HexCell targetCell, Fleet fleet)
     {
+        Debug.Log("Start Moving Fleet");
         hexGrid.FindPath(
                         fleet.hexUnit.Location,
                         targetCell,

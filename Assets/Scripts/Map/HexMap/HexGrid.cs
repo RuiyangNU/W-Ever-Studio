@@ -609,7 +609,7 @@ public class HexGrid : MonoBehaviour
 			}
 		}
 		cells[currentPathFromIndex].EnableHighlight(Color.blue);
-		cells[currentPathToIndex].EnableHighlight(Color.red);
+		cells[currentPathToIndex].EnableHighlight(Color.green);
 	}
 
 	/// <summary>
@@ -626,7 +626,13 @@ public class HexGrid : MonoBehaviour
 		currentPathExists = Search(fromCell, toCell, unit);
 		List<int> path = GetPath();
 
-        if (path.Count - 1 > unit.fleet.ActionPoints)
+		if (path == null)
+		{
+            currentPathExists = false;
+            ClearPath();
+        }
+
+        else if (path.Count - 1 > unit.fleet.ActionPoints)
 		{
 
             currentPathExists = false;
@@ -677,7 +683,7 @@ public class HexGrid : MonoBehaviour
 				{
 					continue;
 				}
-				if (!unit.IsValidDestination(neighbor))
+				if (!unit.IsValidSearchDestination(neighbor))
 				{
 					continue;
 				}
