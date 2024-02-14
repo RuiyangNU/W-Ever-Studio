@@ -54,7 +54,7 @@ public class EnemyManager : MonoBehaviour
 
 
         foreach (Fleet fleet in enemyControlledFleets) {
-            Debug.Log(fleet.enemyTask.id);
+            //Debug.Log(fleet.enemyTask.id);
             //Hold
             if (fleet != null && fleet.enemyTask.id == 0)
             {
@@ -63,9 +63,21 @@ public class EnemyManager : MonoBehaviour
             //Move to Enemy planet
             else if (fleet != null && fleet.enemyTask.id == 1)
             {
+            
+
                 if(fleet.enemyTask.targetPlanet != null)
                 {
-                    MoveAiFleetCell(fleet.enemyTask.targetPlanet.CurrentCell, fleet);
+
+                    //Already Occupying, abort mission
+                    if (fleet.enemyTask.targetPlanet.CurrentCell.fleet != null && fleet.enemyTask.targetPlanet.CurrentCell.fleet.owner == Fleet.FleetOwner.ENEMY)
+                    {
+                        AssignAiTask(fleet, 0);
+                    }
+                    else
+                    {
+                        MoveAiFleetCell(fleet.enemyTask.targetPlanet.CurrentCell, fleet);
+                    }
+                    
                 }
                 
             }
@@ -86,7 +98,7 @@ public class EnemyManager : MonoBehaviour
             AddFleet(spawningPlanet.CurrentCell.fleet);
 
             //Attack Force
-            AssignAiTast(spawningPlanet.CurrentCell.fleet, 1);
+            AssignAiTask(spawningPlanet.CurrentCell.fleet, 1);
         }
         else if(spawningPlanet.CurrentCell.fleet == null && enemyControlledFleets.Count > 5)
         {
@@ -95,7 +107,7 @@ public class EnemyManager : MonoBehaviour
             AddFleet(spawningPlanet.CurrentCell.fleet);
 
             //Garrison
-            AssignAiTast(spawningPlanet.CurrentCell.fleet, 0);
+            AssignAiTask(spawningPlanet.CurrentCell.fleet, 0);
         }
 
     }
@@ -131,7 +143,7 @@ public class EnemyManager : MonoBehaviour
             return;
         }
         enemyControlledFleets.Add(f);
-        AssignAiTast(f, 1);
+        AssignAiTask(f, 1);
     }
 
     public void RemoveFleet(Fleet f)
@@ -142,7 +154,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void AssignAiTast(Fleet f, int taskId)
+    public void AssignAiTask(Fleet f, int taskId)
     {
         EnemyAiTask task = new EnemyAiTask();
         task.id = taskId;
@@ -214,12 +226,9 @@ public class EnemyManager : MonoBehaviour
                         targetCell,
         fleet.hexUnit);
 
-        if (!hexGrid.HasPath)
+        if (fleet.hexUnit.IsValidCombat(targetCell))
         {
-            if(fleet.hexUnit.IsValidCombat(targetCell))
-            {
-                AiFleetDoCombat(targetCell, fleet);
-            }
+            AiFleetDoCombat(targetCell, fleet);
         }
         else
         {

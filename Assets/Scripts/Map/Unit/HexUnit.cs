@@ -295,7 +295,7 @@ public class HexUnit : MonoBehaviour
 	public int GetMoveCost(
 		HexCell fromCell, HexCell toCell, HexDirection direction)
 	{
-		if ((!IsValidSearchDestination(toCell) && fleet.owner == Fleet.FleetOwner.PLAYER) || !IsValidSearchDestinationAi(toCell))
+		if ((!IsValidSearchDestination(toCell) && fleet.owner == Fleet.FleetOwner.PLAYER) || (!IsValidSearchDestinationAi(toCell)))
 		{
 			return -1;
 		}

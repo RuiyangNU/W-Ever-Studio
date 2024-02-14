@@ -695,9 +695,9 @@ public class HexGrid : MonoBehaviour
         {
             HexCell current = searchFrontier.Dequeue();
             current.SearchPhase += 1;
-            //current.EnableHighlight(Color.red);
-            //Debug.Log(current);
-            if (current == toCell)
+            current.EnableHighlight(Color.red);
+			//Debug.Log(current);
+			if (current == toCell)
             {
                 return true;
             }
@@ -713,15 +713,28 @@ public class HexGrid : MonoBehaviour
                 {
                     continue;
                 }
-                if (!unit.IsValidSearchDestinationAi(neighbor) || ((current.Coordinates.DistanceTo(toCell.Coordinates) == 1 && (neighbor != toCell ))) )
+
+				if (neighbor == toCell)
+				{
+					int abc = 0;
+				}
+                if (!unit.IsValidSearchDestinationAi(neighbor) && ((current.Coordinates.DistanceTo(toCell.Coordinates) == 1 && (neighbor != toCell ))) )
                 {
                     continue;
                 }
                 int moveCost = unit.GetMoveCost(current, neighbor, d);
-                if (moveCost < 0)
+
+				if (neighbor == toCell)
+				{
+                    int abc = 0;
+                }
+                if (moveCost < 0 && neighbor != toCell)
                 {
                     continue;
-                }
+				}
+				else if(neighbor == toCell){
+					moveCost = 1;
+				}
 
                 int distance = current.Distance + moveCost;
                 int turn = (distance - 1) / speed;
