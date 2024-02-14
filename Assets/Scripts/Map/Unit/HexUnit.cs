@@ -5,6 +5,7 @@ using System.IO;
 using static Planet;
 using static Fleet;
 using static UnityEngine.UI.GridLayoutGroup;
+using System;
 
 /// <summary>
 /// Component representing a unit that occupies a cell of the hex map.
@@ -120,6 +121,10 @@ public class HexUnit : MonoBehaviour
 		cell.IsExplored  && !cell.fleet && (Grid.GetCell(locationCellIndex).Coordinates.DistanceTo(cell.Coordinates) <= fleet.ActionPoints);
     public bool IsValidSearchDestination(HexCell cell) =>
     cell.IsExplored && !cell.fleet;
+
+    public bool IsValidSearchDestinationAi(HexCell cell) =>
+     !cell.fleet;
+
     public bool IsValidCombat(HexCell cell) => 
 		cell.IsExplored && cell.fleet && (Grid.GetCell(locationCellIndex).Coordinates.DistanceTo(cell.Coordinates) <= fleet.ActionPoints) && cell.fleet.owner != fleet.owner;
 
@@ -154,17 +159,18 @@ public class HexUnit : MonoBehaviour
         HexCell location = Grid.GetCell(locationCellIndex);
         //location.Unit = null;
         location.fleet = null;
-        location = Grid.GetCell(path[^1]);
+        pathToTravel = path.GetRange(0, Math.Min(step+1, path.Count));
+        location = Grid.GetCell(pathToTravel[^1]);
         locationCellIndex = location.Index;
         //location.Unit = this;
         location.fleet = this.fleet;
-		pathToTravel = path.GetRange(0, step + 1);
-        int length = path.Count - 1;
+		//pathToTravel = path.GetRange(0, step + 1);
+        int length = pathToTravel.Count - 1;
 
         //Debug.Log(path);
         StopAllCoroutines();
         StartCoroutine(TravelPath());
-        fleet.ActionPoints -= length;
+        fleet.RemoveActionPoints(length);
     }
 
     IEnumerator TravelPath()
@@ -289,7 +295,7 @@ public class HexUnit : MonoBehaviour
 	public int GetMoveCost(
 		HexCell fromCell, HexCell toCell, HexDirection direction)
 	{
-		if (!IsValidDestination(toCell))
+		if ((!IsValidSearchDestination(toCell) && fleet.owner == Fleet.FleetOwner.PLAYER) || !IsValidSearchDestinationAi(toCell))
 		{
 			return -1;
 		}

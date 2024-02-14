@@ -176,13 +176,13 @@ public class EnemyManager : MonoBehaviour
         int distance = 10000;
         Planet planet = null;
         HexCell currentCell = hexGrid.GetCell(fleet.hexUnit.locationCellIndex);
-        Debug.Log("If there is some planet" + playerManager.playerControlledPlanets.Count);
+        Debug.Log("If there is some planet: " + playerManager.playerControlledPlanets.Count);
 
         foreach (Planet p in playerManager.playerControlledPlanets)
         {
-            Debug.Log("Some unit" + fleet.hexUnit);
+            Debug.Log("Some unit: " + fleet.hexUnit);
 
-            hexGrid.FindPath(currentCell, p.CurrentCell, fleet.hexUnit);
+            hexGrid.FindPathAi(currentCell, p.CurrentCell, fleet.hexUnit);
 
             //Debug
             if (hexGrid.HasPath)
@@ -209,10 +209,11 @@ public class EnemyManager : MonoBehaviour
     public void MoveAiFleetCell(HexCell targetCell, Fleet fleet)
     {
         Debug.Log("Start Moving Fleet");
-        hexGrid.FindPath(
+        hexGrid.FindPathAi(
                         fleet.hexUnit.Location,
                         targetCell,
         fleet.hexUnit);
+
         if (!hexGrid.HasPath)
         {
             if(fleet.hexUnit.IsValidCombat(targetCell))
@@ -243,7 +244,7 @@ public class EnemyManager : MonoBehaviour
 
         if (targetCell.fleet == null && fleet != null)
         {
-            hexGrid.FindPath(
+            hexGrid.FindPathAi(
                 fleet.hexUnit.Location,
                 targetCell,
                 fleet.hexUnit);

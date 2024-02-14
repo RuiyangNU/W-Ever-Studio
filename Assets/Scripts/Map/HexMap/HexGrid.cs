@@ -646,7 +646,113 @@ public class HexGrid : MonoBehaviour
 		
 	}
 
-	bool Search(HexCell fromCell, HexCell toCell, HexUnit unit)
+
+    public void FindPathAi(HexCell fromCell, HexCell toCell, HexUnit unit)
+    {
+        ClearPath();
+        currentPathFromIndex = fromCell.Index;
+        currentPathToIndex = toCell.Index;
+        currentPathExists = SearchAi(fromCell, toCell, unit);
+        List<int> path = GetPath();
+
+        if (path == null)
+        {
+            currentPathExists = false;
+            ClearPath();
+        }
+
+  //      else if (path.Count - 1 > unit.fleet.ActionPoints)
+  //      {
+
+  //          currentPathExists = false;
+  //          ClearPath();
+
+  //      }
+  //      else
+  //      {
+  //          ShowPath(unit.Speed);
+		//}
+
+    }
+
+    bool SearchAi(HexCell fromCell, HexCell toCell, HexUnit unit)
+    {
+        int speed = unit.Speed;
+        searchFrontierPhase += 2;
+        if (searchFrontier == null)
+        {
+            searchFrontier = new HexCellPriorityQueue();
+        }
+        else
+        {
+            searchFrontier.Clear();
+        }
+
+        fromCell.SearchPhase = searchFrontierPhase;
+        fromCell.Distance = 0;
+        searchFrontier.Enqueue(fromCell);
+        while (searchFrontier.Count > 0)
+        {
+            HexCell current = searchFrontier.Dequeue();
+            current.SearchPhase += 1;
+            //current.EnableHighlight(Color.red);
+            //Debug.Log(current);
+            if (current == toCell)
+            {
+                return true;
+            }
+
+            int currentTurn = (current.Distance - 1) / speed;
+
+            for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
+            {
+                if (
+                    !current.TryGetNeighbor(d, out HexCell neighbor) ||
+                    neighbor.SearchPhase > searchFrontierPhase
+                )
+                {
+                    continue;
+                }
+                if (!unit.IsValidSearchDestinationAi(neighbor) || ((current.Coordinates.DistanceTo(toCell.Coordinates) == 1 && (neighbor != toCell ))) )
+                {
+                    continue;
+                }
+                int moveCost = unit.GetMoveCost(current, neighbor, d);
+                if (moveCost < 0)
+                {
+                    continue;
+                }
+
+                int distance = current.Distance + moveCost;
+                int turn = (distance - 1) / speed;
+                if (turn > currentTurn)
+                {
+                    distance = turn * speed + moveCost;
+                }
+
+                if (neighbor.SearchPhase < searchFrontierPhase)
+                {
+                    neighbor.SearchPhase = searchFrontierPhase;
+                    neighbor.Distance = distance;
+                    neighbor.PathFromIndex = current.Index;
+                    neighbor.SearchHeuristic =
+                        neighbor.Coordinates.DistanceTo(toCell.Coordinates);
+                    searchFrontier.Enqueue(neighbor);
+                }
+                else if (distance < neighbor.Distance)
+                {
+                    int oldPriority = neighbor.SearchPriority;
+                    neighbor.Distance = distance;
+                    neighbor.PathFromIndex = current.Index;
+                    searchFrontier.Change(neighbor, oldPriority);
+                }
+            }
+        }
+        return false;
+    }
+
+
+    bool Search(HexCell fromCell, HexCell toCell, HexUnit unit)
 	{
 		int speed = unit.Speed;
 		searchFrontierPhase += 2;
@@ -666,7 +772,8 @@ public class HexGrid : MonoBehaviour
 		{
 			HexCell current = searchFrontier.Dequeue();
 			current.SearchPhase += 1;
-
+			//current.EnableHighlight(Color.red);
+			//Debug.Log(current);
 			if (current == toCell)
 			{
 				return true;
