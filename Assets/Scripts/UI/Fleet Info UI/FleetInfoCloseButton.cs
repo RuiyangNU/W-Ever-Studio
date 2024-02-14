@@ -5,7 +5,7 @@ public class FleetInfoCloseButton : PopupUIElement
     private Image _image;
     private Button _button;
 
-    void Start()
+    void Awake()
     {
         _image = GetComponent<Image>();
         _button = GetComponent<Button>();

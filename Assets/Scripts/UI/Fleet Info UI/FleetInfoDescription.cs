@@ -4,7 +4,7 @@ public class FleetDescription : PopupUIElement
 {
     private TextMeshProUGUI _text;
 
-    void Start()
+    void Awake()
     {
         _text = GetComponent<TextMeshProUGUI>();
     }
