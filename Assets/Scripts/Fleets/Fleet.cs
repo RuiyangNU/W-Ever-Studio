@@ -21,10 +21,10 @@ public class Fleet : MonoBehaviour, IClickableUI
     }
 
     // properties of an indiviual fleet
-    private float health = 50.0f;
-    private float damage = 50.0f;
-    private float speed = 50.0f;
-    private int actionPoints = 3;
+    public float health = 50.0f;
+    public float damage = 50.0f;
+    public float speed = 50.0f;
+    public int actionPoints = 3;
 
     public FleetOwner owner;
 
@@ -57,6 +57,8 @@ public class Fleet : MonoBehaviour, IClickableUI
 
     // reference to the HexUnit class
     public HexUnit hexUnit;
+
+    public EnemyAiTask enemyTask = null;
 
     private PlayerManager playerManager;
     private FleetInfoUI fleetInfoUI;

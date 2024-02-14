@@ -5,6 +5,7 @@ using System.IO;
 using static Planet;
 using static Fleet;
 using static UnityEngine.UI.GridLayoutGroup;
+using System;
 
 /// <summary>
 /// Component representing a unit that occupies a cell of the hex map.
@@ -118,8 +119,14 @@ public class HexUnit : MonoBehaviour
 	/// <returns>Whether the unit could occupy the cell.</returns>
 	public bool IsValidDestination(HexCell cell) =>
 		cell.IsExplored  && !cell.fleet && (Grid.GetCell(locationCellIndex).Coordinates.DistanceTo(cell.Coordinates) <= fleet.ActionPoints);
-	public bool IsValidCombat(HexCell cell) => 
-		cell.IsExplored && cell.fleet && (Grid.GetCell(locationCellIndex).Coordinates.DistanceTo(cell.Coordinates) <= fleet.ActionPoints);
+    public bool IsValidSearchDestination(HexCell cell) =>
+    cell.IsExplored && !cell.fleet;
+
+    public bool IsValidSearchDestinationAi(HexCell cell) =>
+     !cell.fleet;
+
+    public bool IsValidCombat(HexCell cell) => 
+		cell.IsExplored && cell.fleet && (Grid.GetCell(locationCellIndex).Coordinates.DistanceTo(cell.Coordinates) <= fleet.ActionPoints) && cell.fleet.owner != fleet.owner;
 
     /// <summary>
     /// Travel along a path.
@@ -137,13 +144,36 @@ public class HexUnit : MonoBehaviour
 		pathToTravel = path;
 		int length = path.Count-1;
 
-		Debug.Log(path);
+		//Debug.Log(path);
 		StopAllCoroutines();
 		StartCoroutine(TravelPath());
 		fleet.RemoveActionPoints(length);
 	}
 
-	IEnumerator TravelPath()
+	/// <summary>
+	/// Limited Travel
+	/// </summary>
+	/// <param name="path"></param>
+    public void TravelByStep(List<int> path, int step)
+    {
+        HexCell location = Grid.GetCell(locationCellIndex);
+        //location.Unit = null;
+        location.fleet = null;
+        pathToTravel = path.GetRange(0, Math.Min(step+1, path.Count));
+        location = Grid.GetCell(pathToTravel[^1]);
+        locationCellIndex = location.Index;
+        //location.Unit = this;
+        location.fleet = this.fleet;
+		//pathToTravel = path.GetRange(0, step + 1);
+        int length = pathToTravel.Count - 1;
+
+        //Debug.Log(path);
+        StopAllCoroutines();
+        StartCoroutine(TravelPath());
+        fleet.RemoveActionPoints(length);
+    }
+
+    IEnumerator TravelPath()
 	{
 		Vector3 a, b, c = Grid.GetCell(pathToTravel[0]).Position;
 		yield return LookAt(Grid.GetCell(pathToTravel[1]).Position);
@@ -265,7 +295,7 @@ public class HexUnit : MonoBehaviour
 	public int GetMoveCost(
 		HexCell fromCell, HexCell toCell, HexDirection direction)
 	{
-		if (!IsValidDestination(toCell))
+		if ((!IsValidSearchDestination(toCell) && fleet.owner == Fleet.FleetOwner.PLAYER) || !IsValidSearchDestinationAi(toCell))
 		{
 			return -1;
 		}
