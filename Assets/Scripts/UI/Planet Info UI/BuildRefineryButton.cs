@@ -33,7 +33,7 @@ public class BuildRefineryButton : PopupUIElement
     override public void OnUIOpen()
     {
         Planet planet = planetInfoUI.linkedPlanet;
-        showOnOpen = planet.owner == Planet.PlanetOwner.PLAYER && planet.numRefineries < planet.maxRefineries;
+        showOnOpen = planet.owner == Owner.PLAYER;
 
         if (showOnOpen)
         {

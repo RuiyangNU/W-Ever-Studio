@@ -36,8 +36,6 @@ public class PlanetInfoUI : PopupUI
             Debug.LogError("BuildRefinery was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
             return;
         }
-
-        linkedPlanet.BuildRefinery();
     }
 
     public void BuildShipyard()
@@ -47,8 +45,6 @@ public class PlanetInfoUI : PopupUI
             Debug.LogError("BuildShipyard was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
             return;
         }
-
-        linkedPlanet.BuildShipyard();
     }
 
     public void BuildDestroyer()
@@ -58,8 +54,6 @@ public class PlanetInfoUI : PopupUI
             Debug.LogError("BuildDestroyer was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
             return;
         }
-
-        linkedPlanet.BuildShip(ShipID.DESTROYER);
     }
 
     override public void OpenUI()

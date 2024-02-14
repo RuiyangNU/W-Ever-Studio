@@ -33,7 +33,7 @@ public class OpenShipyardButton : PopupUIElement
     override public void OnUIOpen()
     {
         Planet planet = planetInfoUI.linkedPlanet;
-        showOnOpen = planet.owner == Planet.PlanetOwner.PLAYER && planet.numShipyards > 0;
+        showOnOpen = planet.owner == Owner.PLAYER && planet.HasBuilding(BuildingID.SHIPYARD);
 
         if (showOnOpen)
         {

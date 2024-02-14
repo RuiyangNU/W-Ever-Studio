@@ -50,7 +50,7 @@ public class ShipyardUI : PopupUIElement
     public override void OnUIOpen()
     {
         Planet planet = planetInfoUI.linkedPlanet;
-        if (show && planet.owner == Planet.PlanetOwner.PLAYER && planet.numShipyards > 0) {
+        if (show && planet.owner == Owner.PLAYER && planet.HasBuilding(BuildingID.SHIPYARD)) {
             _image.enabled = true;
 
             foreach (PopupUIElement child in children)

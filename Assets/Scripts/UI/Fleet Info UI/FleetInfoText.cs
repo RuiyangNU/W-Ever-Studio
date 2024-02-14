@@ -28,7 +28,7 @@ public class FleetInfoText : PopupUIElement
     public override void OnUIOpen()
     {
         Fleet fleet = fleetInfoUI.linkedFleet;
-        string text = "HP: " + fleet.Health + "\n";
+        string text = "Hull: " + fleet.Hull + "\n";
         text += "ATK: " + fleet.Damage + "\n";
         text += "AP: " + fleet.ActionPoints;
 

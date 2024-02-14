@@ -92,7 +92,6 @@ public class HexGrid : MonoBehaviour
 		HexMetrics.noiseSource = noiseSource;
 		HexMetrics.InitializeHashGrid(seed);
 		HexUnit.unitPrefab = unitPrefab;
-        Fleet.fleetPrefab = fleetPrefab;
 		Planet.planetPrefab = planetPrefab;
 
 

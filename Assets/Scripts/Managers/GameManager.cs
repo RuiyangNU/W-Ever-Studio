@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
-    public enum GameState
-    {
-        INPROGRESS,
-        WIN,
-        LOSE,
-    }
-
     private PlayerManager playerManager;
     private EnemyManager enemyManager;
     private HexGrid hexGrid;
@@ -43,12 +35,12 @@ public class GameManager : MonoBehaviour
         // Record stats
         float attackerDamageBeforeCombat = attacker.Damage;
         float defenderDamageBeforeCombat = defender.Damage;
-        float attackerHealthBeforeCombat = attacker.Health;
-        float defenderHealthBeforeCombat = defender.Health;
+        float attackerHullBeforeCombat = attacker.Hull;
+        float defenderHullBeforeCombat = defender.Hull;
 
-        defender.RemoveHealth(attackerDamageBeforeCombat);
+        defender.RemoveHull(attackerDamageBeforeCombat);
 
-        if (Mathf.Abs(defender.Health) <= Mathf.Epsilon && attacker != null) {
+        if (Mathf.Abs(defender.Hull) <= Mathf.Epsilon && attacker != null) {
 
             //Temp solution of checking if it is removing player or enemy fleet
             enemyManager.RemoveFleet(attacker);
@@ -61,7 +53,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CreatePlanet(HexCell cell, Planet.PlanetOwner owner)
+    public void CreatePlanet(HexCell cell, Owner owner)
     {
         //HexCell cell = GetCellUnderCursor();
         if (cell && !cell.planet)
@@ -78,20 +70,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CreateFleet(HexCell cell, Fleet.FleetOwner owner)
+    public void CreateFleet(HexCell cell, Owner owner, ShipID shipID)
     {
-        //HexCell cell = GetCellUnderCursor();
-        if (cell && !cell.fleet)
+        if (cell && cell.fleet)
+        {
+            Debug.LogWarning("Tried to spawn a fleet at an occupied cell, aborting...");
+            return;
+        }
+
+        else if (cell && !cell.fleet)
         {
             HexUnit unit = Instantiate(HexUnit.unitPrefab);
-            Fleet fleet = Instantiate(Fleet.fleetPrefab);
-            //set default
+            Fleet fleet = Prefabs.Get(shipID);
+
+            // Link
             fleet.hexUnit = unit;
             unit.fleet = fleet;
             fleet.owner = owner;
-            //         hexGrid.AddUnit(
-            //             unit, cell, Random.Range(0f, 360f)
-            //);
 
             hexGrid.AddFleet(
                 fleet, cell, Random.Range(0f, 360f)
@@ -131,4 +126,18 @@ public class GameManager : MonoBehaviour
         }
         
     }
+}
+
+public enum GameState
+{
+    INPROGRESS,
+    WIN,
+    LOSE,
+}
+
+public enum Owner
+{
+    NONE,
+    PLAYER,
+    ENEMY
 }

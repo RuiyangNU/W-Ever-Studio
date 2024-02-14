@@ -38,11 +38,11 @@ public class HexUnit : MonoBehaviour
     {
         Color displayColor = new Color();
 
-        if (fleet.owner == FleetOwner.PLAYER)
+        if (fleet.owner == Owner.PLAYER)
         {
             displayColor = Color.green * 0.5f;
         }
-        if (fleet.owner == FleetOwner.ENEMY)
+        if (fleet.owner == Owner.ENEMY)
         {
             displayColor = Color.red * 0.5f;
         }
@@ -95,7 +95,7 @@ public class HexUnit : MonoBehaviour
 	/// <summary>
 	/// Speed of the unit, in cells per turn.
 	/// </summary>
-	public int Speed => 3;
+	public int Speed => fleet.maxActionPoints;
 
 	/// <summary>
 	/// Vision range of the unit, in cells.
@@ -295,7 +295,7 @@ public class HexUnit : MonoBehaviour
 	public int GetMoveCost(
 		HexCell fromCell, HexCell toCell, HexDirection direction)
 	{
-		if ((!IsValidSearchDestination(toCell) && fleet.owner == Fleet.FleetOwner.PLAYER) || (!IsValidSearchDestinationAi(toCell)))
+		if ((!IsValidSearchDestination(toCell) && fleet.owner == Owner.PLAYER) || (!IsValidSearchDestinationAi(toCell)))
 		{
 			return -1;
 		}

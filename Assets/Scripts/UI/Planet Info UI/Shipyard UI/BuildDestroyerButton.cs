@@ -34,7 +34,7 @@ public class BuildDestroyerButton : PopupUIElement
     public override void OnUIOpen()
     {
         Planet planet = planetInfoUI.linkedPlanet;
-        showOnOpen = planet.owner == Planet.PlanetOwner.PLAYER && planet.shipyardFleet == ShipID.NONE;
+        showOnOpen = planet.owner == Owner.PLAYER;
 
         if (showOnOpen)
         {

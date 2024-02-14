@@ -81,7 +81,7 @@ public class HexGameUI : MonoBehaviour
 
 			selectedFleet = grid.GetCell(currentCellIndex).fleet;
 
-			if (selectedFleet != null && selectedFleet.owner == Fleet.FleetOwner.PLAYER)
+			if (selectedFleet != null && selectedFleet.owner == Owner.PLAYER)
 			{
                 selectedUnit = selectedFleet.hexUnit;
 				selectedFleet.OpenUI();

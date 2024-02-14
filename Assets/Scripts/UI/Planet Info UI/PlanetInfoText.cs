@@ -31,7 +31,7 @@ public class PlanetInfoText : PopupUIElement
 
         string text = "";
 
-        if (planet.owner == Planet.PlanetOwner.ENEMY)
+        if (planet.owner == Owner.ENEMY)
         {
             text += "Enemy Controlled - No Information\n";
             text += "\n";
@@ -39,48 +39,9 @@ public class PlanetInfoText : PopupUIElement
 
         else
         {
-            text += "Refineries: " + planet.numRefineries + ", Limit: " + planet.maxRefineries + "\n";
-            text += "Shipyards: " + planet.numShipyards + ", Limit: " + planet.maxShipyards + "\n";
-
-            if (planet.owner == Planet.PlanetOwner.NONE)
+            if (planet.owner == Owner.NONE)
             {
-                text += "\n";
-
-                text += "Methane: ";
-                if (planet.baseMethanePerTick <= 0)
-                {
-                    text += "None\n";
-                }
-                else if (planet.baseMethanePerTick <= 2)
-                {
-                    text += "Low\n";
-                }
-                else if (planet.baseMethanePerTick <= 5)
-                {
-                    text += "Medium\n";
-                }
-                else
-                {
-                    text += "High\n";
-                }
-
-                text += "Steel: ";
-                if (planet.baseSteelPerTick <= 0)
-                {
-                    text += "None\n";
-                }
-                else if (planet.baseSteelPerTick <= 2)
-                {
-                    text += "Low\n";
-                }
-                else if (planet.baseSteelPerTick <= 5)
-                {
-                    text += "Medium\n";
-                }
-                else
-                {
-                    text += "High\n";
-                }
+                
             }
         }
 
@@ -88,12 +49,12 @@ public class PlanetInfoText : PopupUIElement
         {
             text += "Capturing! " + planet.captureTimer + " Turns Remaining";
 
-            if (planet.owner != Planet.PlanetOwner.NONE)
+            if (planet.owner != Owner.NONE)
             {
                 text += "- Shipyard port sabotaged.";
             }
         }
-        else if (planet.Occupied && planet.owner != Planet.PlanetOwner.NONE)
+        else if (planet.Occupied && planet.owner != Owner.NONE)
         {
             text += "Occupied - Shipyard port disabled.";
         }

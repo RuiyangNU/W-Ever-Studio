@@ -155,7 +155,7 @@ public class HexMapEditor : MonoBehaviour
 		if (cell && !cell.fleet)
 		{
 			HexUnit unit = Instantiate(HexUnit.unitPrefab);
-			Fleet fleet = Instantiate(Fleet.fleetPrefab);
+			Fleet fleet = null; //TODO: fix
             //set default
             fleet.hexUnit = unit;
 			unit.fleet = fleet;
@@ -182,7 +182,7 @@ public class HexMapEditor : MonoBehaviour
             );
 
             planet.transform.localPosition = cell.Position;
-			planet.SetProperties(Planet.PlanetOwner.PLAYER);
+			planet.SetProperties(Owner.PLAYER);
 			planet.SetLocation(cell.Index);
 
         }
@@ -209,7 +209,6 @@ public class HexMapEditor : MonoBehaviour
     void HandleInput()
 	{
 		HexCell currentCell = GetCellUnderCursor();
-		Debug.Log(currentCell.Coordinates);
 		if (currentCell)
 		{
 			if (previousCellIndex >= 0 &&

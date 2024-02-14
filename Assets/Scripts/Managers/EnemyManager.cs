@@ -69,7 +69,7 @@ public class EnemyManager : MonoBehaviour
                 {
 
                     //Already Occupying, abort mission
-                    if (fleet.enemyTask.targetPlanet.CurrentCell.fleet != null && fleet.enemyTask.targetPlanet.CurrentCell.fleet.owner == Fleet.FleetOwner.ENEMY)
+                    if (fleet.enemyTask.targetPlanet.CurrentCell.fleet != null && fleet.enemyTask.targetPlanet.CurrentCell.fleet.owner == Owner.ENEMY)
                     {
                         AssignAiTask(fleet, 0);
                     }
@@ -94,7 +94,7 @@ public class EnemyManager : MonoBehaviour
         Planet spawningPlanet = enemyControlledPlanets[randomIndex];
         if (spawningPlanet.CurrentCell.fleet == null && enemyControlledFleets.Count <= 5)
         {
-            gameManager.CreateFleet(spawningPlanet.CurrentCell, Fleet.FleetOwner.ENEMY);
+            gameManager.CreateFleet(spawningPlanet.CurrentCell, Owner.ENEMY, ShipID.MONO);
             AddFleet(spawningPlanet.CurrentCell.fleet);
 
             //Attack Force
@@ -103,9 +103,8 @@ public class EnemyManager : MonoBehaviour
         else if(spawningPlanet.CurrentCell.fleet == null && enemyControlledFleets.Count > 5)
         {
             //Go to neighbors, don't generate fleet
-            gameManager.CreateFleet(spawningPlanet.CurrentCell, Fleet.FleetOwner.ENEMY);
+            gameManager.CreateFleet(spawningPlanet.CurrentCell, Owner.ENEMY, ShipID.MONO);
             AddFleet(spawningPlanet.CurrentCell.fleet);
-
             //Garrison
             AssignAiTask(spawningPlanet.CurrentCell.fleet, 0);
         }

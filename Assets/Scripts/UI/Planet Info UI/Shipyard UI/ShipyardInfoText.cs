@@ -30,26 +30,6 @@ public class ShipyardInfoText : PopupUIElement
         Planet planet = planetInfoUI.linkedPlanet;
 
         string text = "";
-        if (planet.shipyardFleet == ShipID.NONE)
-        {
-            text = "Idle";
-        }
-        else
-        {
-            if (planet.UnderAttack)
-            {
-                text += "Sabotaged";
-            }
-            else if (planet.Occupied)
-            {
-                text += "Overcrowded";
-            }
-            else
-            {
-                text = "Turns left: ";
-                text += (planet.shipyardTurnsLeft + 1).ToString();
-            }
-        }
 
         SetText(text);
         _text.enabled = true;

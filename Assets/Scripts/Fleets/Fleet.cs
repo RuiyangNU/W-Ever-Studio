@@ -5,85 +5,51 @@ using UnityEngine;
 using static PlayerManager;
 using static FleetSettings;
 
-public class Fleet : MonoBehaviour, IClickableUI
+public abstract class Fleet : MonoBehaviour, ISelectable
 {
-    public enum ShipID
-    {
-        NONE,
-        DESTROYER
-    }
-
-    // types of owners for a fleet
-    public enum FleetOwner
-    {
-        PLAYER,
-        ENEMY
-    }
-
-    // properties of an indiviual fleet
-    public float health = 50.0f;
-    public float damage = 50.0f;
-    public float speed = 50.0f;
-    public int actionPoints = 3;
-
-    public FleetOwner owner;
-
-    public static Fleet fleetPrefab;
-
-    // getters and setters for stats
-    public float Health
-    {
-        get => health;
-        set => health = Mathf.Max(0, value);
-    }
-
-    public float Damage
-    {
-        get => damage;
-        set => damage = Mathf.Max(0, value);
-    }
-
-    public float Speed
-    {
-        get => speed;
-        set => speed = Mathf.Max(0, value);
-    }
-
-    public int ActionPoints
-    {
-        get => actionPoints;
-        set => actionPoints = value;
-    }
-
-    // reference to the HexUnit class
+    /*
+     * References
+     */
     public HexUnit hexUnit;
-
-    public EnemyAiTask enemyTask = null;
 
     private PlayerManager playerManager;
     private FleetInfoUI fleetInfoUI;
 
-    public PopupUI targetUI => fleetInfoUI;
-
     public bool IsUIOpen => fleetInfoUI.isUIOpen;
+    /*
+     * Stats
+     */
+    public float maxHull;
+    public float maxShield;
+    public int maxActionPoints;
 
-    private Renderer rend;
+    public float hull;
+    public float shield;
+    public int actionPoints;
 
+    public DamageType damageType;
+    public float damage;
+
+    public Owner owner;
+    public ShipID shipID;
+
+    public float Hull { get => hull; }
+    public float Shield { get => shield; }
+    public float Damage { get => damage; }
+    public float ActionPoints { get => ActionPoints; }
+
+    /*
+     * Control
+     */
+    public EnemyAiTask enemyTask = null;
+
+    /*
+     * Methods
+     */
     void Awake()
     {
         playerManager = FindObjectOfType<PlayerManager>();
         fleetInfoUI = FindObjectOfType<FleetInfoUI>();
-        rend = GetComponent<Renderer>();
-    }
-
-    // set the intial properties of a fleet
-    public void SetProperties(FleetOwner o, float health, float damage, float speed, int actionPoints)
-    {
-        this.owner = o;
-        this.health = health;
-        this.damage = damage;
-        this.speed = speed;
-        this.actionPoints = actionPoints;
     }
 
     // grid call travel(path) on HexUnit, Hexunit will determine an action type, if it is movement, retrieve coordinates and
@@ -91,18 +57,11 @@ public class Fleet : MonoBehaviour, IClickableUI
     public void MoveTo(Vector3 hexUnitCoord)
     {
         this.transform.position = hexUnitCoord;
-    }
-
-    // function that takes the result of combat or movement and updates its parameters
-
-    // function that makes a hex unit that represents itself
-
-   
+    }  
 
     public void UpdateTick()
     {
-        actionPoints = 3;
-        UpdateUIIfLinked();
+        RestoreActionPoints();
 
         return;
     }
@@ -124,35 +83,23 @@ public class Fleet : MonoBehaviour, IClickableUI
     /*
      * UI
      */
-
-    public void OnClick()
+    public void OnSelect()
     {
         OpenUI();
     }
 
+    public void OnDeselect() { }
+
+    // TODO: REMOVE!!
     public void OnMouseDown()
     {
-        OnClick();
+        OnSelect();
     }
 
     public void OpenUI()
     {
-        if (!UpdateUIIfLinked())
-        {
-            fleetInfoUI.Link(this);
-            fleetInfoUI.OpenUI();
-        }
-    }
-
-    private bool UpdateUIIfLinked()
-    {
-        if (IsUIOpen && fleetInfoUI.linkedFleet == this)
-        {
-            fleetInfoUI.UpdateUI();
-            return true;
-        }
-
-        return false;
+        fleetInfoUI.Link(this);
+        fleetInfoUI.OpenUI();
     }
 
     public void OnUIClose()
@@ -163,22 +110,60 @@ public class Fleet : MonoBehaviour, IClickableUI
     /*
      * Modifiers
      */
-
-    public void AddHealth(float h)
+    public void AddHull(float n)
     {
-        this.health += h;
-        UpdateUIIfLinked();
+        this.hull += n;
     }
 
-    public void RemoveHealth(float h)
+    public void RemoveHull(float n)
     {
-        this.health -= h;
-        UpdateUIIfLinked();
+        this.hull -= n;
     }
 
-    public void RemoveActionPoints(int ap)
+    public void AddShield(float n)
     {
-        this.actionPoints = Mathf.Max(0, this.actionPoints - ap);
-        UpdateUIIfLinked();
+        this.shield += n;
     }
+
+    public void RemoveShield(float n)
+    {
+        this.shield -= n;
+    }
+
+    public void AddActionPoints(int n)
+    {
+        Debug.LogWarning("Adding " + n.ToString() + " action points to " + this.name + ". Use RestoreActionPoints() instead to restore this unit's AP.");
+    }
+
+    public void RemoveActionPoints(int n)
+    {
+        this.actionPoints = Mathf.Max(0, this.actionPoints - n);
+    }
+
+    public void RestoreActionPoints()
+    {
+        this.actionPoints = maxActionPoints;
+    }
+}
+
+public enum ShipID
+{
+    // Tech 0
+    MONO,
+
+    // Tech 1
+    FLARE,
+    SPARK,
+    PULSE,
+
+    // Tech 2
+    EMBER,
+    BOLT,
+    BLAST
+}
+public enum DamageType
+{
+    KINETIC,
+    THERMAL,
+    EM
 }
