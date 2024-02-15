@@ -34,21 +34,150 @@ public class GameManager : MonoBehaviour
     {
         // Stats
         float attackerDamage = attacker.Damage;
+        DamageType attackerType = attacker.damageType;
         float defenderDamage = defender.Damage;
-        float attackerHull = attacker.Hull;
-        float defenderHull = defender.Hull;
+        DamageType defenderType = defender.damageType;
 
-        if (Mathf.Abs(defender.Hull) <= Mathf.Epsilon && attacker != null) {
+        int defenderRes = 0;
+        switch (attackerType)
+        {
+            case DamageType.THERMAL:
+                defenderRes = defender.thermalRes; break;
+            case DamageType.KINETIC:
+                defenderRes = defender.kineticRes; break;
+            case DamageType.EM:
+                defenderRes = defender.emRes; break;
+            default:
+                Debug.LogError("Unknown damage type for " + attacker.name + "."); break;
+        }
 
-            //Temp solution of checking if it is removing player or enemy fleet
-            enemyManager.RemoveFleet(attacker);
-            enemyManager.RemoveFleet(defender);
+        int attackerRes = 0;
+        switch (defenderType)
+        {
+            case DamageType.THERMAL:
+                attackerRes = attacker.thermalRes; break;
+            case DamageType.KINETIC:
+                attackerRes = attacker.kineticRes; break;
+            case DamageType.EM:
+                attackerRes = attacker.emRes; break;
+            default:
+                Debug.LogError("Unknown damage type for " + defender.name + "."); break;
+        }
+
+        /*
+         * Attacker to Defender
+         */
+        float remainingRawDamage = attackerDamage;
+
+        // Shields
+        if (defender.Shield > 0)
+        {
+            int nativeRes = attackerType switch
+            {
+                DamageType.KINETIC => 20,
+                DamageType.EM => -20,
+                _ => 0,
+            };
+
+            float remainingEffectiveDamage = RawToEffective(remainingRawDamage, defenderRes + nativeRes);
+            if (remainingEffectiveDamage > defender.Shield)
+            {
+                // Pierce shield
+                remainingRawDamage -= EffectiveToRaw(defender.Shield, defenderRes + nativeRes);
+                defender.RemoveShield(defender.Shield);
+            }
+            else
+            {
+                // Blocked by shield
+                remainingRawDamage = 0;
+                defender.RemoveShield(remainingEffectiveDamage);
+            }
+        }
+
+        // Hull
+        if (remainingRawDamage > 0)
+        {
+            int nativeRes = attackerType switch
+            {
+                DamageType.KINETIC => 20,
+                DamageType.EM => -20,
+                _ => 0,
+            };
+
+            float remainingEffectiveDamage = RawToEffective(remainingRawDamage, defenderRes + nativeRes);
+            defender.RemoveHull(remainingEffectiveDamage);
+        }
+
+        /*
+         * Defender to Attacker
+         */
+        remainingRawDamage = defenderDamage;
+
+        // Shields
+        if (attacker.Shield > 0)
+        {
+            int nativeRes = defenderType switch
+            {
+                DamageType.KINETIC => 20,
+                DamageType.EM => -20,
+                _ => 0,
+            };
+
+            float remainingEffectiveDamage = RawToEffective(remainingRawDamage, attackerRes + nativeRes);
+            if (remainingEffectiveDamage > attacker.Shield)
+            {
+                // Pierce shield
+                remainingRawDamage -= EffectiveToRaw(attacker.Shield, attackerRes + nativeRes);
+                attacker.RemoveShield(attacker.Shield);
+            }
+            else
+            {
+                // Blocked by shield
+                remainingRawDamage = 0;
+                attacker.RemoveShield(remainingEffectiveDamage);
+            }
+        }
+
+        // Hull
+        if (remainingRawDamage > 0)
+        {
+            int nativeRes = attackerType switch
+            {
+                DamageType.KINETIC => 20,
+                DamageType.EM => -20,
+                _ => 0,
+            };
+
+            float remainingEffectiveDamage = RawToEffective(remainingRawDamage, attackerRes + nativeRes);
+            attacker.RemoveHull(remainingEffectiveDamage);
+        }
+
+        /*
+         * Check for kills
+         */
+        if (defender.Hull == 0f)
+        {
             defender.DestroyFleet();
         }
         else
         {
             attacker.RemoveActionPoints(100);
         }
+
+        if (attacker.Hull == 0f)
+        {
+            attacker.DestroyFleet();
+        }
+    }
+
+    private float RawToEffective(float rawDamage, int res)
+    {
+        return rawDamage * (100 / Mathf.Max(50, 100 + res));
+    }
+
+    private float EffectiveToRaw(float effectiveDamage, int res)
+    {
+        return effectiveDamage * (Mathf.Max(50, 100 + res) / 100);
     }
 
     public void CreatePlanet(HexCell cell, Owner owner)

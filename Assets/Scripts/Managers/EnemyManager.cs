@@ -13,8 +13,6 @@ public class EnemyAiTask
 
 public class EnemyManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     private GameManager gameManager;
     private PlayerManager playerManager;
 
@@ -36,6 +34,12 @@ public class EnemyManager : MonoBehaviour
         hexGrid = FindObjectOfType<HexGrid>();
         gameManager = FindObjectOfType<GameManager>(); 
         playerManager = FindObjectOfType<PlayerManager>();
+    }
+
+    private void Update()
+    {
+        // Remove destroyed fleets
+        enemyControlledFleets.RemoveAll(fleet => fleet == null);
     }
 
     public void UpdateTick()
@@ -113,8 +117,6 @@ public class EnemyManager : MonoBehaviour
 
     public void AddPlanet(Planet p)
     {
-       
-        
         if (enemyControlledPlanets.Contains(p))
         {
             Debug.LogWarning("Tried to add " + p.name + " to EnemyManager, but " + p.name + " was already in the list.");
@@ -134,8 +136,6 @@ public class EnemyManager : MonoBehaviour
 
     public void AddFleet(Fleet f)
     {
-
-
         if (enemyControlledFleets.Contains(f))
         {
             Debug.LogWarning("Tried to add " + f.name + " to EnemyManager, but " + f.name + " was already in the list.");
@@ -150,7 +150,9 @@ public class EnemyManager : MonoBehaviour
         if (!(enemyControlledFleets.Remove(f)))
         {
             Debug.LogWarning("Tried to remove " + f.name + " from EnemyManager, but " + f.name + " was not in the list.");
+            return;
         }
+        enemyControlledFleets.Remove(f);
     }
 
     public void AssignAiTask(Fleet f, int taskId)
@@ -162,7 +164,7 @@ public class EnemyManager : MonoBehaviour
         {
             if (task != null && playerManager != null)
             {
-                Planet p = FindCloestPlanet(f);
+                Planet p = FindClosestPlanet(f);
                 
                 //No reachable planet, change ai task, currently to idel
                 if (p == null)
@@ -182,7 +184,7 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     /// <param name="fleet"></param>
     /// <returns></returns>
-    public Planet FindCloestPlanet(Fleet fleet)
+    public Planet FindClosestPlanet(Fleet fleet)
     {
         int distance = 10000;
         Planet planet = null;

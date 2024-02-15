@@ -13,6 +13,7 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     public HexUnit hexUnit;
 
     private PlayerManager playerManager;
+    private EnemyManager enemyManager;
     private FleetInfoUI fleetInfoUI;
 
     public bool IsUIOpen => fleetInfoUI.isUIOpen;
@@ -34,8 +35,9 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     [SerializeField]
     private float damage;
 
-    public Owner owner;
-    public ShipID shipID;
+    public int thermalRes;
+    public int kineticRes;
+    public int emRes;
 
     public float Hull { get => hull; }
     public float Shield { get => shield; }
@@ -47,13 +49,42 @@ public abstract class Fleet : MonoBehaviour, ISelectable
      */
     public EnemyAiTask enemyTask = null;
 
+    public Owner owner;
+    private Owner prevOwner = Owner.NONE;
+    public ShipID shipID;
+
     /*
      * Methods
      */
     void Awake()
     {
         playerManager = FindObjectOfType<PlayerManager>();
+        enemyManager = FindObjectOfType<EnemyManager>();
         fleetInfoUI = FindObjectOfType<FleetInfoUI>();
+    }
+
+    void Update()
+    {
+        //Add to enemy list if fleet is owned by enemy
+        if (prevOwner != Owner.ENEMY && owner == Owner.ENEMY)
+        {
+            enemyManager.AddFleet(this);
+        }
+        if (prevOwner == Owner.ENEMY && owner != Owner.ENEMY)
+        {
+            enemyManager.RemoveFleet(this);
+        }
+        prevOwner = owner;
+    }
+
+    public void UpdateTick()
+    {
+        RestoreActionPoints();
+
+        // Regenerate Shields
+        AddShield(maxShield * 0.2f);
+
+        return;
     }
 
     // grid call travel(path) on HexUnit, Hexunit will determine an action type, if it is movement, retrieve coordinates and
@@ -63,18 +94,16 @@ public abstract class Fleet : MonoBehaviour, ISelectable
         this.transform.position = hexUnitCoord;
     }  
 
-    public void UpdateTick()
-    {
-        RestoreActionPoints();
-
-        return;
-    }
-
     public void DestroyFleet()
     {
         HexCell location = hexUnit.Grid.GetCell(hexUnit.locationCellIndex);
         location.fleet = null;
         hexUnit.Die();
+
+        if (owner == Owner.ENEMY)
+        {
+            enemyManager.RemoveFleet(this);
+        }
 
         if (fleetInfoUI.linkedFleet == this)
         {
@@ -112,7 +141,7 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     }
 
     /*
-     * Modifiers
+     * Stat Modifiers
      */
     public void AddHull(float n)
     {
