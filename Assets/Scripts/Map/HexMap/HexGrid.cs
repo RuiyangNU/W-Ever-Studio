@@ -715,7 +715,7 @@ public class HexGrid : MonoBehaviour
 
 				if (neighbor == toCell)
 				{
-					int abc = 0;
+					// int abc = 0;
 				}
                 if (!unit.IsValidSearchDestinationAi(neighbor) && ((current.Coordinates.DistanceTo(toCell.Coordinates) == 1 && (neighbor != toCell ))) )
                 {
@@ -725,7 +725,7 @@ public class HexGrid : MonoBehaviour
 
 				if (neighbor == toCell)
 				{
-                    int abc = 0;
+                    // int abc = 0;
                 }
                 if (moveCost < 0 && neighbor != toCell)
                 {

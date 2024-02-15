@@ -21,10 +21,11 @@ public class PlayerManager : MonoBehaviour
     void Awake()
     {
         playerCurrency = new Dictionary<Currency, int>(PlayerSettings.DEFAULT_STARTING_CURRENCY);
+        playerCommodity = new();
     }
 
     /*
-     * Tick
+     * Tick and update
      */
     public void UpdateTick()
     {
@@ -32,6 +33,12 @@ public class PlayerManager : MonoBehaviour
         {
             AddCurrency(p.GetTickCurrency());
         }
+    }
+
+    private void Update()
+    {
+        ResetCommodities();
+        AddAllCommodities();
     }
 
     /*
@@ -100,6 +107,37 @@ public class PlayerManager : MonoBehaviour
         return true;
     }
 
+    private void AddCommodities(Dictionary<Commodity, int> commodities)
+    {
+        foreach (Commodity c in commodities.Keys)
+        {
+            if (!(playerCommodity.ContainsKey(c)))
+            {
+                playerCommodity.Add(c, commodities[c]);
+            }
+
+            else
+            {
+                playerCommodity[c] += commodities[c];
+            }
+        }
+    }
+
+    private void AddAllCommodities()
+    {
+        foreach (Planet p in playerControlledPlanets)
+        {
+            AddCommodities(p.GetAllCommodities());
+        }
+    }
+
+    private void ResetCommodities()
+    {
+        foreach (Commodity c in playerCommodity.Keys)
+        {
+            playerCommodity[c] = 0;
+        }
+    }
 }
 public enum Currency
 {

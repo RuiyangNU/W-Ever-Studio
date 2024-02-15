@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Building : MonoBehaviour
+public abstract class Building
 {
     /*
      * Control
@@ -12,8 +12,21 @@ public abstract class Building : MonoBehaviour
 
     protected int level;
 
+    /*
+     * Commodities
+     */
+    protected Dictionary<Commodity, int> commodities = new()
+    {
+        { Commodity.CONSTRUCTION, 0 },
+        { Commodity.ALLOY, 0 }
+    };
+
+    /*
+     * Properties
+     */
     public int Level { get => level; }
     public BuildingID ID { get => buildingID; }
+    public Dictionary<Commodity, int> Commodities { get => commodities; }
 
     public static Building InitializeBuilding(BuildingID buildingID, Planet homePlanet)
     {

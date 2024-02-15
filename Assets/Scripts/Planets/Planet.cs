@@ -6,6 +6,7 @@ using static PlayerManager;
 using static PlanetSettings;
 using static Fleet;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting;
 
 public class Planet : MonoBehaviour, ISelectable
 {
@@ -168,6 +169,12 @@ public class Planet : MonoBehaviour, ISelectable
             return;
         }
 
+        if (HasBuilding(buildingID))
+        {
+            Debug.LogWarning("Tried to build a " + buildingID.ToString() + " at " + this.name + ", which already had one.");
+            return;
+        }
+
         buildings.Add(Building.InitializeBuilding(buildingID, this));
     }
 
@@ -208,6 +215,30 @@ public class Planet : MonoBehaviour, ISelectable
         //TODO: Add research points
 
         return generated;
+    }
+
+    public Dictionary<Commodity, int> GetAllCommodities()
+    {
+        Dictionary<Commodity, int> allCommodities = new Dictionary<Commodity, int>();
+
+        foreach (Building b in buildings)
+        {
+            Dictionary<Commodity, int> commodities = b.Commodities;
+
+            foreach (Commodity c in commodities.Keys)
+            {
+                if (!allCommodities.ContainsKey(c))
+                {
+                    allCommodities.Add(c, commodities[c]);
+                }
+                else
+                {
+                    allCommodities[c] += commodities[c];
+                }
+            }
+        }
+
+        return allCommodities;
     }
 
     /*

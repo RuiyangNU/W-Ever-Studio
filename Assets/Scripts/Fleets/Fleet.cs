@@ -23,12 +23,16 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     public float maxShield;
     public int maxActionPoints;
 
-    public float hull;
-    public float shield;
-    public int actionPoints;
+    [SerializeField]
+    private float hull;
+    [SerializeField]
+    private float shield;
+    [SerializeField]
+    private int actionPoints;
 
     public DamageType damageType;
-    public float damage;
+    [SerializeField]
+    private float damage;
 
     public Owner owner;
     public ShipID shipID;
@@ -112,27 +116,28 @@ public abstract class Fleet : MonoBehaviour, ISelectable
      */
     public void AddHull(float n)
     {
-        this.hull += n;
+        this.hull = Mathf.Min(this.maxHull, this.hull + n);
     }
 
     public void RemoveHull(float n)
-    {
-        this.hull -= n;
+    { 
+        this.hull = Mathf.Max(0, this.hull - n);
     }
 
     public void AddShield(float n)
     {
-        this.shield += n;
+        this.shield = Mathf.Min(this.maxShield, this.shield + n);
     }
 
     public void RemoveShield(float n)
     {
-        this.shield -= n;
+        this.shield = Mathf.Max(0, this.shield - n);
     }
 
     public void AddActionPoints(int n)
     {
         Debug.LogWarning("Adding " + n.ToString() + " action points to " + this.name + ". Use RestoreActionPoints() instead to restore this unit's AP.");
+        this.actionPoints = Mathf.Min(this.maxActionPoints, this.actionPoints + n);
     }
 
     public void RemoveActionPoints(int n)
@@ -142,7 +147,7 @@ public abstract class Fleet : MonoBehaviour, ISelectable
 
     public void RestoreActionPoints()
     {
-        this.actionPoints = maxActionPoints;
+        this.actionPoints = this.maxActionPoints;
     }
 }
 

@@ -32,13 +32,11 @@ public class GameManager : MonoBehaviour
 
     public void StartCombat(Fleet attacker, Fleet defender)
     {
-        // Record stats
-        float attackerDamageBeforeCombat = attacker.Damage;
-        float defenderDamageBeforeCombat = defender.Damage;
-        float attackerHullBeforeCombat = attacker.Hull;
-        float defenderHullBeforeCombat = defender.Hull;
-
-        defender.RemoveHull(attackerDamageBeforeCombat);
+        // Stats
+        float attackerDamage = attacker.Damage;
+        float defenderDamage = defender.Damage;
+        float attackerHull = attacker.Hull;
+        float defenderHull = defender.Hull;
 
         if (Mathf.Abs(defender.Hull) <= Mathf.Epsilon && attacker != null) {
 
