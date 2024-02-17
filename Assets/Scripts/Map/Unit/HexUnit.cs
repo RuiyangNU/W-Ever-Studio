@@ -251,7 +251,19 @@ public class HexUnit : MonoBehaviour
 		if(IsPlayerOwned)
 		{
             Grid.IncreaseVisibility(location, VisionRange);
+		}
+		else
+		{
+            if (location.IsVisible)
+            {
+                location.EnableFleetRender();
+            }
+            else
+            {
+                location.DisableFleetRender();
+            }
         }
+		
 		for (; t < 1f; t += Time.deltaTime * travelSpeed)
 		{
 			transform.localPosition = Bezier.GetPoint(a, b, c, t);

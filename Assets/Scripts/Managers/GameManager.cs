@@ -274,7 +274,7 @@ public class GameManager : MonoBehaviour
                 fleet, cell, Random.Range(0f, 360f)
             );
 
-            if (!FindObjectOfType<HexMapEditor>().enabled)
+            if (FindObjectOfType<HexMapEditor>() == null || !FindObjectOfType<HexMapEditor>().enabled)
             {
                 cell.DisableFleetRender();
             }
