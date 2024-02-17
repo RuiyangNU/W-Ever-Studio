@@ -17,6 +17,9 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     private FleetInfoUI fleetInfoUI;
 
     public bool IsUIOpen => fleetInfoUI.isUIOpen;
+
+
+    public bool IsPlayerOwned => owner == Owner.PLAYER;
     /*
      * Stats
      */
@@ -42,7 +45,7 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     public float Hull { get => hull; }
     public float Shield { get => shield; }
     public float Damage { get => damage; }
-    public float ActionPoints { get => ActionPoints; }
+    public float ActionPoints { get => actionPoints; }
 
     /*
      * Control

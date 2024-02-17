@@ -155,10 +155,11 @@ public class HexMapEditor : MonoBehaviour
 		if (cell && !cell.fleet)
 		{
 			HexUnit unit = Instantiate(HexUnit.unitPrefab);
-			Fleet fleet = null; //TODO: fix
+			Fleet fleet = Instantiate(GameManager.GetShipByType(ShipID.MONO)); //TODO: fix
             //set default
             fleet.hexUnit = unit;
 			unit.fleet = fleet;
+			fleet.owner = Owner.PLAYER;
    //         hexGrid.AddUnit(
    //             unit, cell, Random.Range(0f, 360f)
 			//);

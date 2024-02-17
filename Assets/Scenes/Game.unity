@@ -7121,6 +7121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 051c7c13779b9784294cc6113ab4b188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fleetPrefabs:
+  - {fileID: 2068145656410673901, guid: 7facc23830a37ce41a9950c4af0b1c75, type: 3}
   turnNumber: 0
   gameState: 0
 --- !u!4 &757183779

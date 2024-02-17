@@ -33,11 +33,15 @@ public class HexGameUI : MonoBehaviour
 		if (toggle)
 		{
 			Shader.EnableKeyword("_HEX_MAP_EDIT_MODE");
+			grid.EnableAllRenderer();
 		}
 		else
 		{
 			Shader.DisableKeyword("_HEX_MAP_EDIT_MODE");
+			grid.DisableAllRenderer();
 		}
+
+		
 	}
 
 	void Update()
@@ -45,7 +49,7 @@ public class HexGameUI : MonoBehaviour
 
         if (!EventSystem.current.IsPointerOverGameObject())
 		{
-			//Debug.Log(EventSystem.current.IsPointerOverGameObject());
+
 			if (Input.GetMouseButtonDown(0))
 			{
 				DoSelection();
@@ -77,7 +81,7 @@ public class HexGameUI : MonoBehaviour
         }
 		if (currentCellIndex >= 0)
 		{
-
+			Debug.Log(grid.GetCell(currentCellIndex).visibility);
 
 			selectedFleet = grid.GetCell(currentCellIndex).fleet;
 

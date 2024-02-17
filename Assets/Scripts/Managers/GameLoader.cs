@@ -33,14 +33,16 @@ public class GameLoader : MonoBehaviour
     {
         foreach (HexCoordinates coords in INITIAL_PLANETS.Keys)
         {
-            Planet planet = Instantiate(Planet.planetPrefab);
-            planet.SetProperties(
-                INITIAL_PLANETS[coords],
-                Random.Range(100, 200),
-                3
-                );
+            //Planet planet = Instantiate(Planet.planetPrefab);
+            //planet.SetProperties(
+            //    INITIAL_PLANETS[coords],
+            //    Random.Range(100, 200),
+            //    3
+            //    );
 
-            gameManager.AddPlanetToCell(hexGrid.GetCell(coords), planet);
+            //gameManager.AddPlanetToCell(hexGrid.GetCell(coords), planet);
+            //gameManager.CreatePlanet()
+            gameManager.CreatePlanet(hexGrid.GetCell(coords), INITIAL_PLANETS[coords], Random.Range(100, 200), 3);
         }    
     }
 }

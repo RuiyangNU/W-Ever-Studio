@@ -56,6 +56,8 @@ public class Planet : MonoBehaviour, ISelectable
 
     public bool UnderAttack => CurrentCell.fleet && CurrentCell.fleet.owner != owner;
 
+    public bool IsPlayerOwned => owner == Owner.PLAYER;
+
     /*
      * Initializers and Updaters
      */
@@ -251,6 +253,7 @@ public class Planet : MonoBehaviour, ISelectable
         buildings = new List<Building>();
 
         this.owner = newOwner;
+        hexGrid.DecreaseVisibility(CurrentCell, 2);
     }
 
     /*

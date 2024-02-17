@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Prefabs", menuName = "Inventory/Prefabs", order = 1)]
 public class Prefabs : ScriptableObject
 {
-    [SerializeField] public static Fleet[] fleetPrefabs;
+    [SerializeField] public static List<Fleet> fleetPrefabs;
 
     public static Fleet Get(ShipID shipID)
     {

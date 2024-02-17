@@ -101,7 +101,7 @@ public class HexCell
 
     int distance;
 
-    int visibility;
+    public int visibility;
 
 	/// <summary>
 	/// Reference to the planet
@@ -374,8 +374,11 @@ public class HexCell
 		{
 			flags = flags.With(HexFlags.Explored);
 			Grid.ShaderData.RefreshVisibility(this);
-		}
-	}
+            EnablePlanetRender();
+        }
+        EnableFleetRender();
+        
+    }
 
 	/// <summary>
 	/// Decrement visiblility level.
@@ -383,11 +386,19 @@ public class HexCell
 	public void DecreaseVisibility()
 	{
 		visibility -= 1;
-		if (visibility == 0)
+		if (visibility <= 0)
 		{
 			Grid.ShaderData.RefreshVisibility(this);
+			//DisablePlanetRender();
+			DisableFleetRender();
 		}
-	}
+		if(visibility <= 0)
+		{
+			visibility = 0;
+		}
+        DisableFleetRender();
+        //EnableFleetRender();
+    }
 
 	/// <summary>
 	/// Reset visibility level to zero.
@@ -667,9 +678,59 @@ public class HexCell
 		highlight.enabled = true;
 	}
 
+
 	/// <summary>
-	/// A cell counts as true if it is not null, otherwise as false.
+	/// Enable the Render for Planet
 	/// </summary>
-	/// <param name="cell">The cell to check.</param>
-	public static implicit operator bool(HexCell cell) => cell != null;
+	public void EnablePlanetRender()
+	{
+		if(planet != null)
+		{
+			planet.GetComponent<Renderer>().enabled = true;
+		}
+	}
+
+
+	/// <summary>
+	/// Enable the Render for Fleet, useed when enter edit mode or have ships in vision
+	/// </summary>
+	public void EnableFleetRender()
+	{
+		if(fleet != null)
+		{
+            foreach (Renderer renderer in fleet.hexUnit.GetComponentsInChildren(typeof(Renderer)))
+            {
+                renderer.enabled = true;
+            }
+
+            //fleet.GetComponent<Renderer>().enabled = true;
+		}
+	}
+
+
+    public void DisablePlanetRender()
+    {
+        if (planet != null && planet.owner != Owner.PLAYER)
+        {
+            planet.GetComponent<Renderer>().enabled = false;
+        }
+    }
+
+    public void DisableFleetRender()
+    {
+        if (fleet != null && !fleet.IsPlayerOwned)
+        {
+            foreach (Renderer renderer in fleet.hexUnit.GetComponentsInChildren(typeof(Renderer)))
+            {
+                renderer.enabled = false;
+            }
+
+            //fleet.GetComponent<Renderer>().enabled = false;
+        }
+    }
+    /// <summary>
+    /// A cell counts as true if it is not null, otherwise as false.
+    /// </summary>
+    /// <param name="cell">The cell to check.</param>
+    public static implicit operator bool(HexCell cell) => cell != null;
 }

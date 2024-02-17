@@ -54,7 +54,6 @@ public class EnemyManager : MonoBehaviour
             spawnCoolDown--;
         }
 
-        Debug.Log(enemyControlledFleets.Count);
 
 
         foreach (Fleet fleet in enemyControlledFleets) {
@@ -189,11 +188,11 @@ public class EnemyManager : MonoBehaviour
         int distance = 10000;
         Planet planet = null;
         HexCell currentCell = hexGrid.GetCell(fleet.hexUnit.locationCellIndex);
-        Debug.Log("If there is some planet: " + playerManager.playerControlledPlanets.Count);
+        //Debug.Log("If there is some planet: " + playerManager.playerControlledPlanets.Count);
 
         foreach (Planet p in playerManager.playerControlledPlanets)
         {
-            Debug.Log("Some unit: " + fleet.hexUnit);
+            //Debug.Log("Some unit: " + fleet.hexUnit);
 
             hexGrid.FindPathAi(currentCell, p.CurrentCell, fleet.hexUnit);
 
@@ -210,7 +209,7 @@ public class EnemyManager : MonoBehaviour
         }
 
 
-        return playerManager.playerControlledPlanets[0];
+        return planet;
     }
     
 

@@ -22,6 +22,8 @@ public class HexUnit : MonoBehaviour
 
 	public HexGrid Grid { get; set; }
 
+	public bool IsPlayerOwned => fleet.owner == Owner.PLAYER;
+
 	/// <summary>
 	/// Cell that the unit occupies.
 	/// </summary>
@@ -64,14 +66,20 @@ public class HexUnit : MonoBehaviour
 			if (locationCellIndex >= 0)
 			{
 				HexCell location = Grid.GetCell(locationCellIndex);
-				Grid.DecreaseVisibility(location, VisionRange);
+				if(IsPlayerOwned)
+				{
+                    Grid.DecreaseVisibility(location, VisionRange);
+                }
 				//location.Unit = null;
 				location.fleet = null;
 			}
 			locationCellIndex = value.Index;
 			//value.Unit = this;
 			value.fleet = this.fleet;
-			Grid.IncreaseVisibility(value, VisionRange);
+			if(fleet.owner != Owner.ENEMY)
+			{
+                Grid.IncreaseVisibility(value, VisionRange);
+            }
 			transform.localPosition = value.Position;
 			Grid.MakeChildOfColumn(transform, value.ColumnIndex);
 		}
@@ -184,7 +192,10 @@ public class HexUnit : MonoBehaviour
 		}
 		HexCell currentTravelLocation = Grid.GetCell(
 			currentTravelLocationCellIndex);
-		Grid.DecreaseVisibility(currentTravelLocation, VisionRange);
+		if (fleet.owner == Owner.PLAYER)
+		{
+            Grid.DecreaseVisibility(currentTravelLocation, VisionRange);
+        }
 		int currentColumn = currentTravelLocation.ColumnIndex;
 
 		float t = Time.deltaTime * travelSpeed;
@@ -213,7 +224,10 @@ public class HexUnit : MonoBehaviour
 			}
 
 			c = (b + currentTravelLocation.Position) * 0.5f;
-			Grid.IncreaseVisibility(Grid.GetCell(pathToTravel[i]), VisionRange);
+			if (IsPlayerOwned)
+			{
+                Grid.IncreaseVisibility(Grid.GetCell(pathToTravel[i]), VisionRange);
+            }
 
 			for (; t < 1f; t += Time.deltaTime * travelSpeed)
 			{
@@ -223,7 +237,9 @@ public class HexUnit : MonoBehaviour
 				transform.localRotation = Quaternion.LookRotation(d);
 				yield return null;
 			}
-			Grid.DecreaseVisibility(Grid.GetCell(pathToTravel[i]), VisionRange);
+			if(IsPlayerOwned) {
+                Grid.DecreaseVisibility(Grid.GetCell(pathToTravel[i]), VisionRange);
+            }
 			t -= 1f;
 		}
 		currentTravelLocationCellIndex = -1;
@@ -232,7 +248,10 @@ public class HexUnit : MonoBehaviour
 		a = c;
 		b = location.Position;
 		c = b;
-		Grid.IncreaseVisibility(location, VisionRange);
+		if(IsPlayerOwned)
+		{
+            Grid.IncreaseVisibility(location, VisionRange);
+        }
 		for (; t < 1f; t += Time.deltaTime * travelSpeed)
 		{
 			transform.localPosition = Bezier.GetPoint(a, b, c, t);
@@ -325,7 +344,10 @@ public class HexUnit : MonoBehaviour
 	public void Die()
 	{
 		HexCell location = Grid.GetCell(locationCellIndex);
-		Grid.DecreaseVisibility(location, VisionRange);
+		if (IsPlayerOwned)
+		{
+            Grid.DecreaseVisibility(location, VisionRange);
+        }
 		//location.Unit = null;
 		Destroy(gameObject);
 	}
@@ -364,8 +386,11 @@ public class HexUnit : MonoBehaviour
 			{
 				HexCell currentTravelLocation =
 					Grid.GetCell(currentTravelLocationCellIndex);
-				Grid.IncreaseVisibility(location, VisionRange);
-				Grid.DecreaseVisibility(currentTravelLocation, VisionRange);
+				if (IsPlayerOwned)
+				{
+                    Grid.IncreaseVisibility(location, VisionRange);
+                    Grid.DecreaseVisibility(currentTravelLocation, VisionRange);
+                }
 				currentTravelLocationCellIndex = -1;
 			}
 		}

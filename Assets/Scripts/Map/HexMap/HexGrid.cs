@@ -119,12 +119,6 @@ public class HexGrid : MonoBehaviour
                 editor.SetActive(true);
             }
 		}
-
-
-
-
-
-
     }
 
 
@@ -145,6 +139,27 @@ public class HexGrid : MonoBehaviour
         //redraw map
 
 
+    }
+
+	public void EnableAllRenderer()
+	{
+        foreach (HexCell cell in cells)
+        {
+            cell.EnableFleetRender();
+            cell.EnablePlanetRender();
+        }
+    }
+
+	public void DisableAllRenderer()
+	{
+        foreach (HexCell cell in cells)
+        {
+            cell.DisableFleetRender();
+			if (!cell.IsExplored)
+			{
+                cell.DisablePlanetRender();
+            }
+        }
     }
 
     /// <summary>
@@ -185,7 +200,7 @@ public class HexGrid : MonoBehaviour
     {
         //Setup for the planet
         location.planet = planet;
-
+		planet.SetLocation(location.Index);
         //units.Add(unit);
         //unit.Grid = this;
         //unit.Location = location;
@@ -694,7 +709,7 @@ public class HexGrid : MonoBehaviour
         {
             HexCell current = searchFrontier.Dequeue();
             current.SearchPhase += 1;
-            current.EnableHighlight(Color.red);
+            //current.EnableHighlight(Color.red);
 			//Debug.Log(current);
 			if (current == toCell)
             {
@@ -882,7 +897,18 @@ public class HexGrid : MonoBehaviour
 		for (int i = 0; i < units.Count; i++)
 		{
 			HexUnit unit = units[i];
-			IncreaseVisibility(unit.Location, unit.VisionRange);
+			if(unit.fleet != null && unit.IsPlayerOwned)
+			{
+                IncreaseVisibility(unit.Location, unit.VisionRange);
+            }
+		}
+
+		foreach(HexCell cell in cells)
+		{
+			if(cell.planet != null && cell.planet.IsPlayerOwned)
+			{
+                IncreaseVisibility(cell, 2);
+            }
 		}
 	}
 

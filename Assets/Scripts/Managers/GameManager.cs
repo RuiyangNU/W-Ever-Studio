@@ -7,15 +7,34 @@ public class GameManager : MonoBehaviour
     private PlayerManager playerManager;
     private EnemyManager enemyManager;
     private HexGrid hexGrid;
+    [SerializeField] public List<Fleet> fleetPrefabs;
 
     public int turnNumber = 0;
     public GameState gameState;
+    public static GameManager gameManager;
+
+    public static Fleet GetShipByType(ShipID shipID)
+    {
+        foreach (Fleet fleet in gameManager.fleetPrefabs)
+        {
+            if (fleet.shipID == shipID)
+            {
+                return fleet;
+            }
+        }
+
+        Debug.LogWarning("The prefab for " + shipID.ToString() + " was not found.");
+        return null;
+    }
 
     private void Awake()
     {
+
         playerManager = FindObjectOfType<PlayerManager>();
         enemyManager = FindObjectOfType<EnemyManager>();
         hexGrid = FindObjectOfType<HexGrid>();
+        //fleetPrefabs = new List<Fleet>();
+        GameManager.gameManager = this;
     }
 
     private void Update()
@@ -193,7 +212,43 @@ public class GameManager : MonoBehaviour
 
             planet.transform.localPosition = cell.Position;
             planet.SetProperties(owner);
+            //cell.DisablePlanetRender();
+            if(planet.owner == Owner.PLAYER)
+            {
+                hexGrid.IncreaseVisibility(cell, 2);
+            }
+            if (!FindObjectOfType<HexMapEditor>().enabled)
+            {
+                cell.DisablePlanetRender();
+            }
+        }
+    }
 
+    public void CreatePlanet(HexCell cell, Owner owner, int baseCreditsPerTick, int buildingLimit)
+    {
+        //HexCell cell = GetCellUnderCursor();
+        if (cell && !cell.planet)
+        {
+            Planet planet = Instantiate(Planet.planetPrefab);
+            //set default
+            hexGrid.AddPlanet(
+                planet, cell
+            );
+
+            planet.transform.localPosition = cell.Position;
+            planet.SetProperties(owner);
+            //cell.DisablePlanetRender();
+            if (planet.owner == Owner.PLAYER)
+            {
+                hexGrid.IncreaseVisibility(cell, 2);
+            }
+            if (!FindObjectOfType<HexMapEditor>().enabled)
+            {
+                cell.DisablePlanetRender();
+            }
+            //planet.SetLocation(cell.Index);
+
+            //AddPlanetToCell(cell, planet);
         }
     }
 
@@ -208,7 +263,7 @@ public class GameManager : MonoBehaviour
         else if (cell && !cell.fleet)
         {
             HexUnit unit = Instantiate(HexUnit.unitPrefab);
-            Fleet fleet = Prefabs.Get(shipID);
+            Fleet fleet = Instantiate(GetShipByType(shipID));
 
             // Link
             fleet.hexUnit = unit;
@@ -218,6 +273,11 @@ public class GameManager : MonoBehaviour
             hexGrid.AddFleet(
                 fleet, cell, Random.Range(0f, 360f)
             );
+
+            if (!FindObjectOfType<HexMapEditor>().enabled)
+            {
+                cell.DisableFleetRender();
+            }
 
         }
     }
@@ -231,6 +291,7 @@ public class GameManager : MonoBehaviour
 
             planet.transform.localPosition = cell.Position;
             planet.SetLocation(cell.Index);
+        
         }
     }
 
