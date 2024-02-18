@@ -44,7 +44,15 @@ public abstract class Building
         }
     }
 
+    /*
+     * Methods
+     */
     public abstract void UpdateTick();
+    
+    public void Upgrade()
+    {
+        this.level++;
+    }
 }
 
 public enum BuildingID

@@ -9,7 +9,9 @@ public class DepotBuilding : Building
         this.buildingID = BuildingID.DEPOT;
         this.homePlanet = homePlanet;
         this.level = 1;
-    }   
+    }
+
+
 
     public override void UpdateTick()
     {
