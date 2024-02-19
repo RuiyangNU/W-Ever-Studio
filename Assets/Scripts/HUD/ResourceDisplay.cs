@@ -8,6 +8,15 @@ public class ResourceDisplay : MonoBehaviour
     private PlayerManager playerManager;
     private TextMeshProUGUI resourceText;
     
+    
+    [SerializeField]
+    private List<TextMeshProUGUI> currencyText;
+
+
+
+    [SerializeField]
+    private List<TextMeshProUGUI> commodityText;
+
     void Awake() {
         playerManager = FindObjectOfType<PlayerManager>();
         resourceText = GetComponent<TextMeshProUGUI>();
@@ -18,6 +27,11 @@ public class ResourceDisplay : MonoBehaviour
     {
         float credit = playerManager.PlayerCredit;
         float research = playerManager.PlayerResearch;
-        resourceText.text = "Credits:" + Mathf.Floor(credit).ToString() + "\n Research:"+ Mathf.Floor(research).ToString();
+        //foreach (TextMeshProUGUI text in currencyText)
+        //{
+        //    text.text = Mathf.Floor(credit).ToString();
+        //}
+        currencyText[0].text = Mathf.Floor(credit).ToString();
+        currencyText[1].text = Mathf.Floor(research).ToString();
     }
 }
