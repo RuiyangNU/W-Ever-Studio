@@ -2645,6 +2645,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Science Income
       objectReference: {fileID: 0}
+    - target: {fileID: 1242851263001750275, guid: 4239a68bea7d5f54b8224b92e1426075,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242851263001750275, guid: 4239a68bea7d5f54b8224b92e1426075,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 9213055132301415475, guid: 4239a68bea7d5f54b8224b92e1426075,
         type: 3}
       propertyPath: m_Pivot.x
@@ -18267,6 +18277,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Credit Income
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242851263001750275, guid: 4239a68bea7d5f54b8224b92e1426075,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242851263001750275, guid: 4239a68bea7d5f54b8224b92e1426075,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9213055132301415475, guid: 4239a68bea7d5f54b8224b92e1426075,
         type: 3}

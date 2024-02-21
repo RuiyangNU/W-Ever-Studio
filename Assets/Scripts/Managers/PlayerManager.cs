@@ -11,8 +11,12 @@ public class PlayerManager : MonoBehaviour
 
     public Dictionary<Commodity, int> playerCommodities;
 
-    public float PlayerCredit => playerCurrencies[Currency.CREDIT];
-    public float PlayerResearch => playerCurrencies[Currency.RESEARCH];
+    public int PlayerCMLevel => playerCommodities[Commodity.CONSTRUCTION];
+    public int PlayerAlloyLevel => playerCommodities[Commodity.ALLOY];
+    public int PlayerCMMilestone => GetCommodityMilestone(Commodity.CONSTRUCTION);
+    public int PlayerAlloyMilestone => GetCommodityMilestone(Commodity.ALLOY);
+    public int PlayerCredit => playerCurrencies[Currency.CREDIT];
+    public int PlayerResearch => playerCurrencies[Currency.RESEARCH];
     public Dictionary<Commodity, int> PlayerCommodityMilestones => GetCommodityMilestones();
 
     /*
@@ -90,6 +94,34 @@ public class PlayerManager : MonoBehaviour
                 playerCurrencies[c] -= currency[c];
             }
         }
+    }
+
+    /*
+     * Information
+     */
+    public Dictionary<Currency, int> GetCurrenciesPerTick()
+    {
+        Dictionary<Currency, int> currencies = new()
+        {
+            { Currency.CREDIT, 0 },
+            { Currency.RESEARCH, 0 }
+        };
+
+        foreach (Planet p in playerControlledPlanets)
+        {
+            Dictionary<Currency, int> currency = p.GetTickCurrencies();
+            foreach (Currency c in currency.Keys)
+            {
+                currencies[c] += currency[c];
+            }
+        }
+
+        return currencies;
+    }
+
+    public int GetCurrencyPerTick(Currency c)
+    {
+        return GetCurrenciesPerTick()[c];
     }
 
     public bool QueryCurrency(Dictionary<Currency, int> currency)
@@ -172,8 +204,6 @@ public class PlayerManager : MonoBehaviour
         return true;
 
     }
-
-
 
     private void AddAllCommodities()
     {
