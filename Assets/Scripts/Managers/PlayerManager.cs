@@ -136,6 +136,16 @@ public class PlayerManager : MonoBehaviour
         return milestones;
     }
 
+    public int GetCommodityMilestone(Commodity c)
+    {
+
+        Dictionary<Commodity, int> milestone = GetCommodityMilestones();
+
+        return milestone[c];
+
+    }
+
+
     private void AddAllCommodities()
     {
         foreach (Planet p in playerControlledPlanets)
