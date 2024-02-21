@@ -145,7 +145,7 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    public bool CommodityMilestoneBool(Commodity c, int m)
+    public bool QueryCommodityMilestone(Commodity c, int m)
     {
 
         Dictionary<Commodity, int> milestone = GetCommodityMilestones();
