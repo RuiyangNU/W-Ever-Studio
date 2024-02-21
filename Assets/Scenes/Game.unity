@@ -6858,7 +6858,7 @@ MonoBehaviour:
   hexGrid: {fileID: 0}
   enemyControlledPlanets: []
   enemyControlledFleets: []
-  spawnCoolDown: 0
+  spawnCoolDown: 10
 --- !u!4 &407595664
 Transform:
   m_ObjectHideFlags: 0
