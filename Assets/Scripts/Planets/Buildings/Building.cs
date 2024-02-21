@@ -49,12 +49,27 @@ public abstract class Building
 
     public static int BuildCreditCost(BuildingID id)
     {
-        throw new System.NotImplementedException();
+        switch (id)
+        {
+            case BuildingID.LAB: return 1000;
+            case BuildingID.DEPOT: return 500;
+            case BuildingID.SMELTERY: return 500;
+            case BuildingID.TRADEHUB: return 1000;
+            case BuildingID.SHIPYARD: return 1000;
+
+            default:
+                Debug.LogError("Unknown building id " + id.ToString() + ".");
+                return -1;
+        }
     }
 
-    public static Dictionary<Commodity, int> BuildCommodityRequirement(BuildingID id)
+    public static int BuildAlloyRequirement(BuildingID id)
     {
-        throw new System.NotImplementedException();
+        switch (id)
+        {
+            case BuildingID.DEPOT: return 0;
+            default: return 1;
+        }
     }
 
     public abstract int UpgradeCreditCost();

@@ -185,8 +185,8 @@ public class Planet : MonoBehaviour, ISelectable
             return;
         }
 
-        Dictionary<Commodity, int> commodityRequirement = Building.BuildCommodityRequirement(buildingID);
-        if (!playerManager.QueryCommodityMilestones(commodityRequirement))
+        int commodityRequirement = Building.BuildAlloyRequirement(buildingID);
+        if (!playerManager.QueryCommodityMilestone(Commodity.ALLOY, commodityRequirement))
         {
             Debug.LogWarning("Tried to build a " + buildingID.ToString() + " at " + this.name + ", but the player doesn't meet commodity requirements.");
             return;
@@ -228,7 +228,7 @@ public class Planet : MonoBehaviour, ISelectable
         return !(HasBuilding(buildingID) ||
             buildings.Count >= buildingLimit ||
             playerManager.PlayerCredit < Building.BuildCreditCost(buildingID) ||
-            !playerManager.QueryCommodityMilestones(Building.BuildCommodityRequirement(buildingID)));
+            !playerManager.QueryCommodityMilestone(Commodity.ALLOY, Building.BuildAlloyRequirement(buildingID)));
     }
 
     public bool HasBuilding(BuildingID buildingID)
