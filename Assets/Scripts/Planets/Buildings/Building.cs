@@ -11,22 +11,16 @@ public abstract class Building
     protected Planet homePlanet;
 
     protected int level;
-
-    /*
-     * Commodities
-     */
-    protected Dictionary<Commodity, int> commodities = new()
-    {
-        { Commodity.CONSTRUCTION, 0 },
-        { Commodity.ALLOY, 0 }
-    };
+    protected int maxLevel;
 
     /*
      * Properties
      */
     public int Level { get => level; }
+    public int MaxLevel { get => maxLevel; }
     public BuildingID ID { get => buildingID; }
-    public Dictionary<Commodity, int> Commodities { get => commodities; }
+    public Dictionary<Currency, int> Currencies {  get => GetTickCurrencies(); }
+    public Dictionary<Commodity, int> Commodities { get => GetCommodities(); }
 
     public static Building InitializeBuilding(BuildingID buildingID, Planet homePlanet)
     {
@@ -48,7 +42,25 @@ public abstract class Building
      * Methods
      */
     public abstract void UpdateTick();
-    
+
+    public abstract Dictionary<Currency, int> GetTickCurrencies();
+
+    public abstract Dictionary<Commodity, int> GetCommodities();
+
+    public static int BuildCreditCost(BuildingID id)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public static Dictionary<Commodity, int> BuildCommodityRequirement(BuildingID id)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public abstract int UpgradeCreditCost();
+
+    public abstract Dictionary<Commodity, int> UpgradeCommodityRequirement();
+
     public void Upgrade()
     {
         this.level++;

@@ -163,6 +163,7 @@ public class Planet : MonoBehaviour, ISelectable
      * Buildings
      */
 
+    //TODO: Add Resource costs
     public void Build(BuildingID buildingID)
     {
         if (buildings.Count >= buildingLimit)
@@ -211,17 +212,34 @@ public class Planet : MonoBehaviour, ISelectable
      */
     public Dictionary<Currency, int> GetTickCurrency()
     {
-        Dictionary<Currency, int> generated = new Dictionary<Currency, int>();
+        // Base generation
+        Dictionary<Currency, int> generated = new()
+        {
+            { Currency.CREDIT, baseCreditsPerTick },
+            { Currency.RESEARCH, 0 }
+        };
 
-        generated.Add(Currency.CREDIT, baseCreditsPerTick);
-        //TODO: Add research points
+        // Building generation
+        foreach (Building building in buildings)
+        {
+            Dictionary<Currency, int> currencies = building.GetTickCurrencies();
+
+            foreach (Currency c in currencies.Keys)
+            {
+                generated[c] += currencies[c];
+            }
+        }
 
         return generated;
     }
 
     public Dictionary<Commodity, int> GetAllCommodities()
     {
-        Dictionary<Commodity, int> allCommodities = new Dictionary<Commodity, int>();
+        Dictionary<Commodity, int> allCommodities = new()
+        {
+            { Commodity.CONSTRUCTION, 0 },
+            { Commodity.ALLOY, 0 }
+        };
 
         foreach (Building b in buildings)
         {
@@ -229,14 +247,7 @@ public class Planet : MonoBehaviour, ISelectable
 
             foreach (Commodity c in commodities.Keys)
             {
-                if (!allCommodities.ContainsKey(c))
-                {
-                    allCommodities.Add(c, commodities[c]);
-                }
-                else
-                {
-                    allCommodities[c] += commodities[c];
-                }
+                allCommodities[c] += commodities[c];
             }
         }
 
