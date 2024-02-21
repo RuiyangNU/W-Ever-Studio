@@ -60,6 +60,8 @@ public class Planet : MonoBehaviour, ISelectable
 
     public int NumBuildings => buildings.Count;
 
+    public int TurnsUntilCaptured => captureTimer;
+
     /*************
      *  METHODS
      *************/
