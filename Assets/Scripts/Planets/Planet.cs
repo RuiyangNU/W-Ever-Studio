@@ -60,6 +60,10 @@ public class Planet : MonoBehaviour, ISelectable
 
     public int NumBuildings => buildings.Count;
 
+    /*************
+     *  METHODS
+     *************/
+
     /*
      * Initializers and Updaters
      */
@@ -322,6 +326,102 @@ public class Planet : MonoBehaviour, ISelectable
         }
 
         return -1;
+    }
+
+    /*
+     * Shipyard
+     */
+    public void BuildShip(ShipID shipID)
+    {
+        if (!HasBuilding(BuildingID.SHIPYARD))
+        {
+            Debug.LogError("");
+            return;
+        }
+
+        ShipyardBuilding shipyard = (ShipyardBuilding)GetBuilding(BuildingID.SHIPYARD);
+        if (shipyard.IsActive)
+        {
+            Debug.LogError("");
+            return;
+        }
+        else if (playerManager.PlayerCredit < Fleet.BuildCreditCost(shipID))
+        {
+            Debug.LogError("");
+            return;
+        }
+        else if (!playerManager.QueryCommodityMilestone(Commodity.ALLOY, Fleet.BuildAlloyRequirement(shipID)))
+        {
+            Debug.LogError("");
+            return;
+        }
+        else if (!shipyard.CanBuild(shipID))
+        {
+            Debug.LogError("");
+            return;
+        }
+
+        playerManager.RemoveCurrency(new Dictionary<Currency, int>() { { Currency.CREDIT, Fleet.BuildCreditCost(shipID) } });
+        shipyard.BuildShip(shipID);
+    }
+
+    /// <summary>
+    /// Determines whether the player can build a specified ship.
+    /// </summary>
+    /// <remarks>
+    /// This function checks if the player meets all the necessary conditions to build a ship.
+    /// It returns 0 if the player can build the ship. Otherwise, it returns an integer between 1 and 4,
+    /// each representing a different reason why the ship cannot be constructed.
+    /// </remarks>
+    /// <returns>
+    /// An integer indicating the ability to build the ship:
+    /// <list type="bullet">
+    /// <item>
+    /// <description>0: The player can build the ship.</description>
+    /// </item>
+    /// <item>
+    /// <description>1: The planet does not have a shipyard.</description>
+    /// </item>
+    /// <item>
+    /// <description>2: The planet's shipyard is occupied.</description>
+    /// </item>
+    /// <item>
+    /// <description>3: The player does not have enough credits.</description>
+    /// </item>
+    /// <item>
+    /// <description>4: The player does not meet the commodity requirements.</description>
+    /// </item>
+    /// <item>
+    /// <description>5: The shipyard's level is not high enough.</description>
+    /// </item>
+    /// </list>
+    /// </returns>
+    public int CanBuildShip(ShipID shipID)
+    {
+        if (!HasBuilding(BuildingID.SHIPYARD))
+        {
+            return 1;
+        }
+
+        ShipyardBuilding shipyard = (ShipyardBuilding)GetBuilding(BuildingID.SHIPYARD);
+        if (shipyard.IsActive)
+        {
+            return 2;
+        }
+        else if (playerManager.PlayerCredit < Fleet.BuildCreditCost(shipID))
+        {
+            return 3;
+        }
+        else if (!playerManager.QueryCommodityMilestone(Commodity.ALLOY, Fleet.BuildAlloyRequirement(shipID)))
+        {
+            return 4;
+        }
+        else if (!shipyard.CanBuild(shipID))
+        {
+            return 5;
+        }
+
+        return 0;
     }
 
     /*

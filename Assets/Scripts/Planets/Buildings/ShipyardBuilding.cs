@@ -107,7 +107,6 @@ public class ShipyardBuilding : Building
         }
         turnsLeft = BuildTime(id);
         buildingShip = id;
-
     }
 
     public bool CanBuild(ShipID id) {
