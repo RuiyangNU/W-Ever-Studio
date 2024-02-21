@@ -19,6 +19,8 @@ public class PlanetInfoUI : PopupUI
 
     public GameObject infoPanel;
 
+    public BuildingInfoUI buildingInfoUI;
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -77,7 +79,7 @@ public class PlanetInfoUI : PopupUI
         }
 
         isUIOpen = false;
-
+        buildingInfoUI.CloseUI();
         infoPanel.SetActive(false);
     }
 

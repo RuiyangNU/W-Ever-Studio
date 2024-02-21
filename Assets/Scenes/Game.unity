@@ -25102,6 +25102,7 @@ MonoBehaviour:
   shipyardText: {fileID: 442609052}
   planetName: {fileID: 0}
   infoPanel: {fileID: 283362286}
+  buildingInfoUI: {fileID: 1752726711}
 --- !u!1 &1916619403
 GameObject:
   m_ObjectHideFlags: 0
