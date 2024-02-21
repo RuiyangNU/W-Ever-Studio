@@ -223,6 +223,14 @@ public class Planet : MonoBehaviour, ISelectable
         toUpgrade.Upgrade();
     }
 
+    public bool CanBuild(BuildingID buildingID)
+    {
+        return !(HasBuilding(buildingID) ||
+            buildings.Count >= buildingLimit ||
+            playerManager.PlayerCredit < Building.BuildCreditCost(buildingID) ||
+            !playerManager.QueryCommodityMilestones(Building.BuildCommodityRequirement(buildingID)));
+    }
+
     public bool HasBuilding(BuildingID buildingID)
     {
         foreach (Building building in buildings)
