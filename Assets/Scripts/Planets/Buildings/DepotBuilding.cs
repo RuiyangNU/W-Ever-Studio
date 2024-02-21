@@ -16,17 +16,61 @@ public class DepotBuilding : Building
 
     public override Dictionary<Commodity, int> GetCommodities()
     {
-        throw new System.NotImplementedException();
+        switch (this.level)
+        {
+            case 1:
+                return new()
+                {
+                    { Commodity.CONSTRUCTION, 1 },
+                    { Commodity.ALLOY, 0 }
+
+                };
+            case 2:
+                return new()
+                {
+                    { Commodity.CONSTRUCTION, 2 },
+                    { Commodity.ALLOY, 0 }
+
+                };
+            default:
+                Debug.LogError("Unknown resource production for a level "+ this.level + " depot" );
+                return null;
+
+        }
+        
     }
 
     public override Dictionary<Currency, int> GetTickCurrencies()
     {
-        throw new System.NotImplementedException();
+        return new();
+        /*
+        switch (this.level)
+        {
+            case 1:
+                return new()
+                {
+                    { Currency.CREDIT, 0 },
+                    { Currency.RESEARCH, 0 }
+
+                };
+            case 2:
+                return new()
+                {
+                    { Currency.CREDIT, 0 },
+                    { Currency.RESEARCH, 0 }
+
+                };
+            default:
+                Debug.LogError("Unknown currency production for a level " + this.level + " depot");
+                return null;
+
+        }
+        */
     }
 
     public override void UpdateTick()
     {
-
+        return;
     }
 
     public override Dictionary<Commodity, int> UpgradeCommodityRequirement()
@@ -36,7 +80,7 @@ public class DepotBuilding : Building
             case 1:
                 return new()
                 {
-                    { Commodity.CONSTRUCTION, 0 },
+                    { Commodity.CONSTRUCTION, 1 },
                     { Commodity.ALLOY, 0 }
                 };
             default:
