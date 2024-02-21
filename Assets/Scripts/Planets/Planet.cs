@@ -164,8 +164,6 @@ public class Planet : MonoBehaviour, ISelectable
     /*
      * Buildings
      */
-
-    //TODO: Add Resource costs
     public void Build(BuildingID buildingID)
     {
         if (buildings.Count >= buildingLimit)
@@ -180,7 +178,49 @@ public class Planet : MonoBehaviour, ISelectable
             return;
         }
 
+        int creditCost = Building.BuildCreditCost(buildingID);
+        if (playerManager.PlayerCredit < creditCost)
+        {
+            Debug.LogWarning("Tried to build a " + buildingID.ToString() + " at " + this.name + ", but the player doesn't have enough credits.");
+            return;
+        }
+
+        Dictionary<Commodity, int> commodityRequirement = Building.BuildCommodityRequirement(buildingID);
+        if (!playerManager.QueryCommodityMilestones(commodityRequirement))
+        {
+            Debug.LogWarning("Tried to build a " + buildingID.ToString() + " at " + this.name + ", but the player doesn't meet commodity requirements.");
+            return;
+        }
+
+        playerManager.RemoveCurrency(new() { { Currency.CREDIT, creditCost } });
         buildings.Add(Building.InitializeBuilding(buildingID, this));
+    }
+
+    public void UpgradeBuilding(BuildingID buildingID)
+    {
+        if (!HasBuilding(buildingID))
+        {
+            Debug.LogError("Tried to upgrade a " + buildingID.ToString() + " at " + this.name + ", which does not have this building.");
+        }
+
+        Building toUpgrade = GetBuilding(buildingID);
+
+        int creditCost = toUpgrade.UpgradeCreditCost();
+        if (playerManager.PlayerCredit < creditCost)
+        {
+            Debug.LogWarning("Tried to upgrade a " + buildingID.ToString() + " at " + this.name + ", but the player doesn't have enough credits.");
+            return;
+        }
+
+        Dictionary<Commodity, int> commodityRequirement = toUpgrade.UpgradeCommodityRequirement();
+        if (!playerManager.QueryCommodityMilestones(commodityRequirement))
+        {
+            Debug.LogWarning("Tried to upgrade a " + buildingID.ToString() + " at " + this.name + ", but the player doesn't meet commodity requirements.");
+            return;
+        }
+
+        playerManager.RemoveCurrency(new() { { Currency.CREDIT, creditCost } });
+        toUpgrade.Upgrade();
     }
 
     public bool HasBuilding(BuildingID buildingID)
@@ -194,6 +234,19 @@ public class Planet : MonoBehaviour, ISelectable
         }
 
         return false;
+    }
+
+    public Building GetBuilding(BuildingID buildingID)
+    {
+        foreach (Building building in buildings)
+        {
+            if (building.ID == buildingID)
+            {
+                return building;
+            }
+        }
+
+        return null;
     }
 
     public int GetBuildingLevel(BuildingID buildingID)
