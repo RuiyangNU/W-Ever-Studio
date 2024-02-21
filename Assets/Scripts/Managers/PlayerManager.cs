@@ -145,6 +145,15 @@ public class PlayerManager : MonoBehaviour
 
     }
 
+    public bool CommodityMilestoneBool(Commodity c, int m)
+    {
+
+        Dictionary<Commodity, int> milestone = GetCommodityMilestones();
+
+        return (milestone[c] == m);
+
+    }
+
 
     private void AddAllCommodities()
     {
