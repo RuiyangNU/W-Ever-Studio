@@ -56,6 +56,8 @@ public class HexUnit : MonoBehaviour
 
         displayColor.a = 1; // Correct alpha
         rend.material.SetColor("_BaseColor", displayColor);
+
+        gameObject.transform.position.Set(gameObject.transform.position.x, 5, gameObject.transform.position.z);
     }
 
     public HexCell Location

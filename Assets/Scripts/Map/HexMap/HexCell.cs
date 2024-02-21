@@ -703,7 +703,7 @@ public class HexCell
                 renderer.enabled = true;
             }
 
-            //fleet.GetComponent<Renderer>().enabled = true;
+            fleet.GetComponent<Renderer>().enabled = true;
 		}
 	}
 
@@ -725,8 +725,8 @@ public class HexCell
                 renderer.enabled = false;
             }
 
-            //fleet.GetComponent<Renderer>().enabled = false;
-        }
+            fleet.GetComponent<Renderer>().enabled = false;
+		}
     }
     /// <summary>
     /// A cell counts as true if it is not null, otherwise as false.

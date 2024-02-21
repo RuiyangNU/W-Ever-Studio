@@ -285,6 +285,7 @@ public class GameManager : MonoBehaviour
 
             GameObject fleet = Instantiate(GetShipPrefab(shipID));
 
+            //fleet.transform.position += new Vector3(0,5,0);
             // Link
             //fleet.fleet.hexUnit = unit;
             //fleet.unit.fleet = fleet;

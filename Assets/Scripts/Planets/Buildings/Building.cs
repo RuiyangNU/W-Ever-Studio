@@ -76,6 +76,26 @@ public abstract class Building
 
     public abstract Dictionary<Commodity, int> UpgradeCommodityRequirement();
 
+
+    public static string GetDescription(BuildingID id)
+    {
+        switch (id)
+        {
+            case BuildingID.SHIPYARD:
+                return "Constructs new fleets.";
+            case BuildingID.LAB:
+                return "Produces research points.";
+            case BuildingID.DEPOT:
+                return "Increases construction material level.";
+            case BuildingID.TRADEHUB:
+                return "Produces credits.";
+            case BuildingID.SMELTERY:
+                return "Increases alloy level.";
+            default:
+                Debug.LogError("Unknown Buiding ID " + id.ToString() + ".");
+                return "";
+        }
+    }
     public void Upgrade()
     {
         this.level++;

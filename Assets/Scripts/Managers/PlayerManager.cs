@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -159,6 +160,7 @@ public class PlayerManager : MonoBehaviour
 
         Dictionary<Commodity, int> milestones = GetCommodityMilestones();
 
+
         foreach(Commodity c in commodities.Keys)
         {
             if (commodities[c] > milestones[c])
@@ -199,7 +201,8 @@ public class PlayerManager : MonoBehaviour
 
     private void ResetCommodities()
     {
-        foreach (Commodity c in playerCommodities.Keys)
+
+        foreach (var c in playerCommodities.Keys.ToList())
         {
             playerCommodities[c] = 0;
         }
