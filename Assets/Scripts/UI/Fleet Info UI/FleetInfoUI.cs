@@ -10,10 +10,12 @@ public class FleetInfoUI : PopupUI
 
     public bool isUIOpen = false;
 
+    //public GameObject infoPanel;
+
     // Start is called before the first frame update
-    override protected void Start()
+    protected void Start()
     {
-        base.Start();
+        //base.Start();
 
         CloseUI();
     }
@@ -36,12 +38,12 @@ public class FleetInfoUI : PopupUI
             return;
         }
 
-        _image.enabled = true;
+        //_image.enabled = true;
 
-        foreach (PopupUIElement child in children)
-        {
-            child.OnUIOpen();
-        }
+        //foreach (PopupUIElement child in children)
+        //{
+        //    child.OnUIOpen();
+        //}
 
 
         isUIOpen = true;
@@ -49,12 +51,12 @@ public class FleetInfoUI : PopupUI
 
     override public void CloseUI()
     {
-        _image.enabled = false;
+        //_image.enabled = false;
 
-        foreach (PopupUIElement child in children)
-        {
-            child.OnUIClose();
-        }
+        //foreach (PopupUIElement child in children)
+        //{
+        //    child.OnUIClose();
+        //}
 
         if (linkedFleet != null)
         {
@@ -63,16 +65,17 @@ public class FleetInfoUI : PopupUI
         }
 
         isUIOpen = false;
+        //UIManager.uiManager.CloseUI(gameObject);
     }
 
     private void CloseUIWithoutUnlink()
     {
-        _image.enabled = false;
+        //_image.enabled = false;
 
-        foreach (PopupUIElement child in children)
-        {
-            child.OnUIClose();
-        }
+        //foreach (PopupUIElement child in children)
+        //{
+        //    child.OnUIClose();
+        //}
 
         isUIOpen = false;
     }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 227674962742987565}
   - component: {fileID: 2222395229110905779}
   - component: {fileID: 6929284557690351132}
+  - component: {fileID: -4594825005657761167}
   m_Layer: 0
   m_Name: MonoFleet
   m_TagString: Untagged
@@ -45,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d884703c81b7f49a2f55548120960e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexUnit: {fileID: 0}
+  hexUnit: {fileID: -4594825005657761167}
   maxHull: 30
   maxShield: 10
   maxActionPoints: 2
@@ -111,3 +112,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-4594825005657761167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6339631004747876791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434bba114c5e84a0f8fb19ef55b2766a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fleet: {fileID: 2222395229110905779}
+  locationCellIndex: -1
+  currentTravelLocationCellIndex: -1

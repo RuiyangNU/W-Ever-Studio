@@ -11,13 +11,28 @@ public class PlanetInfoUI : PopupUI
 
     public bool isUIOpen = false;
 
+    public TextMeshProUGUI buildingSlot;
+    public TextMeshProUGUI creditIncome;
+    public TextMeshProUGUI scienceIncome;
+    public TextMeshProUGUI shipyardText;
+    public TextMeshProUGUI planetName;
+
+    public GameObject infoPanel;
+
     // Start is called before the first frame update
-    override protected void Start()
+    protected void Start()
     {
-        base.Start();
+        //base.Start();
         CloseUI();
     }
 
+    public void Update()
+    {
+        if (linkedPlanet != null)
+        {
+            UpdateUI();
+        }
+    }
     /// <summary>
     /// Links the IClickableUI object to this UI. Will call the OnUIClose() method of the object when this UI is closed.
     /// </summary>
@@ -29,33 +44,6 @@ public class PlanetInfoUI : PopupUI
         UpdateUI();
     }
 
-    public void BuildRefinery()
-    {
-        if (linkedPlanet == null)
-        {
-            Debug.LogError("BuildRefinery was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
-            return;
-        }
-    }
-
-    public void BuildShipyard()
-    {
-        if (linkedPlanet == null)
-        {
-            Debug.LogError("BuildShipyard was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
-            return;
-        }
-    }
-
-    public void BuildDestroyer()
-    {
-        if (linkedPlanet == null)
-        {
-            Debug.LogError("BuildDestroyer was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
-            return;
-        }
-    }
-
     override public void OpenUI()
     {
         if (linkedPlanet == null)
@@ -64,24 +52,23 @@ public class PlanetInfoUI : PopupUI
             return;
         }
 
-        _image.enabled = true;
-
-        foreach (PopupUIElement child in children)
-        {
-            child.OnUIOpen();
-        }
+        //foreach (PopupUIElement child in children)
+        //{
+        //    child.OnUIOpen();
+        //}
 
         isUIOpen = true;
+        infoPanel.SetActive(true);
     }
 
     override public void CloseUI()
     {
-        _image.enabled = false;
+        //_image.enabled = false;
 
-        foreach (PopupUIElement child in children)
-        {
-            child.OnUIClose();
-        }
+        //foreach (PopupUIElement child in children)
+        //{
+        //    child.OnUIClose();
+        //}
 
         if (linkedPlanet != null)
         {
@@ -90,16 +77,18 @@ public class PlanetInfoUI : PopupUI
         }
 
         isUIOpen = false;
+
+        infoPanel.SetActive(false);
     }
 
     private void CloseUIWithoutUnlink()
     {
-        _image.enabled = false;
+        //_image.enabled = false;
 
-        foreach (PopupUIElement child in children)
-        {
-            child.OnUIClose();
-        }
+        //foreach (PopupUIElement child in children)
+        //{
+        //    child.OnUIClose();
+        //}
 
         isUIOpen = false;
     }
@@ -112,10 +101,69 @@ public class PlanetInfoUI : PopupUI
             return;
         }
 
-        if (isUIOpen)
+        if (linkedPlanet.IsPlayerOwned)
         {
-            CloseUIWithoutUnlink();
-            OpenUI();
+            //GetTickCurrency();
+            ChangeTextColor();
+            creditIncome.text = linkedPlanet.GetTickCurrency(Currency.CREDIT).ToString() + "/Turn";
+
+            scienceIncome.text = linkedPlanet.GetTickCurrency(Currency.RESEARCH).ToString() + "/Turn";
+
+            buildingSlot.text = linkedPlanet.buildings.Count.ToString() + "/" + linkedPlanet.buildingLimit.ToString();
+
+            if (linkedPlanet.HasBuilding(BuildingID.SHIPYARD))
+            {
+                shipyardText.text = "Shipyard: T" + linkedPlanet.GetBuildingLevel(BuildingID.SHIPYARD).ToString();
+            }
+            else
+            {
+                shipyardText.text = "No Shipyard";
+            }
         }
+        else if (linkedPlanet.owner == Owner.ENEMY)
+        {
+            ChangeTextColor(Color.red);
+            creditIncome.text = "???";
+
+
+            scienceIncome.text = "???";
+
+            buildingSlot.text = linkedPlanet.buildings.Count.ToString() + "/" + linkedPlanet.buildingLimit.ToString();
+
+            shipyardText.text = "???";
+
+            
+        }
+
+        //if (isUIOpen)
+        //{
+        //    CloseUIWithoutUnlink();
+        //    OpenUI();
+        //}
+
+            //Update Name
+
+
+
+            //Update Stat
+
+
+    }
+
+    public void ChangeTextColor()
+    {
+        //creditIncome.color = Color.green;
+        //scienceIncome.color = Color.green;
+        //buildingSlot.color = Color.green;
+        //shipyardText.color = Color.green;
+        ChangeTextColor(Color.green);
+    }
+
+    public void ChangeTextColor(Color color)
+    {
+        creditIncome.color = color;
+        scienceIncome.color = color;
+        buildingSlot.color = color;
+        shipyardText.color = color;
     }
 }

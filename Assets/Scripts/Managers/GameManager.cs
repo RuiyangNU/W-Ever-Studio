@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     private EnemyManager enemyManager;
     private HexGrid hexGrid;
     [SerializeField] public List<Fleet> fleetPrefabs;
+    [SerializeField] public List<GameObject> shipPrefabs;
 
     public int turnNumber = 0;
     public GameState gameState;
@@ -17,7 +19,23 @@ public class GameManager : MonoBehaviour
     {
         foreach (Fleet fleet in gameManager.fleetPrefabs)
         {
+            //Debug.Log(fleet);
             if (fleet.shipID == shipID)
+            {
+                return fleet;
+            }
+        }
+
+        Debug.LogWarning("The prefab for " + shipID.ToString() + " was not found.");
+        return null;
+    }
+
+    public static GameObject GetShipPrefab(ShipID shipID)
+    {
+        foreach (GameObject fleet in gameManager.shipPrefabs)
+        {
+            //Debug.Log(fleet);
+            if (fleet.GetComponent<Fleet>().shipID == shipID)
             {
                 return fleet;
             }
@@ -262,16 +280,21 @@ public class GameManager : MonoBehaviour
 
         else if (cell && !cell.fleet)
         {
-            HexUnit unit = Instantiate(HexUnit.unitPrefab);
-            Fleet fleet = Instantiate(GetShipByType(shipID));
+            //HexUnit unit = Instantiate(HexUnit.unitPrefab);
+            //Fleet fleet = Instantiate(GetShipByType(shipID));
+
+            GameObject fleet = Instantiate(GetShipPrefab(shipID));
 
             // Link
-            fleet.hexUnit = unit;
-            unit.fleet = fleet;
-            fleet.owner = owner;
+            //fleet.fleet.hexUnit = unit;
+            //fleet.unit.fleet = fleet;
+
+            //GameObject createdFleet = Instantiate(GetShipPrefab(ShipID.MONO));
+
+            fleet.GetComponent<Fleet>().owner = owner;
 
             hexGrid.AddFleet(
-                fleet, cell, Random.Range(0f, 360f)
+                fleet.GetComponent<Fleet>(), cell, Random.Range(0f, 360f)
             );
 
             if (FindObjectOfType<HexMapEditor>() == null || !FindObjectOfType<HexMapEditor>().enabled)

@@ -8,23 +8,23 @@ public class ExamplePopupUI : PopupUI
 {
     override public void OpenUI()
     {
-        _image.enabled = true;
+        //_image.enabled = true;
 
-        foreach (PopupUIElement child in children)
-        {
-            child.OnUIOpen();
-        }
+        //foreach (PopupUIElement child in children)
+        //{
+        //    child.OnUIOpen();
+        //}
     }
 
     override public void CloseUI()
     {
-        _image.enabled = false;
-        Debug.Log("Check Close Popup");
+        //_image.enabled = false;
+        //Debug.Log("Check Close Popup");
 
-        foreach (PopupUIElement child in children)
-        {
-            child.OnUIClose();
-        }
+        //foreach (PopupUIElement child in children)
+        //{
+        //    child.OnUIClose();
+        //}
     }
 
     public override void UpdateUI()

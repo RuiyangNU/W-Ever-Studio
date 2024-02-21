@@ -58,6 +58,8 @@ public class Planet : MonoBehaviour, ISelectable
 
     public bool IsPlayerOwned => owner == Owner.PLAYER;
 
+    public int NumBuildings => buildings.Count;
+
     /*
      * Initializers and Updaters
      */
@@ -86,7 +88,7 @@ public class Planet : MonoBehaviour, ISelectable
             displayColor = Color.grey * 0.5f;
         }
 
-        if (planetInfoUI.linkedPlanet == this)
+        if(planetInfoUI.linkedPlanet == this)
         {
             displayColor *= 2f;
         }
@@ -192,6 +194,19 @@ public class Planet : MonoBehaviour, ISelectable
         }
 
         return false;
+    }
+
+    public int GetBuildingLevel(BuildingID buildingID)
+    {
+        foreach (Building building in buildings)
+        {
+            if (building.ID == buildingID)
+            {
+                return building.Level;
+            }
+        }
+
+        return -1;
     }
 
     /*
