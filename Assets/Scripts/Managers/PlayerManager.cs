@@ -34,7 +34,7 @@ public class PlayerManager : MonoBehaviour
     {
         foreach (Planet p in playerControlledPlanets)
         {
-            AddCurrency(p.GetTickCurrency());
+            AddCurrency(p.GetTickCurrencies());
         }
     }
 
