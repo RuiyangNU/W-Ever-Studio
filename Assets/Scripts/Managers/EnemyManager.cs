@@ -47,7 +47,7 @@ public class EnemyManager : MonoBehaviour
         if (spawnCoolDown == 0)
         {
             SpawnEnemyFleet();
-            spawnCoolDown = 5;
+            spawnCoolDown = (int)Mathf.Max(3, 7 - Mathf.Floor(gameManager.turnNumber/4));
         }
         else
         {
