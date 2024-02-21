@@ -11,8 +11,28 @@ public class TradeHubBuilding : Building
         this.level = 1;
     }
 
+    public override Dictionary<Commodity, int> GetCommodities()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override Dictionary<Currency, int> GetTickCurrencies()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void UpdateTick()
     {
 
+    }
+
+    public override Dictionary<Commodity, int> UpgradeCommodityRequirement()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override int UpgradeCreditCost()
+    {
+        throw new System.NotImplementedException();
     }
 }

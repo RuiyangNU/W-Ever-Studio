@@ -163,6 +163,7 @@ public class Planet : MonoBehaviour, ISelectable
      * Buildings
      */
 
+    //TODO: Add Resource costs
     public void Build(BuildingID buildingID)
     {
         if (buildings.Count >= buildingLimit)
