@@ -150,9 +150,27 @@ public class PlayerManager : MonoBehaviour
 
         Dictionary<Commodity, int> milestone = GetCommodityMilestones();
 
-        return (milestone[c] == m);
+        return (milestone[c] >= m);
 
     }
+
+    public bool QueryCommodityMilestones(Dictionary<Commodity, int> commodities)
+    {
+
+        Dictionary<Commodity, int> milestones = GetCommodityMilestones();
+
+        foreach(Commodity c in commodities.Keys)
+        {
+            if (commodities[c] > milestones[c])
+            {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
 
 
     private void AddAllCommodities()
