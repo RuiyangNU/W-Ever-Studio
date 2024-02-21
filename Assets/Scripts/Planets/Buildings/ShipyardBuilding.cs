@@ -37,7 +37,10 @@ public class ShipyardBuilding : Building
 
     public override void UpdateTick()
     {
-        turnsLeft = Mathf.Max(0, turnsLeft-1);
+        if (turnsLeft != -1)
+        {
+            turnsLeft = Mathf.Max(0, turnsLeft - 1);
+        }
 
         if (turnsLeft == 0 && !(homePlanet.Occupied))
         {
