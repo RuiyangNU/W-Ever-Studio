@@ -210,7 +210,7 @@ public class Planet : MonoBehaviour, ISelectable
     /*
      * Resources
      */
-    public Dictionary<Currency, int> GetTickCurrency()
+    public Dictionary<Currency, int> GetTickCurrencies()
     {
         // Base generation
         Dictionary<Currency, int> generated = new()
@@ -231,6 +231,11 @@ public class Planet : MonoBehaviour, ISelectable
         }
 
         return generated;
+    }
+
+    public int GetTickCurrency(Currency c)
+    {
+        return GetTickCurrencies()[c];
     }
 
     public Dictionary<Commodity, int> GetAllCommodities()
