@@ -92,7 +92,20 @@ public abstract class Fleet : MonoBehaviour, ISelectable
 
     public static int UpkeepCreditCost(ShipID id)
     {
-        throw new System.NotImplementedException(); 
+        switch(id)
+        {
+            case ShipID.MONO: return 15;
+            case ShipID.FLARE: return 30;
+            case ShipID.SPARK: return 50;
+            case ShipID.PULSE: return 50;
+            case ShipID.EMBER: return 80;
+            case ShipID.VOLT: return 120;
+            case ShipID.BLAST: return 100;
+
+            default:
+                Debug.LogError("Unknown ship ID.");
+                return -1;
+        }
     }
     public static int BuildCreditCost(ShipID id)
     {
@@ -100,8 +113,12 @@ public abstract class Fleet : MonoBehaviour, ISelectable
         {
             case ShipID.MONO: return 150;
             case ShipID.FLARE: return 300;
-            //TODO: add all ship IDs here
-              
+            case ShipID.SPARK: return 500;
+            case ShipID.PULSE: return 500;
+            case ShipID.EMBER: return 800;
+            case ShipID.VOLT: return 1200;
+            case ShipID.BLAST: return 1000;
+
             default:
                 Debug.LogError("Unknown ship ID.");
                 return -1;
@@ -110,7 +127,20 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     }
     public static int BuildAlloyRequirement(ShipID id)
     {
-        throw new System.NotImplementedException();
+        switch (id)
+        {
+            case ShipID.MONO: return 0;
+            case ShipID.FLARE: return 1;
+            case ShipID.SPARK: return 1;
+            case ShipID.PULSE: return 1;
+            case ShipID.EMBER: return 2;
+            case ShipID.VOLT: return 2;
+            case ShipID.BLAST: return 2;
+
+            default:
+                Debug.LogError("Unknown ship ID.");
+                return -1;
+        }
     }
 
     /*
@@ -222,7 +252,7 @@ public enum ShipID
 
     // Tech 2
     EMBER,
-    BOLT,
+    VOLT,
     BLAST
 }
 public enum DamageType
