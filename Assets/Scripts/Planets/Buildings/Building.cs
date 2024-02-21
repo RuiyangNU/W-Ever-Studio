@@ -63,12 +63,18 @@ public abstract class Building
         }
     }
 
-    public static int BuildAlloyRequirement(BuildingID id)
+    public static int BuildCMRequirement(BuildingID id)
     {
         switch (id)
         {
             case BuildingID.DEPOT: return 0;
-            default: return 1;
+            case BuildingID.SMELTERY: return 1;
+            case BuildingID.TRADEHUB: return 1;
+            case BuildingID.LAB: return 1;
+            case BuildingID.SHIPYARD: return 1;
+            default:
+                Debug.LogError("Unknown building id " + id.ToString() + ".");
+                return -1;
         }
     }
 

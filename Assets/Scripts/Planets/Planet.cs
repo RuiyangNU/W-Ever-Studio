@@ -185,8 +185,8 @@ public class Planet : MonoBehaviour, ISelectable
             return;
         }
 
-        int commodityRequirement = Building.BuildAlloyRequirement(buildingID);
-        if (!playerManager.QueryCommodityMilestone(Commodity.ALLOY, commodityRequirement))
+        int commodityRequirement = Building.BuildCMRequirement(buildingID);
+        if (!playerManager.QueryCommodityMilestone(Commodity.CONSTRUCTION, commodityRequirement))
         {
             Debug.LogWarning("Tried to build a " + buildingID.ToString() + " at " + this.name + ", but the player doesn't meet commodity requirements.");
             return;
@@ -223,12 +223,66 @@ public class Planet : MonoBehaviour, ISelectable
         toUpgrade.Upgrade();
     }
 
-    public bool CanBuild(BuildingID buildingID)
+    /// <summary>
+    /// Determines whether the player can build a specified building.
+    /// </summary>
+    /// <remarks>
+    /// This function checks if the player meets all the necessary conditions to build a building.
+    /// It returns 0 if the player can build the building. Otherwise, it returns an integer between 1 and 4,
+    /// each representing a different reason why the building cannot be constructed.
+    /// </remarks>
+    /// <returns>
+    /// An integer indicating the ability to build the building:
+    /// <list type="bullet">
+    /// <item>
+    /// <description>0: The player can build the building.</description>
+    /// </item>
+    /// <item>
+    /// <description>1: The player already has a building of this type.</description>
+    /// </item>
+    /// <item>
+    /// <description>2: The planet has reached its building limit.</description>
+    /// </item>
+    /// <item>
+    /// <description>3: The player does not have enough credits.</description>
+    /// </item>
+    /// <item>
+    /// <description>4: The player does not meet the commodity requirements.</description>
+    /// </item>
+    /// </list>
+    /// </returns>
+    public int CanBuild(BuildingID buildingID)
     {
-        return !(HasBuilding(buildingID) ||
-            buildings.Count >= buildingLimit ||
-            playerManager.PlayerCredit < Building.BuildCreditCost(buildingID) ||
-            !playerManager.QueryCommodityMilestone(Commodity.ALLOY, Building.BuildAlloyRequirement(buildingID)));
+        if (HasBuilding(buildingID))
+        {
+            return 1;
+        }
+        else if (buildings.Count >= buildingLimit)
+        {
+            return 2;
+        }
+        else if (playerManager.PlayerCredit < Building.BuildCreditCost(buildingID))
+        {
+            return 3;
+        }
+        else if (!playerManager.QueryCommodityMilestone(Commodity.CONSTRUCTION, Building.BuildCMRequirement(buildingID)))
+        {
+            return 4;
+        }
+        return 0;
+    }
+
+    public static string GetBuildFailureReason(int reasonCode)
+    {
+        return reasonCode switch
+        {
+            0 => "Able to build",
+            1 => "Already constructed",
+            2 => "No slots available",
+            3 => "Insufficient credits",
+            4 => "Insufficient construction material milestone",
+            _ => "Unknown reason - report to devs!",
+        };
     }
 
     public bool HasBuilding(BuildingID buildingID)

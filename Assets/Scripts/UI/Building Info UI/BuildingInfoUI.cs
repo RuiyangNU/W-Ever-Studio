@@ -159,7 +159,7 @@ public class BuildingInfoUI : PopupUI
         //List<BuildingID> buildings = new List<BuildingID>(new BuildingID[] {BuildingID.SHIPYARD, BuildingID.DEPOT, BuildingID.LAB,BuildingID.SMELTERY, BuildingID.TRADEHUB});
         foreach (BuildingID id in buildingOrder)
         {
-            if (!linkedPlanet.CanBuild(id))
+            if (linkedPlanet.CanBuild(id) != 0)
             {
                 constructBuildings[i].transform.GetChild(3).gameObject.SetActive(false);
             }
