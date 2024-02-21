@@ -114,13 +114,23 @@ public class BuildingInfoUI : PopupUI
         }
 
         //Update Each Info Panel
-        for (int i = 0; i < buildings.Count; i++)
+        for (int i = 0; i < linkedPlanet.buildingLimit; i++)
         {
-            Building building = buildings[i];
-            buildingInfoPanel[i].transform.GetChild(0).gameObject.SetActive(false);
-            buildingInfoPanel[i].transform.GetChild(1).gameObject.SetActive(true);
+            if(i < buildings.Count)
+            {
+                Building building = buildings[i];
+                buildingInfoPanel[i].transform.GetChild(0).gameObject.SetActive(false);
+                buildingInfoPanel[i].transform.GetChild(1).gameObject.SetActive(true);
+                UpdateBuildingDisplay(building, buildingInfoPanel[i].transform.GetChild(1).gameObject);
+            }
+            else
+            {
+                buildingInfoPanel[i].transform.GetChild(0).gameObject.SetActive(true);
+                buildingInfoPanel[i].transform.GetChild(1).gameObject.SetActive(false);
+            }
+            
 
-            UpdateBuildingDisplay(building, buildingInfoPanel[i].transform.GetChild(1).gameObject);
+            
 
 
         }

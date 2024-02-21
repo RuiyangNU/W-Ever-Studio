@@ -53,6 +53,7 @@ public class PlanetInfoUI : PopupUI
 
         linkedPlanet = obj;
         buildingInfoUI.CloseUI();
+        CloseShipyardUI();
         UpdateUI();
     }
 
@@ -131,11 +132,11 @@ public class PlanetInfoUI : PopupUI
     {
         if(linkedPlanet.CanBuildShip(ShipID.MONO) == 0)
         {
-            shipConstructionDisplay[0].transform.GetChild(3).gameObject.SetActive(false);
+            shipConstructionDisplay[0].transform.GetChild(3).gameObject.SetActive(true);
         }
         else
         {
-            shipConstructionDisplay[0].transform.GetChild(3).gameObject.SetActive(true);
+            shipConstructionDisplay[0].transform.GetChild(3).gameObject.SetActive(false);
         }
 
 
