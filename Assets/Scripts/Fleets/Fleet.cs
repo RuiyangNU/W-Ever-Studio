@@ -28,15 +28,15 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     public int maxActionPoints;
 
     [SerializeField]
-    private float hull;
+    protected float hull;
     [SerializeField]
-    private float shield;
+    protected float shield;
     [SerializeField]
-    private int actionPoints;
+    protected int actionPoints;
 
     public DamageType damageType;
     [SerializeField]
-    private float damage;
+    protected float damage;
 
     public int thermalRes;
     public int kineticRes;
@@ -59,7 +59,7 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     /*
      * Methods
      */
-    void Awake()
+    protected void InitializeReferences()
     {
         playerManager = FindObjectOfType<PlayerManager>();
         enemyManager = FindObjectOfType<EnemyManager>();
@@ -89,6 +89,33 @@ public abstract class Fleet : MonoBehaviour, ISelectable
 
         return;
     }
+
+    public static int UpkeepCreditCost(ShipID id)
+    {
+        throw new System.NotImplementedException(); 
+    }
+    public static int BuildCreditCost(ShipID id)
+    {
+        switch (id)
+        {
+            case ShipID.MONO: return 150;
+            case ShipID.FLARE: return 300;
+            //TODO: add all ship IDs here
+              
+            default:
+                Debug.LogError("Unknown ship ID.");
+                return -1;
+                
+        }
+    }
+    public static int BuildAlloyRequirement(ShipID id)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    /*
+     * Control
+     */
 
     // grid call travel(path) on HexUnit, Hexunit will determine an action type, if it is movement, retrieve coordinates and
     // pass those coordinates into MoveTo(vector 3 corrds)
