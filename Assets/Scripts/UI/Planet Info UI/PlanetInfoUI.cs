@@ -69,6 +69,11 @@ public class PlanetInfoUI : PopupUI
         //{
         //    child.OnUIOpen();
         //}
+        FleetInfoUI f = FindObjectOfType<FleetInfoUI>();
+        if (f.isUIOpen)
+        {
+            f.CloseUI();
+        }
 
         isUIOpen = true;
         infoPanel.SetActive(true);
