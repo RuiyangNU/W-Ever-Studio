@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 
     public PlanetInfoUI PlanetInfoUI;
     public GameObject PlanetBuildingUI;
+    public FleetInfoUI FleetInfoUI;
 
     public static UIManager uiManager;
 

@@ -90,6 +90,10 @@ public class HexGameUI : MonoBehaviour
                 selectedUnit = selectedFleet.hexUnit;
 				selectedFleet.OpenUI();
 			}
+			else if (selectedFleet != null && selectedFleet.owner != Owner.PLAYER)
+			{
+                selectedFleet.OpenUI();
+            }
 			else
 			{
 				selectedUnit = null;

@@ -10,6 +10,7 @@ public class PlanetInfoUI : PopupUI
     public Planet linkedPlanet = null;
 
     public bool isUIOpen = false;
+    public bool isShipyardOpen = false;
 
     public TextMeshProUGUI buildingSlot;
     public TextMeshProUGUI creditIncome;
@@ -20,6 +21,10 @@ public class PlanetInfoUI : PopupUI
     public GameObject infoPanel;
 
     public BuildingInfoUI buildingInfoUI;
+
+    public GameObject shipyardPanel;
+
+    public List<GameObject> shipConstructionDisplay;
 
     // Start is called before the first frame update
     protected void Start()
@@ -33,6 +38,10 @@ public class PlanetInfoUI : PopupUI
         if (linkedPlanet != null)
         {
             UpdateUI();
+            if(isShipyardOpen)
+            {
+                UpdateShipyardUI();
+            }
         }
     }
     /// <summary>
@@ -43,6 +52,7 @@ public class PlanetInfoUI : PopupUI
         if (obj == null) { throw new NullReferenceException("Link was called but a null object was given."); }
 
         linkedPlanet = obj;
+        buildingInfoUI.CloseUI();
         UpdateUI();
     }
 
@@ -80,7 +90,61 @@ public class PlanetInfoUI : PopupUI
 
         isUIOpen = false;
         buildingInfoUI.CloseUI();
+        CloseShipyardUI();
         infoPanel.SetActive(false);
+
+    }
+
+    public void OpenShipyardUI()
+    {
+        if (linkedPlanet.HasBuilding(BuildingID.SHIPYARD))
+        {
+            shipyardPanel.SetActive(true);
+            isShipyardOpen = true;
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public void CloseShipyardUI()
+    {
+        shipyardPanel.SetActive(false);
+        isShipyardOpen = false;
+    }
+
+    public void ChangeShipyardUI()
+    {
+        if(isShipyardOpen)
+        {
+            CloseShipyardUI();
+            
+        }
+        else
+        {
+            OpenShipyardUI();
+        }
+    }
+
+    public void UpdateShipyardUI()
+    {
+        if(linkedPlanet.CanBuildShip(ShipID.MONO) == 0)
+        {
+            shipConstructionDisplay[0].transform.GetChild(3).gameObject.SetActive(false);
+        }
+        else
+        {
+            shipConstructionDisplay[0].transform.GetChild(3).gameObject.SetActive(true);
+        }
+
+
+    }
+
+    public void BuildMono()
+    {
+        linkedPlanet.BuildShip(ShipID.MONO);
+        CloseShipyardUI();
     }
 
     private void CloseUIWithoutUnlink()
@@ -115,7 +179,7 @@ public class PlanetInfoUI : PopupUI
 
             if (linkedPlanet.HasBuilding(BuildingID.SHIPYARD))
             {
-                shipyardText.text = "Shipyard: T" + linkedPlanet.GetBuildingLevel(BuildingID.SHIPYARD).ToString();
+                shipyardText.text = "Busy: " + ((ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD)).TurnsLeft.ToString();
             }
             else
             {
@@ -137,18 +201,6 @@ public class PlanetInfoUI : PopupUI
             
         }
 
-        //if (isUIOpen)
-        //{
-        //    CloseUIWithoutUnlink();
-        //    OpenUI();
-        //}
-
-            //Update Name
-
-
-
-            //Update Stat
-
 
     }
 
@@ -158,7 +210,7 @@ public class PlanetInfoUI : PopupUI
         //scienceIncome.color = Color.green;
         //buildingSlot.color = Color.green;
         //shipyardText.color = Color.green;
-        ChangeTextColor(Color.green);
+        ChangeTextColor(Color.green);   
     }
 
     public void ChangeTextColor(Color color)

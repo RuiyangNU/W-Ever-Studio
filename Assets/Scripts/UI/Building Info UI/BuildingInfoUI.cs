@@ -148,6 +148,7 @@ public class BuildingInfoUI : PopupUI
         {
             isConstructionUIOpen = true;
             constructionPanel.SetActive(true);
+            HexMapCamera.Locked = true;
         }
 
         //Update Construction UI
@@ -179,6 +180,7 @@ public class BuildingInfoUI : PopupUI
         {
             isConstructionUIOpen = false;
             constructionPanel.SetActive(false);
+            HexMapCamera.Locked = false;
         }
     }
 
