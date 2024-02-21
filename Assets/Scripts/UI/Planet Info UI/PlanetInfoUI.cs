@@ -17,6 +17,7 @@ public class PlanetInfoUI : PopupUI
     public TextMeshProUGUI scienceIncome;
     public TextMeshProUGUI shipyardText;
     public TextMeshProUGUI planetName;
+    public TextMeshProUGUI captureText;
 
     public GameObject infoPanel;
 
@@ -183,6 +184,7 @@ public class PlanetInfoUI : PopupUI
 
             buildingSlot.text = linkedPlanet.buildings.Count.ToString() + "/" + linkedPlanet.buildingLimit.ToString();
 
+
             if (linkedPlanet.HasBuilding(BuildingID.SHIPYARD))
             {
                 ShipyardBuilding shipyard = (ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD);
@@ -200,8 +202,17 @@ public class PlanetInfoUI : PopupUI
             {
                 shipyardText.text = "No Shipyard";
             }
+
+            if (linkedPlanet.UnderAttack)
+            {
+                captureText.text = linkedPlanet.TurnsUntilCaptured.ToString() + "Turns Until Capture";
+            }
+            else
+            {
+                captureText.text = "Not Under Attack";
+            }
         }
-        else if (linkedPlanet.owner == Owner.ENEMY)
+        else if (linkedPlanet.owner != Owner.PLAYER)
         {
             ChangeTextColor(Color.red);
             creditIncome.text = "???";
@@ -213,7 +224,14 @@ public class PlanetInfoUI : PopupUI
 
             shipyardText.text = "???";
 
-            
+            if (linkedPlanet.UnderAttack)
+            {
+                captureText.text = linkedPlanet.TurnsUntilCaptured.ToString() + "Turns Until Capture";
+            }
+            else
+            {
+                captureText.text = "Not Under Attack";
+            }
         }
 
 
@@ -234,5 +252,6 @@ public class PlanetInfoUI : PopupUI
         scienceIncome.color = color;
         buildingSlot.color = color;
         shipyardText.color = color;
+        captureText.color = color;
     }
 }

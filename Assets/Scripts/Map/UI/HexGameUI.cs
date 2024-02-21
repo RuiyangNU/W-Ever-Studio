@@ -14,6 +14,7 @@ public class HexGameUI : MonoBehaviour
 	int prevCellIndex = -1;
 	HexUnit selectedUnit;
 	Fleet selectedFleet;
+	Planet selectedPlanet;
 	public GameManager gameManager;
 
     public void Awake()
@@ -84,15 +85,45 @@ public class HexGameUI : MonoBehaviour
 			Debug.Log(grid.GetCell(currentCellIndex).visibility);
 
 			selectedFleet = grid.GetCell(currentCellIndex).fleet;
+            selectedPlanet = grid.GetCell(currentCellIndex).planet;
 
-			if (selectedFleet != null && selectedFleet.owner == Owner.PLAYER)
+
+            if (selectedFleet != null && selectedFleet.owner == Owner.PLAYER)
 			{
                 selectedUnit = selectedFleet.hexUnit;
-				selectedFleet.OpenUI();
-			}
+                FleetInfoUI fui = FindObjectOfType<FleetInfoUI>();
+                if (!fui.isUIOpen)
+                {
+                    selectedFleet.OpenUI();
+                }
+                else
+                {
+                    if (selectedPlanet != null)
+                    {
+                        selectedPlanet.OpenUI();
+                    }
+                }
+            }
 			else if (selectedFleet != null && selectedFleet.owner != Owner.PLAYER)
 			{
-                selectedFleet.OpenUI();
+				FleetInfoUI fui = FindObjectOfType<FleetInfoUI>();
+				if(!fui.isUIOpen)
+				{
+                    selectedFleet.OpenUI();
+				}
+				else
+				{
+					if(selectedPlanet != null)
+					{
+						selectedPlanet.OpenUI();
+					}
+				}
+
+            }
+            else if(selectedFleet == null && selectedPlanet != null)
+			{
+				selectedPlanet.OpenUI();
+
             }
 			else
 			{

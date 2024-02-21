@@ -28455,6 +28455,7 @@ MonoBehaviour:
   scienceIncome: {fileID: 990470558}
   shipyardText: {fileID: 442609052}
   planetName: {fileID: 0}
+  captureText: {fileID: 2043394128}
   infoPanel: {fileID: 283362286}
   buildingInfoUI: {fileID: 1752726711}
   shipyardPanel: {fileID: 98608060}
@@ -30510,6 +30511,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038851632}
   m_CullTransparentMesh: 1
+--- !u!114 &2043394128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1242851263001750275, guid: 4239a68bea7d5f54b8224b92e1426075,
+    type: 3}
+  m_PrefabInstance: {fileID: 499719553}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2056945511
 GameObject:
   m_ObjectHideFlags: 0

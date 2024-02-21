@@ -517,7 +517,7 @@ public class Planet : MonoBehaviour, ISelectable
     //TODO: REMOVE!!
     public void OnMouseDown()
     {
-        OpenUI();
+        //OpenUI();
     }
 
     public void OpenUI()
