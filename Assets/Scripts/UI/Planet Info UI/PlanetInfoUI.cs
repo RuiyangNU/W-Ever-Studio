@@ -179,7 +179,16 @@ public class PlanetInfoUI : PopupUI
 
             if (linkedPlanet.HasBuilding(BuildingID.SHIPYARD))
             {
-                shipyardText.text = "Busy: " + ((ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD)).TurnsLeft.ToString();
+                ShipyardBuilding shipyard = (ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD);
+
+                if (shipyard.IsActive)
+                {
+                    shipyardText.text = "Busy: " + ((ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD)).TurnsLeft.ToString();
+                }
+                else
+                {
+                    shipyardText.text = "Shipyard Idle";
+                }
             }
             else
             {
