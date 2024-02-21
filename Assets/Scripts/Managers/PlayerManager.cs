@@ -6,22 +6,25 @@ public class PlayerManager : MonoBehaviour
 {
     public List<Planet> playerControlledPlanets = new List<Planet>();
 
-    public Dictionary<Currency, int> playerCurrency;
+    public Dictionary<Currency, int> playerCurrencies;
 
-    public Dictionary<Commodity, int> playerCommodity;
+    public Dictionary<Commodity, int> playerCommodities;
 
-    public float PlayerCredit => playerCurrency[Currency.CREDIT];
-    public float PlayerResearch => playerCurrency[Currency.RESEARCH];
-    public float PlayerConstruction => playerCommodity[Commodity.CONSTRUCTION];
-    public float PlayerAlloy => playerCommodity[Commodity.ALLOY];
+    public float PlayerCredit => playerCurrencies[Currency.CREDIT];
+    public float PlayerResearch => playerCurrencies[Currency.RESEARCH];
+    public Dictionary<Commodity, int> PlayerCommodityMilestones => GetCommodityMilestones();
 
     /*
      * Initialization
      */
     void Awake()
     {
-        playerCurrency = new Dictionary<Currency, int>(PlayerSettings.DEFAULT_STARTING_CURRENCY);
-        playerCommodity = new();
+        playerCurrencies = new Dictionary<Currency, int>(PlayerSettings.DEFAULT_STARTING_CURRENCY);
+        playerCommodities = new()
+        {
+            { Commodity.CONSTRUCTION, 0 },
+            { Commodity.ALLOY, 0 }
+        };
     }
 
     /*
@@ -33,12 +36,6 @@ public class PlayerManager : MonoBehaviour
         {
             AddCurrency(p.GetTickCurrency());
         }
-    }
-
-    private void Update()
-    {
-        ResetCommodities();
-        AddAllCommodities();
     }
 
     /*
@@ -66,14 +63,14 @@ public class PlayerManager : MonoBehaviour
     {
         foreach (Currency c in currency.Keys)
         {
-            if (!(playerCurrency.ContainsKey(c)))
+            if (!(playerCurrencies.ContainsKey(c)))
             {
-                playerCurrency.Add(c, currency[c]);
+                playerCurrencies.Add(c, currency[c]);
             }
 
             else
             {
-                playerCurrency[c] += currency[c];
+                playerCurrencies[c] += currency[c];
             }
         }
     }
@@ -82,14 +79,14 @@ public class PlayerManager : MonoBehaviour
     {
         foreach (Currency c in currency.Keys)
         {
-            if (!(playerCurrency.ContainsKey(c)))
+            if (!(playerCurrencies.ContainsKey(c)))
             {
-                playerCurrency.Add(c, currency[c]);
+                playerCurrencies.Add(c, currency[c]);
             }
 
             else
             {
-                playerCurrency[c] -= currency[c];
+                playerCurrencies[c] -= currency[c];
             }
         }
     }
@@ -98,7 +95,7 @@ public class PlayerManager : MonoBehaviour
     {
         foreach (Currency c in currency.Keys)
         {
-            if (!(playerCurrency.ContainsKey(c)) || playerCurrency[c] < currency[c])
+            if (!(playerCurrencies.ContainsKey(c)) || playerCurrencies[c] < currency[c])
             {
                 return false;
             }
@@ -107,20 +104,36 @@ public class PlayerManager : MonoBehaviour
         return true;
     }
 
-    private void AddCommodities(Dictionary<Commodity, int> commodities)
+    private Dictionary<Commodity, int> GetCommodityMilestones()
     {
-        foreach (Commodity c in commodities.Keys)
+        Dictionary<Commodity, int> milestones = new()
         {
-            if (!(playerCommodity.ContainsKey(c)))
-            {
-                playerCommodity.Add(c, commodities[c]);
-            }
+            { Commodity.CONSTRUCTION, 0 },
+            { Commodity.ALLOY, 0 }
+        };
 
-            else
+        ResetCommodities();
+        AddAllCommodities();
+
+        foreach (Commodity c in playerCommodities.Keys)
+        {
+            int total = playerCommodities[c];
+
+            if (total >= 7)
             {
-                playerCommodity[c] += commodities[c];
+                milestones[c] = 3;
+            }
+            else if (total >= 3)
+            {
+                milestones[c] = 2;
+            }
+            else if (total >= 1)
+            {
+                milestones[c] = 1;
             }
         }
+
+        return milestones;
     }
 
     private void AddAllCommodities()
@@ -131,11 +144,27 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void AddCommodities(Dictionary<Commodity, int> commodities)
+    {
+        foreach (Commodity c in commodities.Keys)
+        {
+            if (!(playerCommodities.ContainsKey(c)))
+            {
+                playerCommodities.Add(c, commodities[c]);
+            }
+
+            else
+            {
+                playerCommodities[c] += commodities[c];
+            }
+        }
+    }
+
     private void ResetCommodities()
     {
-        foreach (Commodity c in playerCommodity.Keys)
+        foreach (Commodity c in playerCommodities.Keys)
         {
-            playerCommodity[c] = 0;
+            playerCommodities[c] = 0;
         }
     }
 }
