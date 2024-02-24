@@ -83,7 +83,7 @@ public class HexGameUI : MonoBehaviour
         }
 		if (currentCellIndex >= 0)
 		{
-			//Debug.Log(grid.GetCell(currentCellIndex).visibility);
+			Debug.Log(grid.GetCell(currentCellIndex).visibility);
 
 			selectedFleet = grid.GetCell(currentCellIndex).fleet;
             selectedPlanet = grid.GetCell(currentCellIndex).planet;
@@ -106,6 +106,10 @@ public class HexGameUI : MonoBehaviour
                     {
 						//If Fleet UI Open, Select Planet
                         selectedPlanet.OpenUI();
+					}
+					else
+					{
+                        selectedFleet.OpenUI();
                     }
                 }
             }
@@ -126,6 +130,10 @@ public class HexGameUI : MonoBehaviour
 						//If Fleet UI Open, Select Planet
 						selectedPlanet.OpenUI();
 					}
+					else
+					{
+                        selectedFleet.OpenUI();
+                    }
 				}
 
             }
