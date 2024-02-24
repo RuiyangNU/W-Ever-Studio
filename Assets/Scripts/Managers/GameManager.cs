@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
     public static GameManager gameManager;
 
+    /*
+     * Static
+     */
     public static Fleet GetShipByType(ShipID shipID)
     {
         foreach (Fleet fleet in gameManager.fleetPrefabs)
@@ -45,6 +48,9 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    /*
+     * Initializers and Updaters
+     */
     private void Awake()
     {
 
@@ -61,12 +67,16 @@ public class GameManager : MonoBehaviour
     }
 
     public void UpdateTick(){
-        turnNumber ++;
-        playerManager.UpdateTick();
         enemyManager.UpdateTick();
         hexGrid.UpdateTick();
+        playerManager.UpdateTick();
+
+        turnNumber ++;
     }
 
+    /*
+     * Combat Handling
+     */
     public void StartCombat(Fleet attacker, Fleet defender)
     {
         // Stats
@@ -217,6 +227,9 @@ public class GameManager : MonoBehaviour
         return effectiveDamage * (Mathf.Max(50, 100 + res) / 100);
     }
 
+    /*
+     * Object Creation
+     */
     public void CreatePlanet(HexCell cell, Owner owner)
     {
         //HexCell cell = GetCellUnderCursor();
@@ -306,7 +319,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void AddPlanetToCell(HexCell cell, Planet planet)
     {
         if (cell && !cell.planet)
@@ -319,6 +331,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /*
+     * Victory and Defeat
+     */
     void CheckWin()
     {
         if (enemyManager.enemyControlledPlanets.Count == playerManager.playerControlledPlanets.Count ||

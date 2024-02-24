@@ -496,7 +496,11 @@ public class Planet : MonoBehaviour, ISelectable
      */
     public void GetCaptured(Owner newOwner)
     {
-        if (newOwner == this.owner) { return; }
+        if (newOwner == this.owner)
+        {
+            Debug.LogError("GetCaptured was called on " + this.name + ", but the new owner was the same as its current owner.");
+            return;
+        }
 
         buildings = new List<Building>();
 
@@ -509,6 +513,8 @@ public class Planet : MonoBehaviour, ISelectable
         {
             hexGrid.DecreaseVisibility(CurrentCell, 2);
         }
+        
+        this.captureTimer = DEFAULT_CAPTURE_TIMER;
     }
 
     /*

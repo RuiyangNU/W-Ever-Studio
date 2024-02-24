@@ -24,11 +24,9 @@ public class EnemyManager : MonoBehaviour
 
     public int spawnCoolDown = 0; //Placeholder for spawning
 
-    //public enum AiTask
-    //{
-    //    IDLE,
-    //}
-
+    /*
+     * Initializers and Updaters 
+     */
     public void Awake()
     {
         hexGrid = FindObjectOfType<HexGrid>();
@@ -88,6 +86,10 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    /*
+     * Control
+     */
+
     /// <summary>
     /// Todo: fix spawning logic
     /// </summary>
@@ -132,7 +134,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-
     public void AddFleet(Fleet f)
     {
         if (enemyControlledFleets.Contains(f))
@@ -154,6 +155,9 @@ public class EnemyManager : MonoBehaviour
         enemyControlledFleets.Remove(f);
     }
 
+    /*
+     * AI
+     */
     public void AssignAiTask(Fleet f, int taskId)
     {
         EnemyAiTask task = new EnemyAiTask();
@@ -211,7 +215,6 @@ public class EnemyManager : MonoBehaviour
 
         return planet;
     }
-    
 
     /// <summary>
     /// Move the enemy ai fleet toward target cell for 2 cell
@@ -239,8 +242,6 @@ public class EnemyManager : MonoBehaviour
 
         hexGrid.ClearPath();
     }
-
-
 
     /// <summary>
     /// Start Combat for enemy ai fleet toward player fleet
