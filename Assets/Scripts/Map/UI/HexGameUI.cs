@@ -12,6 +12,7 @@ public class HexGameUI : MonoBehaviour
 
 	int currentCellIndex = -1;
 	int prevCellIndex = -1;
+	int prevCombatCellIndex = -1;
 	HexUnit selectedUnit;
 	Fleet selectedFleet;
 	Planet selectedPlanet;
@@ -70,7 +71,7 @@ public class HexGameUI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// The Current Function to select a fleet or an empty cell
+	/// The Current Function to select a fleet, a planet, or an empty cell
 	/// </summary>
 	void DoSelection()
 	{
@@ -82,17 +83,20 @@ public class HexGameUI : MonoBehaviour
         }
 		if (currentCellIndex >= 0)
 		{
-			Debug.Log(grid.GetCell(currentCellIndex).visibility);
+			//Debug.Log(grid.GetCell(currentCellIndex).visibility);
 
 			selectedFleet = grid.GetCell(currentCellIndex).fleet;
             selectedPlanet = grid.GetCell(currentCellIndex).planet;
+			//First Select Fleet, then planet, if empty cell, close the current GUI
 
 
             if (selectedFleet != null && selectedFleet.owner == Owner.PLAYER)
 			{
+                //Select Player Fleet
                 selectedUnit = selectedFleet.hexUnit;
                 FleetInfoUI fui = FindObjectOfType<FleetInfoUI>();
-                if (!fui.isUIOpen)
+                //If No UI Open, open fleet UI
+				if (!fui.isUIOpen)
                 {
                     selectedFleet.OpenUI();
                 }
@@ -100,21 +104,26 @@ public class HexGameUI : MonoBehaviour
                 {
                     if (selectedPlanet != null)
                     {
+						//If Fleet UI Open, Select Planet
                         selectedPlanet.OpenUI();
                     }
                 }
             }
 			else if (selectedFleet != null && selectedFleet.owner != Owner.PLAYER)
 			{
+
+				//Select Enemy Fleet
 				FleetInfoUI fui = FindObjectOfType<FleetInfoUI>();
 				if(!fui.isUIOpen)
 				{
+					//If No Fleet UI Open, Open Fleet UI
                     selectedFleet.OpenUI();
 				}
 				else
 				{
 					if(selectedPlanet != null)
 					{
+						//If Fleet UI Open, Select Planet
 						selectedPlanet.OpenUI();
 					}
 				}
@@ -122,6 +131,8 @@ public class HexGameUI : MonoBehaviour
             }
             else if(selectedFleet == null && selectedPlanet != null)
 			{
+				//If no fleet, open planet UI
+				selectedUnit = null;
 				selectedPlanet.OpenUI();
 
             }
@@ -145,7 +156,11 @@ public class HexGameUI : MonoBehaviour
 
 	void DoPathfinding()
 	{
-		if (UpdateCurrentCell())
+        if (prevCombatCellIndex != -1 && prevCombatCellIndex != currentCellIndex)
+        {
+            grid.GetCell(prevCombatCellIndex).DisableHighlight();
+        }
+        if (UpdateCurrentCell())
 		{
 			if (currentCellIndex >= 0 &&
 				selectedUnit.IsValidDestination(grid.GetCell(currentCellIndex)))
@@ -157,6 +172,11 @@ public class HexGameUI : MonoBehaviour
 			}else if(currentCellIndex >= 0 &&
                 selectedUnit.IsValidCombat(grid.GetCell(currentCellIndex))) {
 
+                //if (prevCellIndex)
+                prevCombatCellIndex = currentCellIndex;
+				//if()
+
+                grid.GetCell(prevCombatCellIndex).EnableHighlight(Color.red);
                 grid.ClearPath();
 
             }
