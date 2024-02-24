@@ -501,7 +501,14 @@ public class Planet : MonoBehaviour, ISelectable
         buildings = new List<Building>();
 
         this.owner = newOwner;
-        hexGrid.DecreaseVisibility(CurrentCell, 2);
+        if(newOwner == Owner.PLAYER)
+        {
+            hexGrid.IncreaseVisibility(CurrentCell, 2);
+        }
+        else
+        {
+            hexGrid.DecreaseVisibility(CurrentCell, 2);
+        }
     }
 
     /*

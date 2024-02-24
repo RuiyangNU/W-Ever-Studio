@@ -370,12 +370,16 @@ public class HexCell
 	public void IncreaseVisibility()
 	{
 		visibility += 1;
-		if (visibility == 1)
+		if (visibility >= 1)
 		{
 			flags = flags.With(HexFlags.Explored);
 			Grid.ShaderData.RefreshVisibility(this);
             EnablePlanetRender();
         }
+		//if(visibility > 1)
+		//{
+		//	visibility = 1;
+		//}
         EnableFleetRender();
         
     }
