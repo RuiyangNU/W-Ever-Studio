@@ -12,13 +12,14 @@ public abstract class Fleet : MonoBehaviour, ISelectable
      */
     public HexUnit hexUnit;
 
+    private HexGrid hexGrid;
+
     private PlayerManager playerManager;
     private EnemyManager enemyManager;
+
     private FleetInfoUI fleetInfoUI;
 
     public bool IsUIOpen => fleetInfoUI.isUIOpen;
-
-
     public bool IsPlayerOwned => owner == Owner.PLAYER;
     /*
      * Stats
@@ -63,6 +64,7 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     {
         playerManager = FindObjectOfType<PlayerManager>();
         enemyManager = FindObjectOfType<EnemyManager>();
+        hexGrid = FindObjectOfType<HexGrid>();
         fleetInfoUI = FindObjectOfType<FleetInfoUI>();
     }
 
@@ -84,8 +86,15 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     {
         RestoreActionPoints();
 
-        // Regenerate Shields
+        // Regenerate shields
         AddShield(maxShield * 0.2f);
+
+        // Regenerate hull if on friendly planet
+        HexCell currentCell = hexGrid.GetCell(hexUnit.locationCellIndex);
+        if (currentCell.planet && currentCell.planet.owner == owner)
+        {
+            AddHull(maxHull * 0.3f);
+        }
 
         return;
     }
