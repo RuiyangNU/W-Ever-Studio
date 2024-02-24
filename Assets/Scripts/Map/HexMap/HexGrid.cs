@@ -124,21 +124,10 @@ public class HexGrid : MonoBehaviour
 
 	public void UpdateTick()
 	{
-		//Do something
-
-        // for all cell, call update
 		foreach(HexCell cell in cells)
 		{
 			cell.UpdateTick();
 		}
-
-        //update player
-
-        //Update AI
-
-        //redraw map
-
-
     }
 
 	public void EnableAllRenderer()

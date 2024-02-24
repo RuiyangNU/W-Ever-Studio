@@ -67,10 +67,11 @@ public class GameManager : MonoBehaviour
     }
 
     public void UpdateTick(){
-        turnNumber ++;
-        playerManager.UpdateTick();
         enemyManager.UpdateTick();
         hexGrid.UpdateTick();
+        playerManager.UpdateTick();
+
+        turnNumber ++;
     }
 
     /*

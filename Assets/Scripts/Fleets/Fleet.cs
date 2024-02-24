@@ -64,6 +64,7 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     {
         playerManager = FindObjectOfType<PlayerManager>();
         enemyManager = FindObjectOfType<EnemyManager>();
+        hexGrid = FindObjectOfType<HexGrid>();
         fleetInfoUI = FindObjectOfType<FleetInfoUI>();
     }
 
