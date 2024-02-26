@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public int turnNumber = 0;
     public GameState gameState;
     public static GameManager gameManager;
+    
 
     /*
      * Static
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
         hexGrid.UpdateTick();
         playerManager.UpdateTick();
 
+        NotificationUI.notificationUI.UpdateTick();
         turnNumber ++;
     }
 
@@ -84,6 +86,12 @@ public class GameManager : MonoBehaviour
         DamageType attackerType = attacker.damageType;
         float defenderDamage = defender.Damage;
         DamageType defenderType = defender.damageType;
+        CombatEvent combatEvent = new CombatEvent();
+
+
+        combatEvent.attacker = attacker.owner;
+        combatEvent.defender = defender.owner;
+
 
         int defenderRes = 0;
         switch (attackerType)
@@ -131,16 +139,19 @@ public class GameManager : MonoBehaviour
             {
                 // Pierce shield
                 remainingRawDamage -= EffectiveToRaw(defender.Shield, defenderRes + nativeRes);
+                combatEvent.attackerShieldDamage = defender.Shield;
                 defender.RemoveShield(defender.Shield);
+
             }
             else
             {
                 // Blocked by shield
                 remainingRawDamage = 0;
+                combatEvent.attackerShieldDamage = remainingEffectiveDamage;
                 defender.RemoveShield(remainingEffectiveDamage);
             }
         }
-
+        //combatEvent.attacker
         // Hull
         if (remainingRawDamage > 0)
         {
@@ -152,6 +163,7 @@ public class GameManager : MonoBehaviour
             };
 
             float remainingEffectiveDamage = RawToEffective(remainingRawDamage, defenderRes + nativeRes);
+            combatEvent.attackerHullDamage = remainingEffectiveDamage;
             defender.RemoveHull(remainingEffectiveDamage);
         }
 
@@ -175,12 +187,14 @@ public class GameManager : MonoBehaviour
             {
                 // Pierce shield
                 remainingRawDamage -= EffectiveToRaw(attacker.Shield, attackerRes + nativeRes);
+                combatEvent.defenderShieldDamage = attacker.Shield;
                 attacker.RemoveShield(attacker.Shield);
             }
             else
             {
                 // Blocked by shield
                 remainingRawDamage = 0;
+                combatEvent.defenderShieldDamage = remainingEffectiveDamage;
                 attacker.RemoveShield(remainingEffectiveDamage);
             }
         }
@@ -196,6 +210,7 @@ public class GameManager : MonoBehaviour
             };
 
             float remainingEffectiveDamage = RawToEffective(remainingRawDamage, attackerRes + nativeRes);
+            combatEvent.defenderHullDamage = remainingEffectiveDamage;
             attacker.RemoveHull(remainingEffectiveDamage);
         }
 
@@ -204,6 +219,7 @@ public class GameManager : MonoBehaviour
          */
         if (defender.Hull == 0f)
         {
+            combatEvent.isDefenderAlive = false;
             defender.DestroyFleet();
         }
         else
@@ -213,8 +229,11 @@ public class GameManager : MonoBehaviour
 
         if (attacker.Hull == 0f)
         {
+            combatEvent.isDefenderAlive = false;
             attacker.DestroyFleet();
         }
+        //Debug.Log(combatEvent.ToString());
+        NotificationUI.notificationUI.AddNewItem(combatEvent);
     }
 
     private float RawToEffective(float rawDamage, int res)

@@ -182,7 +182,7 @@ public class PlanetInfoUI : PopupUI
 
             scienceIncome.text = linkedPlanet.GetTickCurrency(Currency.RESEARCH).ToString() + "/Turn";
 
-            buildingSlot.text = linkedPlanet.buildings.Count.ToString() + "/" + linkedPlanet.buildingLimit.ToString();
+            buildingSlot.text = "Building Slot: " + linkedPlanet.buildings.Count.ToString() + "/" + linkedPlanet.buildingLimit.ToString();
 
 
             if (linkedPlanet.HasBuilding(BuildingID.SHIPYARD))
@@ -191,7 +191,7 @@ public class PlanetInfoUI : PopupUI
 
                 if (shipyard.IsActive)
                 {
-                    shipyardText.text = "Busy: " + ((ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD)).TurnsLeft.ToString();
+                    shipyardText.text = "Busy Building" + ": " + ((ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD)).TurnsLeft.ToString();
                 }
                 else
                 {
