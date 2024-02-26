@@ -19,6 +19,8 @@ public class PlayerManager : MonoBehaviour
     public int PlayerResearch => playerCurrencies[Currency.RESEARCH];
     public Dictionary<Commodity, int> PlayerCommodityMilestones => GetCommodityMilestones();
 
+    public static PlayerManager playerManager;
+
     /*
      * Initialization
      */
@@ -30,6 +32,7 @@ public class PlayerManager : MonoBehaviour
             { Commodity.CONSTRUCTION, 0 },
             { Commodity.ALLOY, 0 }
         };
+        PlayerManager.playerManager = this;
     }
 
     /*

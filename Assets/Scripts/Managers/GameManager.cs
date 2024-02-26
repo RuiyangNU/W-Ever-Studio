@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public int turnNumber = 0;
     public GameState gameState;
     public static GameManager gameManager;
+    
 
     /*
      * Static
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
         hexGrid.UpdateTick();
         playerManager.UpdateTick();
 
+        NotificationUI.notificationUI.UpdateTick();
         turnNumber ++;
     }
 
@@ -230,7 +232,8 @@ public class GameManager : MonoBehaviour
             combatEvent.isDefenderAlive = false;
             attacker.DestroyFleet();
         }
-        Debug.Log(combatEvent.ToString());
+        //Debug.Log(combatEvent.ToString());
+        NotificationUI.notificationUI.AddNewItem(combatEvent);
     }
 
     private float RawToEffective(float rawDamage, int res)

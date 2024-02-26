@@ -200,6 +200,11 @@ public class Planet : MonoBehaviour, ISelectable
 
         playerManager.RemoveCurrency(new() { { Currency.CREDIT, creditCost } });
         buildings.Add(Building.InitializeBuilding(buildingID, this));
+        CustomEvent buildEvent = new CustomEvent();
+        buildEvent.eventType = "Construction";
+        buildEvent.message = "Build " + buildEvent.SetStringColor(buildingID.ToString(), Color.green);
+        NotificationUI.notificationUI.AddNewItem(buildEvent);
+
     }
 
     public void UpgradeBuilding(BuildingID buildingID)

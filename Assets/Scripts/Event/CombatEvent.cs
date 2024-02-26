@@ -16,6 +16,8 @@ public class CombatEvent : Event
     public bool isAttackerAlive = true;
     public bool isDefenderAlive = true;
 
+    //public string eventType = "Combat";
+
     /// <summary>
     /// 
     /// </summary>
@@ -42,6 +44,7 @@ public class CombatEvent : Event
 
     public CombatEvent()
     {
+        eventType = "Combat";
         //return this;
     }
 
@@ -50,8 +53,8 @@ public class CombatEvent : Event
     public override string ToString()
     {
         string firstLine = SetOwnerColor(attacker, attacker.ToString()) + " " + "attacks" + " " + SetOwnerColor(defender, defender.ToString()) + ". ";
-        string secondLine = SetOwnerColor(attacker, attacker.ToString()) + " deals " + SetStringColor(attackerHullDamage.ToString(), Color.red) + "/" + SetStringColor(attackerShieldDamage.ToString(), Color.blue) + ". ";
-        string thirdLine = SetOwnerColor(defender, defender.ToString()) + " deals " + SetStringColor(defenderHullDamage.ToString(), Color.red) + "/" + SetStringColor(defenderShieldDamage.ToString(), Color.blue) + ". ";
+        string secondLine = SetOwnerColor(attacker, attacker.ToString()) + " deals " + SetStringColor(attackerHullDamage.ToString(), Color.red) + "/" + SetStringColor(attackerShieldDamage.ToString(), Color.yellow) + ". ";
+        string thirdLine = SetOwnerColor(defender, defender.ToString()) + " deals " + SetStringColor(defenderHullDamage.ToString(), Color.red) + "/" + SetStringColor(defenderShieldDamage.ToString(), Color.yellow) + ". ";
         string forthLine = "";
         if(!isAttackerAlive && !isDefenderAlive)
         {
@@ -94,8 +97,8 @@ public class CombatEvent : Event
         return newS;
     }
 
-    public string SetStringColor(string s, Color color )
-    {
-        return "<color=" + ColorUtility.ToHtmlStringRGB(color) + ">" + s + "</color>";
-    }
+    //public string SetStringColor(string s, Color color )
+    //{
+    //    return "<color=#" + ColorUtility.ToHtmlStringRGB(color) + ">" + s + "</color>";
+    //}
 }
