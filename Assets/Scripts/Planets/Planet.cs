@@ -399,7 +399,7 @@ public class Planet : MonoBehaviour, ISelectable
     /// <description>4: The player does not meet the commodity requirements.</description>
     /// </item>
     /// <item>
-    /// <description>5: The player does not have the right research.</description>
+    /// <description>5: The player does not have the needed research.</description>
     /// </item>
     /// <item>
     /// <description>6: The shipyard's level is not high enough.</description>

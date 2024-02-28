@@ -315,6 +315,11 @@ public class PlayerManager : MonoBehaviour
     }
     public void ResearchTech(Tech tech)
     {
+        if (!CanResearchTech(tech))
+        {
+            Debug.LogError("Tried to research " + tech.ToString() + ", but the player does not have enough research points.");
+            return;
+        }
         playerCurrencies[Currency.RESEARCH] -= GetResearchCost(tech);
         playerTech[tech] += 1;
     }
