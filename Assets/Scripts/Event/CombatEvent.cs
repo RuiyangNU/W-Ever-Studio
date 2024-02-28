@@ -53,8 +53,8 @@ public class CombatEvent : Event
     public override string ToString()
     {
         string firstLine = SetOwnerColor(attacker, attacker.ToString()) + " " + "attacks" + " " + SetOwnerColor(defender, defender.ToString()) + ". ";
-        string secondLine = SetOwnerColor(attacker, attacker.ToString()) + " deals " + SetStringColor(attackerHullDamage.ToString(), Color.red) + "/" + SetStringColor(attackerShieldDamage.ToString(), Color.yellow) + ". ";
-        string thirdLine = SetOwnerColor(defender, defender.ToString()) + " deals " + SetStringColor(defenderHullDamage.ToString(), Color.red) + "/" + SetStringColor(defenderShieldDamage.ToString(), Color.yellow) + ". ";
+        string secondLine = SetOwnerColor(attacker, attacker.ToString()) + " deals " + SetStringColor(attackerHullDamage.ToString(), Color.red) + "Hull+" + SetStringColor(attackerShieldDamage.ToString(), Color.yellow) + "Shield. ";
+        string thirdLine = SetOwnerColor(defender, defender.ToString()) + " deals " + SetStringColor(defenderHullDamage.ToString(), Color.red) + "Hull+" + SetStringColor(defenderShieldDamage.ToString(), Color.yellow) + "Shield. ";
         string forthLine = "";
         if(!isAttackerAlive && !isDefenderAlive)
         {

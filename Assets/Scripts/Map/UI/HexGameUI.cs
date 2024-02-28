@@ -213,15 +213,21 @@ public class HexGameUI : MonoBehaviour
 
                 if (destination.fleet == null && selectedFleet != null)
                 {
-                    grid.FindPath(
+					if (selectedUnit.IsValidDestination(destination))
+					{
+                        grid.FindPath(
                         selectedUnit.Location,
                         grid.GetCell(currentCellIndex),
                         selectedUnit);
 
-                    selectedUnit.Travel(grid.GetPath());
-					selectedFleet.RemoveActionPoints(100);
-                    grid.ClearPath();
-                    return;
+						if (grid.HasPath)
+						{
+                            selectedUnit.Travel(grid.GetPath());
+                            selectedFleet.RemoveActionPoints(100);
+                            grid.ClearPath();
+                        }
+                        return;
+                    }
 
 				}
 				else if (selectedFleet == null)
