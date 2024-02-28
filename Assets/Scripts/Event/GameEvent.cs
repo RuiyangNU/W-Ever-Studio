@@ -44,7 +44,7 @@ public class GameEvent : Event
                 {
                     Dictionary<Currency, int> credit = new Dictionary<Currency, int>();
                     credit.Add(Currency.CREDIT, i);
-                    p.AddCurrency(credit);
+                    p.AddCurrencies(credit);
                 }
                 else
                 {
@@ -58,7 +58,7 @@ public class GameEvent : Event
                 {
                     Dictionary<Currency, int> credit = new Dictionary<Currency, int>();
                     credit.Add(Currency.RESEARCH, i);
-                    p.AddCurrency(credit);
+                    p.AddCurrencies(credit);
                 }
                 else
                 {

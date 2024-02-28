@@ -11,10 +11,15 @@ public class PlayerManager : MonoBehaviour
 
     public Dictionary<Commodity, int> playerCommodities;
 
+    public Dictionary<Tech, int> playerTech;
+
     public int PlayerCMLevel => playerCommodities[Commodity.CONSTRUCTION];
     public int PlayerAlloyLevel => playerCommodities[Commodity.ALLOY];
     public int PlayerCMMilestone => GetCommodityMilestone(Commodity.CONSTRUCTION);
     public int PlayerAlloyMilestone => GetCommodityMilestone(Commodity.ALLOY);
+    public int PlayerShipTier => playerTech[Tech.SHIP_TIER];
+    public int PlayerDamageTier => playerTech[Tech.DAMAGE];
+    public int PlayerResistanceTier => playerTech[Tech.RESISTANCE];
     public int PlayerCredit => playerCurrencies[Currency.CREDIT];
     public int PlayerResearch => playerCurrencies[Currency.RESEARCH];
     public Dictionary<Commodity, int> PlayerCommodityMilestones => GetCommodityMilestones();
@@ -32,6 +37,13 @@ public class PlayerManager : MonoBehaviour
             { Commodity.CONSTRUCTION, 0 },
             { Commodity.ALLOY, 0 }
         };
+        playerTech = new()
+        {
+            { Tech.SHIP_TIER, 0 },
+            { Tech.DAMAGE, 0 },
+            { Tech.RESISTANCE, 0 }
+        };
+
         PlayerManager.playerManager = this;
     }
 
@@ -42,7 +54,7 @@ public class PlayerManager : MonoBehaviour
     {
         foreach (Planet p in playerControlledPlanets)
         {
-            AddCurrency(p.GetTickCurrencies());
+            AddCurrencies(p.GetTickCurrencies());
         }
     }
 
@@ -67,7 +79,22 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void AddCurrency(Dictionary<Currency, int> currency)
+    public void AddCurrency(Currency currency, int amount)
+    {
+        playerCurrencies[currency] += amount;
+    }
+
+    public void RemoveCurrency(Currency currency, int amount)
+    {
+        if (playerCurrencies[currency] < amount)
+        {
+            Debug.LogError("Tried to remove more " + currency.ToString() + " than the player has.");
+            return;
+        }
+        playerCurrencies[currency] -= amount;
+    }
+
+    public void AddCurrencies(Dictionary<Currency, int> currency)
     {
         foreach (Currency c in currency.Keys)
         {
@@ -83,7 +110,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void RemoveCurrency(Dictionary<Currency, int> currency)
+    public void RemoveCurrencies(Dictionary<Currency, int> currency)
     {
         foreach (Currency c in currency.Keys)
         {
@@ -98,10 +125,10 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-
     /*
      * Information
      */
+    // Currency
     public Dictionary<Currency, int> GetCurrenciesPerTick()
     {
         Dictionary<Currency, int> currencies = new()
@@ -140,6 +167,7 @@ public class PlayerManager : MonoBehaviour
         return true;
     }
 
+    // Commodity
     private Dictionary<Commodity, int> GetCommodityMilestones()
     {
         Dictionary<Commodity, int> milestones = new()
@@ -240,6 +268,70 @@ public class PlayerManager : MonoBehaviour
             playerCommodities[c] = 0;
         }
     }
+
+    // Research
+    public int GetResearchCost(Tech tech)
+    {
+        switch (tech)
+        {
+            case Tech.SHIP_TIER:
+                return PlayerShipTier switch
+                {
+                    0 => 10,
+                    1 => 30,
+                    2 => 60,
+                    _ => 999
+                };
+
+            case Tech.DAMAGE:
+                return PlayerDamageTier switch
+                {
+                    0 => 3,
+                    1 => 6,
+                    2 => 12,
+                    3 => 24,
+                    4 => 48,
+                    _ => 999
+                };
+
+            case Tech.RESISTANCE:
+                return PlayerResistanceTier switch
+                {
+                    0 => 3,
+                    1 => 6,
+                    2 => 12,
+                    3 => 24,
+                    4 => 48,
+                    _ => 999
+                };
+            default:
+                Debug.LogError("Unknown Tech Type.");
+                return -1;
+        }
+    }
+    public bool CanResearchTech(Tech tech)
+    {
+        return playerCurrencies[Currency.RESEARCH] > GetResearchCost(tech);
+    }
+    public void ResearchTech(Tech tech)
+    {
+        playerCurrencies[Currency.RESEARCH] -= GetResearchCost(tech);
+        playerTech[tech] += 1;
+    }
+    public bool HasResearchForShip(ShipID shipID)
+    {
+        return shipID switch
+        {
+            ShipID.MONO => true,
+            ShipID.FLARE => PlayerShipTier >= 1,
+            ShipID.SPARK => PlayerShipTier >= 1,
+            ShipID.PULSE => PlayerShipTier >= 1,
+            ShipID.EMBER => PlayerShipTier >= 2,
+            ShipID.VOLT => PlayerShipTier >= 2,
+            ShipID.BLAST => PlayerShipTier >= 2,
+            _ => false
+        };
+    }
 }
 public enum Currency
 {
@@ -251,4 +343,11 @@ public enum Commodity
 {
     CONSTRUCTION,
     ALLOY,
+}
+
+public enum Tech
+{
+    SHIP_TIER,
+    DAMAGE,
+    RESISTANCE,
 }

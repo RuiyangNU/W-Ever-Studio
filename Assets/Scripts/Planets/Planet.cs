@@ -198,7 +198,7 @@ public class Planet : MonoBehaviour, ISelectable
             return;
         }
 
-        playerManager.RemoveCurrency(new() { { Currency.CREDIT, creditCost } });
+        playerManager.RemoveCurrencies(new() { { Currency.CREDIT, creditCost } });
         buildings.Add(Building.InitializeBuilding(buildingID, this));
         CustomEvent buildEvent = new CustomEvent();
         buildEvent.eventType = "Construction";
@@ -230,7 +230,7 @@ public class Planet : MonoBehaviour, ISelectable
             return;
         }
 
-        playerManager.RemoveCurrency(new() { { Currency.CREDIT, creditCost } });
+        playerManager.RemoveCurrencies(new() { { Currency.CREDIT, creditCost } });
         toUpgrade.Upgrade();
     }
 
@@ -291,7 +291,7 @@ public class Planet : MonoBehaviour, ISelectable
             1 => "Already constructed",
             2 => "No slots available",
             3 => "Insufficient credits",
-            4 => "Insufficient construction material milestone",
+            4 => "Insufficient construction milestone",
             _ => "Unknown reason - report to devs!",
         };
     }
@@ -368,7 +368,7 @@ public class Planet : MonoBehaviour, ISelectable
             return;
         }
 
-        playerManager.RemoveCurrency(new Dictionary<Currency, int>() { { Currency.CREDIT, Fleet.BuildCreditCost(shipID) } });
+        playerManager.RemoveCurrencies(new Dictionary<Currency, int>() { { Currency.CREDIT, Fleet.BuildCreditCost(shipID) } });
         shipyard.BuildShip(shipID);
     }
 
@@ -399,7 +399,10 @@ public class Planet : MonoBehaviour, ISelectable
     /// <description>4: The player does not meet the commodity requirements.</description>
     /// </item>
     /// <item>
-    /// <description>5: The shipyard's level is not high enough.</description>
+    /// <description>5: The player does not have the right research.</description>
+    /// </item>
+    /// <item>
+    /// <description>6: The shipyard's level is not high enough.</description>
     /// </item>
     /// </list>
     /// </returns>
@@ -423,10 +426,15 @@ public class Planet : MonoBehaviour, ISelectable
         {
             return 4;
         }
-        else if (!shipyard.CanBuild(shipID))
+        else if (!playerManager.HasResearchForShip(shipID))
         {
             return 5;
         }
+        else if (!shipyard.CanBuild(shipID))
+        {
+            return 6;
+        }
+        
 
         return 0;
     }
