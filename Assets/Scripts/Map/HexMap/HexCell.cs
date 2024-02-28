@@ -400,7 +400,7 @@ public class HexCell
 		{
 			visibility = 0;
 		}
-        DisableFleetRender();
+        //DisableFleetRender();
         //EnableFleetRender();
     }
 
