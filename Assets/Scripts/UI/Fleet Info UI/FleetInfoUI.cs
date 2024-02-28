@@ -24,6 +24,9 @@ public class FleetInfoUI : PopupUI
 
     public GameObject hullBar;
     public GameObject shieldBar;
+
+    public TextMeshProUGUI hullText;
+    public TextMeshProUGUI shieldText;
     //public GameObject infoPanel;
 
     // Start is called before the first frame update
@@ -148,6 +151,7 @@ public class FleetInfoUI : PopupUI
 
         hullBar.GetComponent<Slider>().maxValue = linkedFleet.maxHull;
         hullBar.GetComponent<Slider>().minValue = 0;
+        hullText.text = linkedFleet.Hull.ToString() + "/" + linkedFleet.maxHull.ToString();
 
         hullBar.GetComponent<Slider>().value = linkedFleet.Hull;
 
@@ -156,6 +160,7 @@ public class FleetInfoUI : PopupUI
         shieldBar.GetComponent<Slider>().minValue = 0;
 
         shieldBar.GetComponent<Slider>().value = linkedFleet.Shield;
+        shieldText.text = linkedFleet.Shield.ToString() + "/" + linkedFleet.maxShield.ToString();
 
         //CloseUIWithoutUnlink();
         //OpenUI();
