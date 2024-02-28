@@ -22891,18 +22891,19 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Class: Frigate
+  m_text: 'Low-tech ship used by developing empires.
 
-    Description: The Weakest and Cheapest Ship in game.
+    10 Thermal Damage
 
-    Damage
-    Type: Thermal 10
+    50
+    Hull / 10 Shield
 
-    Hull: 30 Shield: 10
+    2 Speed
 
-    Action: 2
+    Cost: 150 Credits
 
-'
+    Upkeep: 15 Credits
+    / Turn'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
