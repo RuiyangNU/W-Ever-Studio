@@ -362,6 +362,12 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 6740989688205883315, guid: 4239a68bea7d5f54b8224b92e1426075,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9175634cb85ec4f4c9b9630f1883bdb6,
+        type: 3}
     - target: {fileID: 9213055132301415475, guid: 4239a68bea7d5f54b8224b92e1426075,
         type: 3}
       propertyPath: m_Pivot.x
@@ -8011,7 +8017,7 @@ PrefabInstance:
     - target: {fileID: 346307406633326186, guid: 4239a68bea7d5f54b8224b92e1426075,
         type: 3}
       propertyPath: m_Name
-      value: TBD
+      value: Attack Indicator
       objectReference: {fileID: 0}
     - target: {fileID: 1242851263001750275, guid: 4239a68bea7d5f54b8224b92e1426075,
         type: 3}
@@ -8028,6 +8034,12 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 6740989688205883315, guid: 4239a68bea7d5f54b8224b92e1426075,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9e406253d198e3144bfc5127c13048a1,
+        type: 3}
     - target: {fileID: 9213055132301415475, guid: 4239a68bea7d5f54b8224b92e1426075,
         type: 3}
       propertyPath: m_Pivot.x
@@ -14521,6 +14533,12 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 6740989688205883315, guid: 4239a68bea7d5f54b8224b92e1426075,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e7ce837574cb7ef48883710e912c3718,
+        type: 3}
     - target: {fileID: 9213055132301415475, guid: 4239a68bea7d5f54b8224b92e1426075,
         type: 3}
       propertyPath: m_Pivot.x
@@ -32149,6 +32167,12 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 6740989688205883315, guid: 4239a68bea7d5f54b8224b92e1426075,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fdc8892a76ceb724c8ddff42939d90c8,
+        type: 3}
     - target: {fileID: 9213055132301415475, guid: 4239a68bea7d5f54b8224b92e1426075,
         type: 3}
       propertyPath: m_Pivot.x
