@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameEventLoader : MonoBehaviour
 {
     // Start is called before the first frame update
-    public List<GameEvent> gameEvents = new List<GameEvent>();
+    //public List<GameEvent> gameEvents = new List<GameEvent>();
 
     void Start()
     {
@@ -20,7 +20,8 @@ public class GameEventLoader : MonoBehaviour
 
     private void Awake()
     {
-        
+        //Register Game Event
+        ExperimentalEvent();
     }
 
     public void ExperimentalEvent()
@@ -37,6 +38,6 @@ public class GameEventLoader : MonoBehaviour
 
         gameEvent.optionList.Add(option);
 
-        gameEvents.Add(gameEvent);
+        GameEventManager.potentialEvents.Add(gameEvent);
     }
 }

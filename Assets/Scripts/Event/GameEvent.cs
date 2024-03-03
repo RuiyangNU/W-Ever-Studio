@@ -69,7 +69,48 @@ public class GameEvent : Event
                 break;
             case "addTech":
                 break;
+            case "event":
+                //GameEventManager.gameEvents.Enqueue;
+                GameEventManager.RegisterEventByID(subs[1]);
+                break;
 
+        }
+
+
+    }
+
+    public bool ProcessTrigger(string condition)
+    {
+        string[] parts = condition.Split(' ');
+
+        if (parts.Length != 3) return false;
+
+        // Assume the first part is a variable name, the second is an operator, and the third is a value
+        string variableName = parts[0];
+        string operatorSymbol = parts[1];
+        float value = float.Parse(parts[2]);
+
+        // Retrieve the variable's value from your game (e.g., from a player stats manager)
+        float variableValue = 0;
+
+        switch (operatorSymbol)
+        {
+            case ">": return variableValue > value;
+            case "<": return variableValue < value;
+            case "==":
+            {
+                if(variableName.ToLower() == "has_flag"){
+
+                    return variableValue == value;
+                }
+                else
+                {
+                    return variableValue == value;
+                }
+                break;
+            }
+            // Add more cases as necessary
+            default: return false;
         }
 
 

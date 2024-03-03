@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public int turnNumber = 0;
     public GameState gameState;
     public static GameManager gameManager;
+    public List<string> gameFlags = new List<string>();
     
 
     /*
@@ -47,6 +48,47 @@ public class GameManager : MonoBehaviour
 
         Debug.LogWarning("The prefab for " + shipID.ToString() + " was not found.");
         return null;
+    }
+
+
+
+    /// <summary>
+    /// Get Variable By String, used for the event system.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public float GetVariableByName(string name)
+    {
+        switch (name.ToLower())
+        {
+            case "turn": 
+                return gameManager.turnNumber;
+            case "credit":
+                return gameManager.playerManager.PlayerCredit;
+            case "research":
+                return gameManager.playerManager.PlayerResearch;
+            default: break;
+                
+        }
+
+        if(name == "alloy")
+        {
+            return playerManager.GetCommodityMilestone(Commodity.ALLOY);
+        }
+
+        if (name == "construction")
+        {
+            return playerManager.GetCommodityMilestone(Commodity.CONSTRUCTION);
+        }
+
+
+        return 0;
+    }
+
+    public bool HasFlag(string flag)
+    {
+
+        return gameFlags.Contains(flag);
     }
 
     /*
