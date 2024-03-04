@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenPlanetUI()
     {
+        
         //UI.OpenUI();
         PlanetInfoUI.OpenUI();
     }
