@@ -68,7 +68,7 @@ public class EventUI : PopupUI
         if (linkedEvent.imagePath != null)
         {
             Sprite loadedSprite = Resources.Load<Sprite>(linkedEvent.imagePath);
-            Debug.Log(linkedEvent.imagePath);
+            //Debug.Log(linkedEvent.imagePath);
             if (loadedSprite != null)
             {
                 GameObject image = eventPannel.transform.Find("Event Image").gameObject;

@@ -35,9 +35,6 @@ public class GameEvent : Event
         PlayerManager p = PlayerManager.playerManager;
         string[] subs = s.Split('=');
         int i = 0;
-        Debug.Log(s);
-        Debug.Log(subs[0]);
-        Debug.Log(subs[1]);
 
         switch (subs[0])
         {

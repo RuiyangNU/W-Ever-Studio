@@ -17,6 +17,9 @@ public class HexMapEditor : MonoBehaviour
 
 	[SerializeField]
 	Material terrainMaterial;
+	
+	[SerializeField]
+	private HexGameUI hexGameUI;
 
 	int activeElevation;
 	int activeWaterLevel;
@@ -104,9 +107,15 @@ public class HexMapEditor : MonoBehaviour
 	void Awake()
 	{
         Debug.Log("Creating UI elements now.");
-        terrainMaterial.DisableKeyword("_SHOW_GRID");
+        //terrainMaterial.DisableKeyword("_SHOW_GRID");
 		Shader.EnableKeyword("_HEX_MAP_EDIT_MODE");
-		SetEditMode(true);
+		SetEditMode(false);
+		
+
+		ShowGrid(true);
+
+		hexGameUI.SetEditMode(false);
+		gameObject.SetActive(false);
         Debug.Log("Change Editor Mode");
     }
 
