@@ -13,6 +13,8 @@ public class Planet : MonoBehaviour, ISelectable
     [SerializeField]
     public static Planet planetPrefab;
 
+    public GameObject popupTextPrefab;
+
     /*
      * References
      */
@@ -135,7 +137,15 @@ public class Planet : MonoBehaviour, ISelectable
 
             if (captureTimer == 0)
             {
+                GameObject go = Instantiate(popupTextPrefab);
+                go.GetComponent<PopupText>().SetProperties(gameObject.transform.position, "Captured!", Color.green);
+
                 GetCaptured(occupyingFleet.owner);
+            }
+            else
+            {
+                GameObject go = Instantiate(popupTextPrefab);
+                go.GetComponent<PopupText>().SetProperties(gameObject.transform.position, "Capturing...", Color.yellow);
             }
         }
         else
