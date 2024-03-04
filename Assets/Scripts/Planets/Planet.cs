@@ -96,7 +96,7 @@ public class Planet : MonoBehaviour, ISelectable
             displayColor = Color.grey * 0.5f;
         }
 
-        if(planetInfoUI.linkedPlanet == this)
+        if(planetInfoUI != null && planetInfoUI.linkedPlanet == this)
         {
             displayColor *= 2f;
         }

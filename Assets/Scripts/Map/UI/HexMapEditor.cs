@@ -103,7 +103,8 @@ public class HexMapEditor : MonoBehaviour
 
 	void Awake()
 	{
-		terrainMaterial.DisableKeyword("_SHOW_GRID");
+        Debug.Log("Creating UI elements now.");
+        terrainMaterial.DisableKeyword("_SHOW_GRID");
 		Shader.EnableKeyword("_HEX_MAP_EDIT_MODE");
 		SetEditMode(true);
         Debug.Log("Change Editor Mode");

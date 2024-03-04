@@ -99,7 +99,7 @@ public class HexGrid : MonoBehaviour
 		cellShaderData.Grid = this;
 		CreateMap(CellCountX, CellCountZ, Wrapping);
 
-		SaveLoader.GetComponent<SaveLoadMenu>().LoadDefault();
+		//SaveLoader.GetComponent<SaveLoadMenu>().LoadDefault();
 	}
 
     void Update()

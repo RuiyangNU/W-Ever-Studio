@@ -91,6 +91,16 @@ public class GameManager : MonoBehaviour
         return gameFlags.Contains(flag);
     }
 
+    public void AddFlag(string flag)
+    {
+        gameFlags.Add(flag);
+    }
+
+    public void RemoveFlag(string flag)
+    {
+        gameFlags.Remove(flag);
+    }
+
     /*
      * Initializers and Updaters
      */
@@ -334,7 +344,9 @@ public class GameManager : MonoBehaviour
             {
                 hexGrid.IncreaseVisibility(cell, 2);
             }
-            if (!FindObjectOfType<HexMapEditor>().enabled)
+
+            //Debug.Log(FindObjectOfType<HexMapEditor>());
+            if (FindObjectOfType<HexMapEditor>() == null || !FindObjectOfType<HexMapEditor>().enabled)
             {
                 cell.DisablePlanetRender();
             }

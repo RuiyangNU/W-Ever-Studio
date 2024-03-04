@@ -17,7 +17,7 @@ public class HexGameUI : MonoBehaviour
 	Fleet selectedFleet;
 	Planet selectedPlanet;
 	public GameManager gameManager;
-
+	public bool tutorialTrigger1 = false;
     public void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -142,6 +142,12 @@ public class HexGameUI : MonoBehaviour
 				//If no fleet, open planet UI
 				selectedUnit = null;
 				selectedPlanet.OpenUI();
+				if (!tutorialTrigger1)
+				{
+					Debug.Log("Tutorial Progress");
+					gameManager.AddFlag("tutorial_1_finished");
+					tutorialTrigger1 = true;
+				}
 
             }
 			else

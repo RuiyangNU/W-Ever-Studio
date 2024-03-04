@@ -7,7 +7,10 @@ public class GameEvent : Event
     public string title;
     public string eventId;
     public string description;
-    public List<GameEventOption> optionList;
+    public List<GameEventOption> optionList = new List<GameEventOption>();
+    public bool isTriggeredOnly = true;
+    public string imagePath = null;
+    public List<string> triggers = new List<string>();
     ///Change to JSON later
 
     /// <summary>
@@ -32,13 +35,13 @@ public class GameEvent : Event
         PlayerManager p = PlayerManager.playerManager;
         string[] subs = s.Split('=');
         int i = 0;
+        Debug.Log(s);
+        Debug.Log(subs[0]);
+        Debug.Log(subs[1]);
 
         switch (subs[0])
         {
-            default:
-                Debug.Log("Unkown Effect");
-                return;
-            case "addCredit":
+            case "addCredits":
                 bool success = int.TryParse(subs[1], out i);
                 if (success)
                 {
@@ -69,10 +72,16 @@ public class GameEvent : Event
                 break;
             case "addTech":
                 break;
+            case "setFlag":
+                GameManager.gameManager.AddFlag(subs[1]);
+                break;
             case "event":
                 //GameEventManager.gameEvents.Enqueue;
-                GameEventManager.RegisterEventByID(subs[1]);
+                GameEventManager.EnqueueEventByID(subs[1]);
                 break;
+            default:
+                Debug.Log("Unkown Effect");
+                return;
 
         }
 
@@ -88,7 +97,15 @@ public class GameEvent : Event
         // Assume the first part is a variable name, the second is an operator, and the third is a value
         string variableName = parts[0];
         string operatorSymbol = parts[1];
-        float value = float.Parse(parts[2]);
+        float value = 0;
+        if (float.TryParse(parts[2], out value))
+        {
+            //Do something i guess...
+        }
+        else
+        {
+            //if(variableName == has)
+        }
 
         // Retrieve the variable's value from your game (e.g., from a player stats manager)
         float variableValue = 0;
@@ -99,9 +116,9 @@ public class GameEvent : Event
             case "<": return variableValue < value;
             case "==":
             {
-                if(variableName.ToLower() == "has_flag"){
+                if(variableName == "hasFlag"){
 
-                    return variableValue == value;
+                    return GameManager.gameManager.HasFlag(parts[2]);
                 }
                 else
                 {
@@ -114,6 +131,19 @@ public class GameEvent : Event
         }
 
 
+    }
+
+    public bool ProcessTriggers()
+    {
+
+        foreach(string trigger in triggers)
+        {
+            if (!ProcessTrigger(trigger)) {
+                return false;
+            }
+            
+        }
+        return true;
     }
 
 
