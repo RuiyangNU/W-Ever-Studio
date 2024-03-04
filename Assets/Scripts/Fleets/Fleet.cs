@@ -75,7 +75,7 @@ public abstract class Fleet : MonoBehaviour, ISelectable
         {
             enemyManager.AddFleet(this);
         }
-        if (prevOwner == Owner.ENEMY && owner != Owner.ENEMY)
+        else if (prevOwner == Owner.ENEMY && owner != Owner.ENEMY)
         {
             enemyManager.RemoveFleet(this);
         }

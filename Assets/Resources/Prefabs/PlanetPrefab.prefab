@@ -118,10 +118,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f011e79332288a4e89d8803b4950089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSteelPerTick: 5
-  baseMethanePerTick: 5
-  maxRefineries: 1
-  maxShipyards: 1
-  numRefineries: 0
-  numShipyards: 0
+  popupTextPrefab: {fileID: 6593436042210337038, guid: cce1f912578ce7e43b8ca63350eabbe5,
+    type: 3}
+  prevOwner: 0
   owner: 0
+  captureTimer: 3
+  locationCellIndex: -1
+  baseCreditsPerTick: 100
+  buildingLimit: 3

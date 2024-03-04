@@ -193,7 +193,7 @@ public class GameManager : MonoBehaviour
                 defender.RemoveShield(remainingEffectiveDamage);
             }
         }
-        //combatEvent.attacker
+
         // Hull
         if (remainingRawDamage > 0)
         {
@@ -271,10 +271,10 @@ public class GameManager : MonoBehaviour
 
         if (attacker.Hull == 0f)
         {
-            combatEvent.isDefenderAlive = false;
+            combatEvent.isAttackerAlive = false;
             attacker.DestroyFleet();
         }
-        //Debug.Log(combatEvent.ToString());
+
         NotificationUI.notificationUI.AddNewItem(combatEvent);
     }
 
