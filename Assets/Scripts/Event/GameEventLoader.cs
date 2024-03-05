@@ -99,6 +99,7 @@ public class GameEventLoader : MonoBehaviour
         GameEventOption option = new GameEventOption();
         option.effectList = new List<string>();
         //option.effectList.Add("addCredits=2000");
+        option.effectList.Add("setFlag=tutorial_2_enabled");
         option.description = "Continue to Part 2";
 
         //gameEvent.optionList.Add(option);
@@ -109,11 +110,13 @@ public class GameEventLoader : MonoBehaviour
     public void TutorialEvent3()
     {
         GameEvent gameEvent = new GameEvent();
-        gameEvent.title = "Tutorial: Resources - Part2";
-        gameEvent.eventId = "tutorial.2";
+        gameEvent.title = "Tutorial: Construction";
+        gameEvent.eventId = "tutorial.3";
         gameEvent.description = "";
-
+        gameEvent.isTriggeredOnly = false;
+        gameEvent.triggers.Add("hasFlag == tutorial_2_finished");
         gameEvent.imagePath = "Sprites/EventPicture/tutorial1";
+
 
         GameEventOption option = new GameEventOption();
         option.effectList = new List<string>();
@@ -128,10 +131,11 @@ public class GameEventLoader : MonoBehaviour
     public void TutorialEvent4()
     {
         GameEvent gameEvent = new GameEvent();
-        gameEvent.title = "Tutorial: Resources - Part2";
-        gameEvent.eventId = "tutorial.2";
+        gameEvent.title = "Tutorial: Fleet Control";
+        gameEvent.eventId = "tutorial.4";
         gameEvent.description = "";
-
+        gameEvent.isTriggeredOnly = false;
+        gameEvent.triggers.Add("hasFlag == tutorial_3_finished");
         gameEvent.imagePath = "Sprites/EventPicture/tutorial1";
 
         GameEventOption option = new GameEventOption();
@@ -143,4 +147,25 @@ public class GameEventLoader : MonoBehaviour
         gameEvent.optionList.Add(option);
         GameEventManager.RegisterEvent(gameEvent);
     }
+
+    public void EnemyEvent1()
+    {
+        GameEvent gameEvent = new GameEvent();
+        gameEvent.title = "Enemy Unknown: Warlords of ";
+        gameEvent.eventId = "tutorial.4";
+        gameEvent.description = "";
+        gameEvent.isTriggeredOnly = false;
+        gameEvent.triggers.Add("hasFlag == tutorial_3_finished");
+        gameEvent.imagePath = "Sprites/EventPicture/tutorial1";
+
+        GameEventOption option = new GameEventOption();
+        option.effectList = new List<string>();
+        //option.effectList.Add("addCredits=2000");
+        option.description = "Continue to Part 2";
+
+        //gameEvent.optionList.Add(option);
+        gameEvent.optionList.Add(option);
+        GameEventManager.RegisterEvent(gameEvent);
+    }
+
 }
