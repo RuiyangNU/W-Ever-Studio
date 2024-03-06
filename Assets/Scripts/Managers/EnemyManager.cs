@@ -76,21 +76,13 @@ public class EnemyManager : MonoBehaviour
 
     public void UpdateTick()
     {
-        // Perform Enemy Ship Tasks
-        foreach (Fleet fleet in enemyControlledFleets)
-        {
-            SpawnEnemyFleet();
-            spawnCoolDown = (int)Mathf.Max(3, 7 - Mathf.Floor(gameManager.turnNumber/4));
-        }
-        else
-        {
-            spawnCoolDown--;
-        }
+        
 
 
 
-        foreach (Fleet fleet in enemyControlledFleets) {
-            //Debug.Log(fleet.enemyTask.id);
+
+        for (int i = enemyControlledFleets.Count - 1; i >= 0; i--) {
+            Fleet fleet = enemyControlledFleets[i];
             //Hold
             if (fleet != null && fleet.enemyTask.id == 0)
             {
