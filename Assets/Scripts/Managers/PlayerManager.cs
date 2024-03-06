@@ -280,7 +280,7 @@ public class PlayerManager : MonoBehaviour
                     0 => 10,
                     1 => 30,
                     2 => 60,
-                    _ => 999
+                    _ => 999999
                 };
 
             case Tech.DAMAGE:
@@ -291,7 +291,7 @@ public class PlayerManager : MonoBehaviour
                     2 => 12,
                     3 => 24,
                     4 => 48,
-                    _ => 999
+                    _ => 999999
                 };
 
             case Tech.RESISTANCE:
@@ -302,7 +302,7 @@ public class PlayerManager : MonoBehaviour
                     2 => 12,
                     3 => 24,
                     4 => 48,
-                    _ => 999
+                    _ => 999999
                 };
             default:
                 Debug.LogError("Unknown Tech Type.");
@@ -311,13 +311,13 @@ public class PlayerManager : MonoBehaviour
     }
     public bool CanResearchTech(Tech tech)
     {
-        return playerCurrencies[Currency.RESEARCH] > GetResearchCost(tech);
+        return playerCurrencies[Currency.RESEARCH] >= GetResearchCost(tech);
     }
     public void ResearchTech(Tech tech)
     {
         if (!CanResearchTech(tech))
         {
-            Debug.LogError("Tried to research " + tech.ToString() + ", but the player does not have enough research points.");
+            Debug.LogWarning("Tried to research " + tech.ToString() + ", but the player does not have enough research points.");
             return;
         }
         playerCurrencies[Currency.RESEARCH] -= GetResearchCost(tech);

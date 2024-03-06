@@ -57,6 +57,9 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     private Owner prevOwner = Owner.NONE;
     public ShipID shipID;
 
+    int prevDamageTier = 0;
+    int prevResistanceTier = 0;
+
     /*
      * Methods
      */
@@ -82,19 +85,18 @@ public abstract class Fleet : MonoBehaviour, ISelectable
         prevOwner = owner;
 
         // Update stats
-        int prevDamageTier = 0;
         if (playerManager.PlayerDamageTier != prevDamageTier)
         {
             this.damage = this.damage / (1 + (0.1f * prevDamageTier)) * (1 + (0.1f * playerManager.PlayerDamageTier));
             prevDamageTier = playerManager.PlayerDamageTier;
         }
 
-        int prevResistanceTier = 0;
         if (playerManager.PlayerResistanceTier != prevResistanceTier)
         {
             this.thermalRes = 5 * playerManager.PlayerResistanceTier;
             this.kineticRes = 5 * playerManager.PlayerResistanceTier;
             this.emRes = 5 * playerManager.PlayerResistanceTier;
+            prevResistanceTier = playerManager.PlayerResistanceTier;
         }
     }
 
