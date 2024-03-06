@@ -197,6 +197,7 @@ public class HexGameUI : MonoBehaviour
 
 	void DoMove()
 	{
+		AudioManager.Instance.PlaySFX("ShipMovement");	
 		if (grid.HasPath)
 		{
 
