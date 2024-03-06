@@ -2690,7 +2690,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"Mono" Class Frigate'
+  m_text: '"Blast" Class Cruiser'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -4068,19 +4068,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Low-tech ship used by developing empires.
+  m_text: 'First adaptation of particle beams
 
-    10 Thermal Damage
+    to counter heavy shields.
 
-    50
-    Hull / 10 Shield
+    20
+    Electromagnetic Damage
 
-    2 Speed
+    100 Hull/ 40 Shields/ 3 Speed
 
-    Cost: 150 Credits
+    Cost: 500 Credits,
+    5 Turns
 
-    Upkeep: 15 Credits
-    / Turn'
+    Requires: Alloy M1, Ship Tier I
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -5455,19 +5457,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Low-tech ship used by developing empires.
+  m_text: 'Combines particle beams and EMPs
 
-    10 Thermal Damage
+    to effectively disable shields.
 
     50
-    Hull / 10 Shield
+    Electromagnetic Damage
 
-    2 Speed
+    150 Hull/ 80 Shields/ 4 Speed
 
-    Cost: 150 Credits
+    Cost: 1200 Credits,
+    8 Turns
 
-    Upkeep: 15 Credits
-    / Turn'
+    Requires: Alloy M2, Ship Tier II
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -6995,16 +6999,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297417769}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 592782582}
+  m_Father: {fileID: 1772750690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 62.2, y: 107.4}
+  m_AnchoredPosition: {x: 241.60002, y: 97.4}
   m_SizeDelta: {x: 348.1, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &297417771
@@ -7027,7 +7031,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"Mono" Class Frigate'
+  m_text: '"Volt" Class Cruiser'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -8367,7 +8371,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: db54b4f6b47d84a3db0be437c6a1b222, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 80b762500140a4d1396f1921dd9f5b84, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12526,7 +12530,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1772750690}
-  - {fileID: 297417770}
   - {fileID: 208194491}
   - {fileID: 406406700}
   m_Father: {fileID: 188432452}
@@ -15078,7 +15081,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"Mono" Class Frigate'
+  m_text: '"Pulse" Class Destroyer'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -15818,19 +15821,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Low-tech ship used by developing empires.
+  m_text: 'Few can withstand advanced
 
-    10 Thermal Damage
+    railgun impacts without shields.
 
     50
-    Hull / 10 Shield
+    Kinetic Damage
 
-    2 Speed
+    250 Hull/ 25 Shields/ 3 Speed
 
-    Cost: 150 Credits
+    Cost: 1000 Credits, 8
+    Turns
 
-    Upkeep: 15 Credits
-    / Turn'
+    Requires: Alloy M2, Ship Tier II
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -17638,7 +17643,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: db54b4f6b47d84a3db0be437c6a1b222, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3f6be2550d9e24d85bfe919718e7b484, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20804,7 +20809,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: db54b4f6b47d84a3db0be437c6a1b222, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4ffcfdb60310846d28f22285a968fe9c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21964,19 +21969,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Low-tech ship used by developing empires.
+  m_text: 'Second generation of the "Mono"
 
-    10 Thermal Damage
+    class. Advanced dual lasers.
 
-    50
-    Hull / 10 Shield
+    25
+    Thermal Damage
 
-    2 Speed
+    75 Hull/ 25 Shields/ 3 Speed
 
-    Cost: 150 Credits
+    Cost: 300 Credits, 5 Turns
 
-    Upkeep: 15 Credits
-    / Turn'
+    Requires:
+    Alloy M1, Ship Tier I
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -28467,19 +28474,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Low-tech ship used by developing empires.
+  m_text: 'Low-tech ship used by developing empires. Basic laser weaponry.
 
-    10 Thermal Damage
+    10
+    Thermal Damage
 
-    50
-    Hull / 10 Shield
+    50 Hull / 10 Shield / 2 Speed
 
-    2 Speed
-
-    Cost: 150 Credits
-
-    Upkeep: 15 Credits
-    / Turn'
+    Cost: 150 Credits, 3 Turns'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -32285,19 +32287,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Low-tech ship used by developing empires.
+  m_text: 'Third generation cruiser capable
 
-    10 Thermal Damage
+    of maintaining a high-energy beam.
 
-    50
-    Hull / 10 Shield
+    40
+    Thermal Damage
 
-    2 Speed
+    175 Hull/ 50 Shields/ 3 Speed
 
-    Cost: 150 Credits
+    Cost: 800 Credits, 8 Turns
 
-    Upkeep: 15 Credits
-    / Turn'
+    Requires:
+    Alloy M2, Ship Tier II
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -33407,19 +33411,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Low-tech ship used by developing empires.
+  m_text: 'Railguns are especially effective
 
-    10 Thermal Damage
+    at shredding through ship hulls.
 
-    50
-    Hull / 10 Shield
+    25
+    Kinetic Damage
 
-    2 Speed
+    150 Hull/ 10 Shields/ 2 Speed
 
-    Cost: 150 Credits
+    Cost: 500 Credits, 5 Turns
 
-    Upkeep: 15 Credits
-    / Turn'
+    Requires:
+    Alloy M1, Ship Tier I
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -33865,7 +33871,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"Mono" Class Frigate'
+  m_text: '"Spark" Class Destroyer'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -35414,6 +35420,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1005590059}
+  - {fileID: 297417770}
   m_Father: {fileID: 592782582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -36216,7 +36223,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"Mono" Class Frigate'
+  m_text: '"Ember" Class Cruiser'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
@@ -40758,7 +40765,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: db54b4f6b47d84a3db0be437c6a1b222, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 01ebba693abfb4c86aba2cf4fb98f218, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -43527,7 +43534,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: db54b4f6b47d84a3db0be437c6a1b222, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8bf69967acae247f3ab5a2a451876dc4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -43934,7 +43941,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"Mono" Class Frigate'
+  m_text: '"Flare" Class Destroyer'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,
