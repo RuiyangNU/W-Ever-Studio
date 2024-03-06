@@ -43,7 +43,6 @@ public class GameLoader : MonoBehaviour
             //gameManager.AddPlanetToCell(hexGrid.GetCell(coords), planet);
             //gameManager.CreatePlanet()
             gameManager.CreatePlanet(hexGrid.GetCell(coords), INITIAL_PLANETS[coords], Random.Range(100, 200), 3);
-
         }    
     }
 }
