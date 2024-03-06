@@ -69,11 +69,13 @@ public class PlanetInfoUI : PopupUI
 
     override public void OpenUI()
     {
+        AudioManager.Instance.PlaySFX("ClickUI");
         if (linkedPlanet == null)
         {
             Debug.LogError("OpenUI was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
             return;
         }
+        
 
         //foreach (PopupUIElement child in children)
         //{
@@ -91,6 +93,7 @@ public class PlanetInfoUI : PopupUI
 
     override public void CloseUI()
     {
+        AudioManager.Instance.PlaySFX("ClickUI");
         //_image.enabled = false;
 
         //foreach (PopupUIElement child in children)
@@ -113,6 +116,7 @@ public class PlanetInfoUI : PopupUI
 
     public void OpenShipyardUI()
     {
+        
         if (linkedPlanet.HasBuilding(BuildingID.SHIPYARD))
         {
             shipyardPanel.SetActive(true);
@@ -132,7 +136,8 @@ public class PlanetInfoUI : PopupUI
 
     public void ChangeShipyardUI()
     {
-        if(isShipyardOpen)
+        
+        if (isShipyardOpen)
         {
             CloseShipyardUI();
             
@@ -267,6 +272,7 @@ public class PlanetInfoUI : PopupUI
 
     public override void UpdateUI()
     {
+        
         if (linkedPlanet == null)
         {
             Debug.LogError("UpdateUI was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
@@ -276,6 +282,7 @@ public class PlanetInfoUI : PopupUI
         if (linkedPlanet.IsPlayerOwned)
         {
             //GetTickCurrency();
+            
             ChangeTextColor();
             creditIncome.text = linkedPlanet.GetTickCurrency(Currency.CREDIT).ToString() + "/Turn";
 
