@@ -65,6 +65,7 @@ public class EnemyManager : MonoBehaviour
 
         shipPoints = 0;
         intent = ShipID.MONO;
+        spawnQueue = new();
     }
 
     private void Update()
@@ -113,6 +114,7 @@ public class EnemyManager : MonoBehaviour
         if (shipPoints >= shipCosts[intent])
         {
             spawnQueue.Enqueue(intent);
+            shipPoints -= shipCosts[intent];
             ChangeIntent();
         }
 
