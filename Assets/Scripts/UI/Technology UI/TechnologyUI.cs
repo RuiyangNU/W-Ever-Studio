@@ -25,35 +25,46 @@ public class TechnologyUI : PopupUI
 
     public override void UpdateUI()
     {
-        techTextList[0].text = techOrder[0].ToString() + " Current Level: " + PlayerManager.playerManager.PlayerShipTier;
+        techTextList[0].text = ToText(techOrder[0]) + "\nCurrent Level: " + PlayerManager.playerManager.PlayerShipTier;
         if (PlayerManager.playerManager.GetResearchCost(Tech.SHIP_TIER) > 99999)
         {
-            techTextList[0].text += "./n Max Level";
+            techTextList[0].text += "\nMax Level";
         }
         else
         {
-            techTextList[0].text += "./n Cost to Upgrade: " + PlayerManager.playerManager.GetResearchCost(Tech.SHIP_TIER);
+            techTextList[0].text += "\nCost to Upgrade: " + PlayerManager.playerManager.GetResearchCost(Tech.SHIP_TIER);
         }
 
-        techTextList[1].text = techOrder[1].ToString() + " Current Level: " + PlayerManager.playerManager.PlayerDamageTier;
+        techTextList[1].text = ToText(techOrder[1]) + "\nCurrent Level: " + PlayerManager.playerManager.PlayerDamageTier;
         if (PlayerManager.playerManager.GetResearchCost(Tech.DAMAGE) > 99999)
         {
-            techTextList[1].text += "./n Max Level";
+            techTextList[1].text += "\nMax Level";
         }
         else
         {
-            techTextList[1].text  += "./n Cost to Upgrade: " + PlayerManager.playerManager.GetResearchCost(Tech.DAMAGE);
+            techTextList[1].text  += "\nCost to Upgrade: " + PlayerManager.playerManager.GetResearchCost(Tech.DAMAGE);
         }
 
-        techTextList[2].text = techOrder[2].ToString() + " Current Level: " + PlayerManager.playerManager.PlayerResistanceTier;
+        techTextList[2].text = ToText(techOrder[2]) + "\nCurrent Level: " + PlayerManager.playerManager.PlayerResistanceTier;
         if (PlayerManager.playerManager.GetResearchCost(Tech.RESISTANCE) > 99999)
         {
-            techTextList[2].text += "./n Max Level";
+            techTextList[2].text += "\nMax Level";
         }
         else
         {
-            techTextList[2].text += "./n Cost to Upgrade: " + PlayerManager.playerManager.GetResearchCost(Tech.RESISTANCE);
+            techTextList[2].text += "\nCost to Upgrade: " + PlayerManager.playerManager.GetResearchCost(Tech.RESISTANCE);
         }
+    }
+
+    private string ToText(Tech t)
+    {
+        return t switch
+        {
+            Tech.DAMAGE => "Damage",
+            Tech.RESISTANCE => "Resistance",
+            Tech.SHIP_TIER => "Ship Tier",
+            _ => "Unknown Tech"
+        };
     }
 
     public void ResearchShipType()
