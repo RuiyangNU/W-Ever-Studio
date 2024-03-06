@@ -107,12 +107,12 @@ public class Planet : MonoBehaviour, ISelectable
         //Add to player list if planet is owned by player
         if (prevOwner != Owner.PLAYER && owner == Owner.PLAYER)
         {
-            AudioManager.Instance.PlaySFX("PlanetCapturePlayer");
+            
             playerManager.AddPlanet(this);
         }
         if (prevOwner == Owner.PLAYER && owner != Owner.PLAYER)
         {
-            AudioManager.Instance.PlaySFX("PlanetCaptureEnemy");
+            
             playerManager.RemovePlanet(this);
         }
 
@@ -527,15 +527,18 @@ public class Planet : MonoBehaviour, ISelectable
             return;
         }
 
+
         buildings = new List<Building>();
 
         this.owner = newOwner;
         if(newOwner == Owner.PLAYER)
         {
+            AudioManager.Instance.PlaySFX("PlanetCapturePlayer");
             hexGrid.IncreaseVisibility(CurrentCell, 2);
         }
         else
         {
+            AudioManager.Instance.PlaySFX("PlanetCaptureEnemy");
             hexGrid.DecreaseVisibility(CurrentCell, 2);
         }
         
