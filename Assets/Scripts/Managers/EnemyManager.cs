@@ -39,6 +39,7 @@ public class EnemyManager : MonoBehaviour
      */
     private int shipPoints;
 
+    [SerializeField]
     private ShipID intent;
 
     private Queue<ShipID> spawnQueue;
@@ -227,7 +228,7 @@ public class EnemyManager : MonoBehaviour
         }
         else if (TurnNumber <= 30)
         {
-            if (rand.Next(1, 101) >= (118 - 3 * TurnNumber))
+            if (rand.Next(1, 101) >= (108 - 3 * TurnNumber))
             {
                 // Spawn T1 ship
                 switch (rand.Next(1, 4))
@@ -250,7 +251,7 @@ public class EnemyManager : MonoBehaviour
         }
         else
         {
-            if (rand.Next(1, 101) >= (163 - 3 * TurnNumber))
+            if (rand.Next(1, 101) >= (153 - 3 * TurnNumber))
             {
                 // Spawn T2 ship
                 switch (rand.Next(1, 4))
