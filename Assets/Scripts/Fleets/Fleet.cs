@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using static PlayerManager;
 using static FleetSettings;
+using System;
 
 public abstract class Fleet : MonoBehaviour, ISelectable
 {
@@ -57,6 +58,9 @@ public abstract class Fleet : MonoBehaviour, ISelectable
     private Owner prevOwner = Owner.NONE;
     public ShipID shipID;
 
+    int prevDamageTier = 0;
+    int prevResistanceTier = 0;
+
     /*
      * Methods
      */
@@ -81,20 +85,22 @@ public abstract class Fleet : MonoBehaviour, ISelectable
         }
         prevOwner = owner;
 
-        // Update stats
-        int prevDamageTier = 0;
-        if (playerManager.PlayerDamageTier != prevDamageTier)
+        // Update stats if owned by player
+        if (owner == Owner.PLAYER)
         {
-            this.damage = this.damage / (1 + (0.1f * prevDamageTier)) * (1 + (0.1f * playerManager.PlayerDamageTier));
-            prevDamageTier = playerManager.PlayerDamageTier;
-        }
+            if (playerManager.PlayerDamageTier != prevDamageTier)
+            {
+                this.damage = this.damage / (1 + (0.1f * prevDamageTier)) * (1 + (0.1f * playerManager.PlayerDamageTier));
+                prevDamageTier = playerManager.PlayerDamageTier;
+            }
 
-        int prevResistanceTier = 0;
-        if (playerManager.PlayerResistanceTier != prevResistanceTier)
-        {
-            this.thermalRes = 5 * playerManager.PlayerResistanceTier;
-            this.kineticRes = 5 * playerManager.PlayerResistanceTier;
-            this.emRes = 5 * playerManager.PlayerResistanceTier;
+            if (playerManager.PlayerResistanceTier != prevResistanceTier)
+            {
+                this.thermalRes = 5 * playerManager.PlayerResistanceTier;
+                this.kineticRes = 5 * playerManager.PlayerResistanceTier;
+                this.emRes = 5 * playerManager.PlayerResistanceTier;
+                prevResistanceTier = playerManager.PlayerResistanceTier;
+            }
         }
     }
 
@@ -103,13 +109,13 @@ public abstract class Fleet : MonoBehaviour, ISelectable
         RestoreActionPoints();
 
         // Regenerate shields
-        AddShield(maxShield * 0.2f);
+        AddShield(Mathf.Min(maxShield * 0.2f, 25));
 
         // Regenerate hull if on friendly planet
         HexCell currentCell = hexGrid.GetCell(hexUnit.locationCellIndex);
         if (currentCell.planet && currentCell.planet.owner == owner)
         {
-            AddHull(maxHull * 0.3f);
+            AddHull(Mathf.Min(maxHull * 0.2f, 25));
         }
 
         return;

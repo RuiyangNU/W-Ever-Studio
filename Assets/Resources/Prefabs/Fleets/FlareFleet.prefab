@@ -301,7 +301,7 @@ MonoBehaviour:
   kineticRes: 0
   emRes: 0
   owner: 0
-  shipID: 0
+  shipID: 1
 --- !u!212 &4660396803259275509
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -19,7 +19,10 @@ public class BuildingInfoUI : PopupUI
     public bool isUIOpen = false;
 
     public bool isConstructionUIOpen = false;
-
+    public bool tutorial_2_status = false;
+    public bool tutorial_2_5_status = false;
+    public bool tutorial_3_status = false;
+    public bool tutorial_4_status = false;
     public void Link()
     {
         //if (obj == null) { throw new NullReferenceException("Link was called but a null object was given."); }
@@ -76,6 +79,11 @@ public class BuildingInfoUI : PopupUI
         {
             Debug.LogError("OpenUI was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
             return;
+        }
+        if(!tutorial_2_status)
+        {
+            GameManager.gameManager.AddFlag("tutorial_2_finished");
+            tutorial_2_status = true;
         }
 
         //foreach (PopupUIElement child in children)
@@ -154,7 +162,12 @@ public class BuildingInfoUI : PopupUI
 
     public void OpenConstructionUI()
     {
-        if(linkedPlanet.IsPlayerOwned)
+        if (!tutorial_2_5_status)
+        {
+            GameManager.gameManager.AddFlag("tutorial_2.5_finished");
+            tutorial_2_5_status = true;
+        }
+        if (linkedPlanet.IsPlayerOwned)
         {
             isConstructionUIOpen = true;
             constructionPanel.SetActive(true);
@@ -204,6 +217,11 @@ public class BuildingInfoUI : PopupUI
     public void BuildShipyard()
     {
         linkedPlanet.Build(BuildingID.SHIPYARD);
+        if (!tutorial_4_status)
+        {
+            GameManager.gameManager.AddFlag("tutorial_4_finished");
+            tutorial_4_status = true;
+        }
         CloseConstructionUI();
     }
 
@@ -222,6 +240,11 @@ public class BuildingInfoUI : PopupUI
     public void BuildingDepot()
     {
         linkedPlanet.Build(BuildingID.DEPOT);
+        if (!tutorial_3_status)
+        {
+            GameManager.gameManager.AddFlag("tutorial_3_finished");
+            tutorial_3_status = true;
+        }
         CloseConstructionUI();
     }
 

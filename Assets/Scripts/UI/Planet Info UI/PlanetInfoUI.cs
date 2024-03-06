@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static Fleet;
 
 public class PlanetInfoUI : PopupUI
@@ -12,12 +13,18 @@ public class PlanetInfoUI : PopupUI
     public bool isUIOpen = false;
     public bool isShipyardOpen = false;
 
+
+    //Direct Reference to Text
     public TextMeshProUGUI buildingSlot;
     public TextMeshProUGUI creditIncome;
     public TextMeshProUGUI scienceIncome;
     public TextMeshProUGUI shipyardText;
     public TextMeshProUGUI planetName;
     public TextMeshProUGUI captureText;
+
+
+    public Button shipyardButton;
+
 
     public GameObject infoPanel;
 
@@ -26,6 +33,8 @@ public class PlanetInfoUI : PopupUI
     public GameObject shipyardPanel;
 
     public List<GameObject> shipConstructionDisplay;
+
+ 
 
     // Start is called before the first frame update
     protected void Start()
@@ -150,12 +159,102 @@ public class PlanetInfoUI : PopupUI
             shipConstructionDisplay[0].transform.GetChild(3).gameObject.SetActive(false);
         }
 
+        if (linkedPlanet.CanBuildShip(ShipID.FLARE) == 0)
+        {
+            shipConstructionDisplay[1].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[1].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.SPARK) == 0)
+        {
+            shipConstructionDisplay[2].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[2].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.PULSE) == 0)
+        {
+            shipConstructionDisplay[3].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[3].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.EMBER) == 0)
+        {
+            shipConstructionDisplay[4].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[4].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.VOLT) == 0)
+        {
+            shipConstructionDisplay[5].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[5].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.BLAST) == 0)
+        {
+            shipConstructionDisplay[6].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[6].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
 
     }
 
     public void BuildMono()
     {
         linkedPlanet.BuildShip(ShipID.MONO);
+        CloseShipyardUI();
+    }
+
+    public void BuildFlare()
+    {
+        linkedPlanet.BuildShip(ShipID.FLARE);
+        CloseShipyardUI();
+    }
+
+    public void BuildSpark()
+    {
+        linkedPlanet.BuildShip(ShipID.SPARK);
+        CloseShipyardUI();
+    }
+
+    public void BuildPusle()
+    {
+        linkedPlanet.BuildShip(ShipID.PULSE);
+        CloseShipyardUI();
+    }
+
+    public void BuildEmber()
+    {
+        linkedPlanet.BuildShip(ShipID.EMBER);
+        CloseShipyardUI();
+    }
+
+    public void BuildVolt()
+    {
+        linkedPlanet.BuildShip(ShipID.VOLT);
+        CloseShipyardUI();
+    }
+
+    public void BuildBlast()
+    {
+        linkedPlanet.BuildShip(ShipID.BLAST);
         CloseShipyardUI();
     }
 
@@ -180,6 +279,8 @@ public class PlanetInfoUI : PopupUI
             return;
         }
 
+        planetName.text = linkedPlanet.name;
+
         if (linkedPlanet.IsPlayerOwned)
         {
             //GetTickCurrency();
@@ -195,10 +296,10 @@ public class PlanetInfoUI : PopupUI
             if (linkedPlanet.HasBuilding(BuildingID.SHIPYARD))
             {
                 ShipyardBuilding shipyard = (ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD);
-
+                shipyardButton.interactable = true;
                 if (shipyard.IsActive)
                 {
-                    shipyardText.text = "Busy Building Fleet" + ": " + ((ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD)).TurnsLeft.ToString() + " Turn";
+                    shipyardText.text = "<color=yellow>Busy Building Fleet" + ": " + ((ShipyardBuilding)linkedPlanet.GetBuilding(BuildingID.SHIPYARD)).TurnsLeft.ToString() + " Turn</color>";
                 }
                 else
                 {
@@ -207,6 +308,7 @@ public class PlanetInfoUI : PopupUI
             }
             else
             {
+                shipyardButton.interactable = false;
                 shipyardText.text = "No Shipyard";
             }
 
@@ -221,6 +323,7 @@ public class PlanetInfoUI : PopupUI
         }
         else if (linkedPlanet.owner != Owner.PLAYER)
         {
+            shipyardButton.interactable = false;
             ChangeTextColor(Color.red);
             creditIncome.text = "???";
 

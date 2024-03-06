@@ -118,9 +118,9 @@ public class ShipyardBuilding : Building
             case ShipID.FLARE: return true;
             case ShipID.SPARK: return true;
             case ShipID.PULSE: return true;
-            case ShipID.EMBER: return this.level >= 2;
-            case ShipID.VOLT: return this.level >= 2;
-            case ShipID.BLAST: return this.level >= 2;
+            case ShipID.EMBER: return true;
+            case ShipID.VOLT: return true;
+            case ShipID.BLAST: return true;
 
             default:
                 Debug.LogError("Unknown ship ID.");

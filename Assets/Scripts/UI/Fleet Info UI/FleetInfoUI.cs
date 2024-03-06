@@ -135,6 +135,7 @@ public class FleetInfoUI : PopupUI
         }
         else if (linkedFleet.owner == Owner.ENEMY)
         {
+
             ChangeTextColor(Color.red);
 
             attackText.text = linkedFleet.Damage.ToString();
@@ -143,7 +144,7 @@ public class FleetInfoUI : PopupUI
 
             resistenceText.text = GenerateColoredText(linkedFleet.thermalRes.ToString(), "red") + "/" + GenerateColoredText(linkedFleet.kineticRes.ToString(), "white") + "/" + GenerateColoredText(linkedFleet.emRes.ToString(), "yellow");
 
-
+            
         }
 
 

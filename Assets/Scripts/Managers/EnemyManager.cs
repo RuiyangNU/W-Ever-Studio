@@ -39,6 +39,7 @@ public class EnemyManager : MonoBehaviour
      */
     private int shipPoints;
 
+    [SerializeField]
     private ShipID intent;
 
     private Queue<ShipID> spawnQueue;
@@ -76,9 +77,14 @@ public class EnemyManager : MonoBehaviour
 
     public void UpdateTick()
     {
-        // Perform Enemy Ship Tasks
-        foreach (Fleet fleet in enemyControlledFleets)
-        {
+        
+
+
+
+
+        for (int i = enemyControlledFleets.Count - 1; i >= 0; i--) {
+            Fleet fleet = enemyControlledFleets[i];
+            //Hold
             if (fleet != null && fleet.enemyTask.id == 0)
             {
 
@@ -104,11 +110,10 @@ public class EnemyManager : MonoBehaviour
                 }
 
             }
-
         }
 
         // Gain ship points
-        shipPoints += (int)(Mathf.Floor(Mathf.Pow(1.4f, 2.1f + 0.25f * (TurnNumber - 5))));
+        shipPoints += (int)(Mathf.Floor(Mathf.Pow(1.4f, 2.1f + 0.2f * (TurnNumber - 5))));
 
         // Queue intended ship and the planet to spawn them in
         if (shipPoints >= shipCosts[intent])
@@ -217,13 +222,13 @@ public class EnemyManager : MonoBehaviour
     private void ChangeIntent()
     {
         System.Random rand = new();
-        if (TurnNumber <= 15)
+        if (TurnNumber <= 20)
         {
             intent = ShipID.MONO;
         }
-        else if (TurnNumber <= 30)
+        else if (TurnNumber <= 40)
         {
-            if (rand.Next(1, 101) >= (118 - 3 * TurnNumber))
+            if (rand.Next(1, 101) >= (128 - 3 * TurnNumber))
             {
                 // Spawn T1 ship
                 switch (rand.Next(1, 4))
@@ -246,7 +251,7 @@ public class EnemyManager : MonoBehaviour
         }
         else
         {
-            if (rand.Next(1, 101) >= (163 - 3 * TurnNumber))
+            if (rand.Next(1, 101) >= (188 - 3 * TurnNumber))
             {
                 // Spawn T2 ship
                 switch (rand.Next(1, 4))

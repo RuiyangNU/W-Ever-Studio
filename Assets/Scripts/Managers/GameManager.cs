@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
     public static GameManager gameManager;
     public List<string> gameFlags = new List<string>();
-    
+    public bool tutorial_fleet_status = false;
 
     /*
      * Static
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (GameObject fleet in gameManager.shipPrefabs)
         {
+
             //Debug.Log(fleet);
             if (fleet.GetComponent<Fleet>().shipID == shipID)
             {
@@ -89,6 +90,16 @@ public class GameManager : MonoBehaviour
     {
 
         return gameFlags.Contains(flag);
+    }
+
+    public void AddFlag(string flag)
+    {
+        gameFlags.Add(flag);
+    }
+
+    public void RemoveFlag(string flag)
+    {
+        gameFlags.Remove(flag);
     }
 
     /*
@@ -171,8 +182,8 @@ public class GameManager : MonoBehaviour
         {
             int nativeRes = attackerType switch
             {
-                DamageType.KINETIC => 20,
-                DamageType.EM => -20,
+                DamageType.KINETIC => 40,
+                DamageType.EM => -40,
                 _ => 0,
             };
 
@@ -189,8 +200,8 @@ public class GameManager : MonoBehaviour
             {
                 // Blocked by shield
                 remainingRawDamage = 0;
-                combatEvent.attackerShieldDamage = remainingEffectiveDamage;
-                defender.RemoveShield(remainingEffectiveDamage);
+                combatEvent.attackerShieldDamage = Mathf.Floor(remainingEffectiveDamage);
+                defender.RemoveShield(Mathf.Floor(remainingEffectiveDamage));
             }
         }
 
@@ -199,14 +210,14 @@ public class GameManager : MonoBehaviour
         {
             int nativeRes = attackerType switch
             {
-                DamageType.KINETIC => 20,
-                DamageType.EM => -20,
+                DamageType.KINETIC => 40,
+                DamageType.EM => -40,
                 _ => 0,
             };
 
             float remainingEffectiveDamage = RawToEffective(remainingRawDamage, defenderRes + nativeRes);
-            combatEvent.attackerHullDamage = remainingEffectiveDamage;
-            defender.RemoveHull(remainingEffectiveDamage);
+            combatEvent.attackerHullDamage = Mathf.Floor(remainingEffectiveDamage);
+            defender.RemoveHull(Mathf.Floor(remainingEffectiveDamage));
         }
 
         /*
@@ -219,8 +230,8 @@ public class GameManager : MonoBehaviour
         {
             int nativeRes = defenderType switch
             {
-                DamageType.KINETIC => 20,
-                DamageType.EM => -20,
+                DamageType.KINETIC => 40,
+                DamageType.EM => -40,
                 _ => 0,
             };
 
@@ -236,8 +247,8 @@ public class GameManager : MonoBehaviour
             {
                 // Blocked by shield
                 remainingRawDamage = 0;
-                combatEvent.defenderShieldDamage = remainingEffectiveDamage;
-                attacker.RemoveShield(remainingEffectiveDamage);
+                combatEvent.defenderShieldDamage = Mathf.Floor(remainingEffectiveDamage);
+                attacker.RemoveShield(Mathf.Floor(remainingEffectiveDamage));
             }
         }
 
@@ -246,14 +257,14 @@ public class GameManager : MonoBehaviour
         {
             int nativeRes = attackerType switch
             {
-                DamageType.KINETIC => 20,
-                DamageType.EM => -20,
+                DamageType.KINETIC => 40,
+                DamageType.EM => -40,
                 _ => 0,
             };
 
             float remainingEffectiveDamage = RawToEffective(remainingRawDamage, attackerRes + nativeRes);
-            combatEvent.defenderHullDamage = remainingEffectiveDamage;
-            attacker.RemoveHull(remainingEffectiveDamage);
+            combatEvent.defenderHullDamage = Mathf.Floor(remainingEffectiveDamage);
+            attacker.RemoveHull(Mathf.Floor(remainingEffectiveDamage));
         }
 
         /*
@@ -280,12 +291,12 @@ public class GameManager : MonoBehaviour
 
     private float RawToEffective(float rawDamage, int res)
     {
-        return rawDamage * (100 / Mathf.Max(50, 100 + res));
+        return rawDamage * (100.0f / Mathf.Max(50.0f, 100.0f + res));
     }
 
     private float EffectiveToRaw(float effectiveDamage, int res)
     {
-        return effectiveDamage * (Mathf.Max(50, 100 + res) / 100);
+        return effectiveDamage * (Mathf.Max(50.0f, 100.0f + res) / 100.0f);
     }
 
     /*
@@ -316,7 +327,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CreatePlanet(HexCell cell, Owner owner, int baseCreditsPerTick, int buildingLimit)
+    public void CreatePlanet(HexCell cell, Owner owner, int baseCreditsPerTick, int buildingLimit, string name)
     {
         //HexCell cell = GetCellUnderCursor();
         if (cell && !cell.planet)
@@ -329,12 +340,15 @@ public class GameManager : MonoBehaviour
 
             planet.transform.localPosition = cell.Position;
             planet.SetProperties(owner);
+            planet.name = name;
             //cell.DisablePlanetRender();
             if (planet.owner == Owner.PLAYER)
             {
                 hexGrid.IncreaseVisibility(cell, 2);
             }
-            if (!FindObjectOfType<HexMapEditor>().enabled)
+
+            //Debug.Log(FindObjectOfType<HexMapEditor>());
+            if (FindObjectOfType<HexMapEditor>() == null || !FindObjectOfType<HexMapEditor>().enabled)
             {
                 cell.DisablePlanetRender();
             }
@@ -356,7 +370,11 @@ public class GameManager : MonoBehaviour
         {
             //HexUnit unit = Instantiate(HexUnit.unitPrefab);
             //Fleet fleet = Instantiate(GetShipByType(shipID));
-
+            if (!tutorial_fleet_status)
+            {
+                GameManager.gameManager.AddFlag("tutorial_fleet_finished");
+                tutorial_fleet_status = true;   
+            }
             GameObject fleet = Instantiate(GetShipPrefab(shipID));
 
             //fleet.transform.position += new Vector3(0,5,0);
@@ -406,6 +424,7 @@ public class GameManager : MonoBehaviour
         
         else if(enemyManager.enemyControlledPlanets.Count == 0)
         {
+            AddFlag("game_won");
             gameState = GameState.WIN;
         }
         else if (playerManager.playerControlledPlanets.Count == 0)
