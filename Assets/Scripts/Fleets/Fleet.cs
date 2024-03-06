@@ -85,19 +85,22 @@ public abstract class Fleet : MonoBehaviour, ISelectable
         }
         prevOwner = owner;
 
-        // Update stats
-        if (playerManager.PlayerDamageTier != prevDamageTier)
+        // Update stats if owned by player
+        if (owner == Owner.PLAYER)
         {
-            this.damage = this.damage / (1 + (0.1f * prevDamageTier)) * (1 + (0.1f * playerManager.PlayerDamageTier));
-            prevDamageTier = playerManager.PlayerDamageTier;
-        }
+            if (playerManager.PlayerDamageTier != prevDamageTier)
+            {
+                this.damage = this.damage / (1 + (0.1f * prevDamageTier)) * (1 + (0.1f * playerManager.PlayerDamageTier));
+                prevDamageTier = playerManager.PlayerDamageTier;
+            }
 
-        if (playerManager.PlayerResistanceTier != prevResistanceTier)
-        {
-            this.thermalRes = 5 * playerManager.PlayerResistanceTier;
-            this.kineticRes = 5 * playerManager.PlayerResistanceTier;
-            this.emRes = 5 * playerManager.PlayerResistanceTier;
-            prevResistanceTier = playerManager.PlayerResistanceTier;
+            if (playerManager.PlayerResistanceTier != prevResistanceTier)
+            {
+                this.thermalRes = 5 * playerManager.PlayerResistanceTier;
+                this.kineticRes = 5 * playerManager.PlayerResistanceTier;
+                this.emRes = 5 * playerManager.PlayerResistanceTier;
+                prevResistanceTier = playerManager.PlayerResistanceTier;
+            }
         }
     }
 
