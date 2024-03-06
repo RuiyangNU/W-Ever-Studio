@@ -200,8 +200,8 @@ public class GameManager : MonoBehaviour
             {
                 // Blocked by shield
                 remainingRawDamage = 0;
-                combatEvent.attackerShieldDamage = remainingEffectiveDamage;
-                defender.RemoveShield(remainingEffectiveDamage);
+                combatEvent.attackerShieldDamage = Mathf.Floor(remainingEffectiveDamage);
+                defender.RemoveShield(Mathf.Floor(remainingEffectiveDamage));
             }
         }
 
@@ -216,8 +216,8 @@ public class GameManager : MonoBehaviour
             };
 
             float remainingEffectiveDamage = RawToEffective(remainingRawDamage, defenderRes + nativeRes);
-            combatEvent.attackerHullDamage = remainingEffectiveDamage;
-            defender.RemoveHull(remainingEffectiveDamage);
+            combatEvent.attackerHullDamage = Mathf.Floor(remainingEffectiveDamage);
+            defender.RemoveHull(Mathf.Floor(remainingEffectiveDamage));
         }
 
         /*
@@ -247,8 +247,8 @@ public class GameManager : MonoBehaviour
             {
                 // Blocked by shield
                 remainingRawDamage = 0;
-                combatEvent.defenderShieldDamage = remainingEffectiveDamage;
-                attacker.RemoveShield(remainingEffectiveDamage);
+                combatEvent.defenderShieldDamage = Mathf.Floor(remainingEffectiveDamage);
+                attacker.RemoveShield(Mathf.Floor(remainingEffectiveDamage));
             }
         }
 
@@ -263,8 +263,8 @@ public class GameManager : MonoBehaviour
             };
 
             float remainingEffectiveDamage = RawToEffective(remainingRawDamage, attackerRes + nativeRes);
-            combatEvent.defenderHullDamage = remainingEffectiveDamage;
-            attacker.RemoveHull(remainingEffectiveDamage);
+            combatEvent.defenderHullDamage = Mathf.Floor(remainingEffectiveDamage);
+            attacker.RemoveHull(Mathf.Floor(remainingEffectiveDamage));
         }
 
         /*
