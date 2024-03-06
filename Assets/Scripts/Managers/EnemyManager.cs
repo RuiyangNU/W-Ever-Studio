@@ -77,9 +77,14 @@ public class EnemyManager : MonoBehaviour
 
     public void UpdateTick()
     {
-        // Perform Enemy Ship Tasks
-        foreach (Fleet fleet in enemyControlledFleets)
-        {
+        
+
+
+
+
+        for (int i = enemyControlledFleets.Count - 1; i >= 0; i--) {
+            Fleet fleet = enemyControlledFleets[i];
+            //Hold
             if (fleet != null && fleet.enemyTask.id == 0)
             {
 
@@ -105,7 +110,6 @@ public class EnemyManager : MonoBehaviour
                 }
 
             }
-
         }
 
         // Gain ship points
