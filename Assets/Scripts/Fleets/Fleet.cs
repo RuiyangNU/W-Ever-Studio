@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using static PlayerManager;
 using static FleetSettings;
+using System;
 
 public abstract class Fleet : MonoBehaviour, ISelectable
 {
@@ -105,13 +106,13 @@ public abstract class Fleet : MonoBehaviour, ISelectable
         RestoreActionPoints();
 
         // Regenerate shields
-        AddShield(maxShield * 0.2f);
+        AddShield(Mathf.Min(maxShield * 0.2f, 25));
 
         // Regenerate hull if on friendly planet
         HexCell currentCell = hexGrid.GetCell(hexUnit.locationCellIndex);
         if (currentCell.planet && currentCell.planet.owner == owner)
         {
-            AddHull(maxHull * 0.3f);
+            AddHull(Mathf.Min(maxHull * 0.2f, 25));
         }
 
         return;

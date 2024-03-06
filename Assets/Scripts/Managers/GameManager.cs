@@ -182,8 +182,8 @@ public class GameManager : MonoBehaviour
         {
             int nativeRes = attackerType switch
             {
-                DamageType.KINETIC => 20,
-                DamageType.EM => -20,
+                DamageType.KINETIC => 40,
+                DamageType.EM => -40,
                 _ => 0,
             };
 
@@ -210,8 +210,8 @@ public class GameManager : MonoBehaviour
         {
             int nativeRes = attackerType switch
             {
-                DamageType.KINETIC => 20,
-                DamageType.EM => -20,
+                DamageType.KINETIC => 40,
+                DamageType.EM => -40,
                 _ => 0,
             };
 
@@ -230,8 +230,8 @@ public class GameManager : MonoBehaviour
         {
             int nativeRes = defenderType switch
             {
-                DamageType.KINETIC => 20,
-                DamageType.EM => -20,
+                DamageType.KINETIC => 40,
+                DamageType.EM => -40,
                 _ => 0,
             };
 
@@ -257,8 +257,8 @@ public class GameManager : MonoBehaviour
         {
             int nativeRes = attackerType switch
             {
-                DamageType.KINETIC => 20,
-                DamageType.EM => -20,
+                DamageType.KINETIC => 40,
+                DamageType.EM => -40,
                 _ => 0,
             };
 
@@ -291,12 +291,12 @@ public class GameManager : MonoBehaviour
 
     private float RawToEffective(float rawDamage, int res)
     {
-        return rawDamage * (100.0f / Mathf.Max(50, 100 + res));
+        return rawDamage * (100.0f / Mathf.Max(50.0f, 100.0f + res));
     }
 
     private float EffectiveToRaw(float effectiveDamage, int res)
     {
-        return effectiveDamage * (Mathf.Max(50, 100 + res) / 100.0f);
+        return effectiveDamage * (Mathf.Max(50.0f, 100.0f + res) / 100.0f);
     }
 
     /*
