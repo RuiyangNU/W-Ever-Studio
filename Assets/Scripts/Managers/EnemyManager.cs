@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class EnemyAiTask
 {
@@ -13,16 +15,44 @@ public class EnemyAiTask
 
 public class EnemyManager : MonoBehaviour
 {
+    /*
+     * References
+     */
     private GameManager gameManager;
     private PlayerManager playerManager;
 
     public HexGrid hexGrid;
 
+    /*
+     * Control
+     */
     public List<Planet> enemyControlledPlanets = new List<Planet>();
 
     public List<Fleet> enemyControlledFleets = new List<Fleet>();
 
-    public int spawnCoolDown = 0; //Placeholder for spawning
+    private int TurnNumber => gameManager.turnNumber;
+
+    private int NumAttackers => enemyControlledFleets.Count(fleet => fleet.enemyTask.id == 1);
+
+    /*
+     * Spawning
+     */
+    private int shipPoints;
+
+    private ShipID intent;
+
+    private Queue<ShipID> spawnQueue;
+
+    private Dictionary<ShipID, int> shipCosts = new()
+    {
+        { ShipID.MONO, 10 },
+        { ShipID.FLARE, 30 },
+        { ShipID.SPARK, 30 },
+        { ShipID.PULSE, 30 },
+        { ShipID.EMBER, 90 },
+        { ShipID.VOLT, 90 },
+        { ShipID.BLAST, 90 }
+    };
 
     /*
      * Initializers and Updaters 
@@ -32,6 +62,9 @@ public class EnemyManager : MonoBehaviour
         hexGrid = FindObjectOfType<HexGrid>();
         gameManager = FindObjectOfType<GameManager>(); 
         playerManager = FindObjectOfType<PlayerManager>();
+
+        shipPoints = 0;
+        intent = ShipID.MONO;
     }
 
     private void Update()
@@ -42,21 +75,9 @@ public class EnemyManager : MonoBehaviour
 
     public void UpdateTick()
     {
-        if (spawnCoolDown == 0)
+        // Perform Enemy Ship Tasks
+        foreach (Fleet fleet in enemyControlledFleets)
         {
-            SpawnEnemyFleet();
-            spawnCoolDown = (int)Mathf.Max(3, 7 - Mathf.Floor(gameManager.turnNumber/4));
-        }
-        else
-        {
-            spawnCoolDown--;
-        }
-
-
-
-        foreach (Fleet fleet in enemyControlledFleets) {
-            //Debug.Log(fleet.enemyTask.id);
-            //Hold
             if (fleet != null && fleet.enemyTask.id == 0)
             {
 
@@ -64,9 +85,9 @@ public class EnemyManager : MonoBehaviour
             //Move to Enemy planet
             else if (fleet != null && fleet.enemyTask.id == 1)
             {
-            
 
-                if(fleet.enemyTask.targetPlanet != null)
+
+                if (fleet.enemyTask.targetPlanet != null)
                 {
 
                     //Already Occupying, abort mission
@@ -78,12 +99,60 @@ public class EnemyManager : MonoBehaviour
                     {
                         MoveAiFleetCell(fleet.enemyTask.targetPlanet.CurrentCell, fleet);
                     }
-                    
+
                 }
-                
+
             }
 
         }
+
+        // Gain ship points
+        int pointsGained = 0;
+        
+        if (TurnNumber <= 5)
+        {
+            pointsGained = 0; // Turns 0-5
+        }
+        else if (TurnNumber <= 10)
+        {
+            pointsGained = 3; // Turns 6-10
+        }
+        else if (TurnNumber <= 15)
+        {
+            pointsGained = 4; // Turns 11-15
+        }
+        else if (TurnNumber <= 20)
+        {
+            pointsGained = 6; // Turns 16-20
+        }
+        else if (TurnNumber <= 25)
+        {
+            pointsGained = 11; // Turns 21-25
+        }
+        else if (TurnNumber <= 30)
+        {
+            pointsGained = 16; // Turns 26-30
+        }
+        else if (TurnNumber <= 35)
+        {
+            pointsGained = 25; // Turns 31-35
+        }
+        else
+        {
+            pointsGained = 35 + (int)(Mathf.Floor(Mathf.Pow(1.3f, 0.5f * (TurnNumber - 35)))); // Turns 36+
+        }
+        shipPoints += (int)(Mathf.Floor(Mathf.Pow(1.4f, 2.1f + 0.25f * (TurnNumber - 5))));
+
+        // Queue intended ship and the planet to spawn them in
+        if (shipPoints >= shipCosts[intent])
+        {
+            spawnQueue.Enqueue(intent);
+            ChangeIntent();
+        }
+
+        // Spawn queued ships
+
+        
     }
 
     /*
@@ -93,13 +162,14 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// Todo: fix spawning logic
     /// </summary>
-    public void SpawnEnemyFleet()
+    public void SpawnEnemyFleet(ShipID shipID)
     {
         int randomIndex = UnityEngine.Random.Range(0, enemyControlledPlanets.Count);
         Planet spawningPlanet = enemyControlledPlanets[randomIndex];
+
         if (spawningPlanet.CurrentCell.fleet == null && enemyControlledFleets.Count <= 5)
         {
-            gameManager.CreateFleet(spawningPlanet.CurrentCell, Owner.ENEMY, ShipID.MONO);
+            gameManager.CreateFleet(spawningPlanet.CurrentCell, Owner.ENEMY, shipID);
             AddFleet(spawningPlanet.CurrentCell.fleet);
 
             //Attack Force
@@ -108,7 +178,7 @@ public class EnemyManager : MonoBehaviour
         else if(spawningPlanet.CurrentCell.fleet == null && enemyControlledFleets.Count > 5)
         {
             //Go to neighbors, don't generate fleet
-            gameManager.CreateFleet(spawningPlanet.CurrentCell, Owner.ENEMY, ShipID.MONO);
+            gameManager.CreateFleet(spawningPlanet.CurrentCell, Owner.ENEMY, shipID);
             AddFleet(spawningPlanet.CurrentCell.fleet);
             //Garrison
             AssignAiTask(spawningPlanet.CurrentCell.fleet, 0);
@@ -158,6 +228,74 @@ public class EnemyManager : MonoBehaviour
     /*
      * AI
      */
+    private void ChangeIntent()
+    {
+        System.Random rand = new();
+        if (TurnNumber <= 15)
+        {
+            intent = ShipID.MONO;
+        }
+        else if (TurnNumber <= 30)
+        {
+            if (rand.Next(1, 101) >= (118 - 3 * TurnNumber))
+            {
+                // Spawn T1 ship
+                switch (rand.Next(1, 4))
+                {
+                    case 1:
+                        intent = ShipID.FLARE; break;
+                    case 2:
+                        intent = ShipID.SPARK; break;
+                    case 3:
+                        intent = ShipID.PULSE; break;
+                    default:
+                        Debug.LogError("Random out of range.");
+                        intent = ShipID.FLARE; break;
+                }
+            }
+            else
+            {
+                intent = ShipID.MONO;
+            }
+        }
+        else
+        {
+            if (rand.Next(1, 101) >= (163 - 3 * TurnNumber))
+            {
+                // Spawn T2 ship
+                switch (rand.Next(1, 4))
+                {
+                    case 1:
+                        intent = ShipID.FLARE; break;
+                    case 2:
+                        intent = ShipID.SPARK; break;
+                    case 3:
+                        intent = ShipID.PULSE; break;
+                    default:
+                        Debug.LogError("Random out of range.");
+                        intent = ShipID.FLARE; break;
+                }
+            }
+
+            else
+            {
+                // Spawn T3 ship
+                switch (rand.Next(1, 4))
+                {
+                    case 1:
+                        intent = ShipID.EMBER; break;
+                    case 2:
+                        intent = ShipID.VOLT; break;
+                    case 3:
+                        intent = ShipID.BLAST; break;
+                    default:
+                        Debug.LogError("Random out of range.");
+                        intent = ShipID.EMBER; break;
+                }
+            }
+        }
+    }
+
     public void AssignAiTask(Fleet f, int taskId)
     {
         EnemyAiTask task = new EnemyAiTask();
@@ -266,6 +404,4 @@ public class EnemyManager : MonoBehaviour
 
         }
     }
-
-
 }
