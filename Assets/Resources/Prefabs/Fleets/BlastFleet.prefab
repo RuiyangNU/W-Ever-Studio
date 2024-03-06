@@ -113,7 +113,7 @@ MonoBehaviour:
   kineticRes: 0
   emRes: 0
   owner: 0
-  shipID: 0
+  shipID: 6
 --- !u!114 &6588285320969782396
 MonoBehaviour:
   m_ObjectHideFlags: 0
