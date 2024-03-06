@@ -279,6 +279,8 @@ public class PlanetInfoUI : PopupUI
             return;
         }
 
+        planetName.text = linkedPlanet.name;
+
         if (linkedPlanet.IsPlayerOwned)
         {
             //GetTickCurrency();

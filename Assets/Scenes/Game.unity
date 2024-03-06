@@ -9431,7 +9431,7 @@ MonoBehaviour:
   hexGrid: {fileID: 0}
   enemyControlledPlanets: []
   enemyControlledFleets: []
-  spawnCoolDown: 10
+  intent: 0
 --- !u!4 &407595664
 Transform:
   m_ObjectHideFlags: 0
@@ -35888,6 +35888,8 @@ MonoBehaviour:
   isUIOpen: 0
   musicPlayerPanel: {fileID: 964396281860533349}
   musicManager: {fileID: 1913680892}
+  musicText: {fileID: 964396282306498005}
+  musicVolumn: {fileID: 1847366555}
   musicIndex: 0
 --- !u!1 &1798896819
 GameObject:
@@ -36962,6 +36964,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slider
       objectReference: {fileID: 0}
+    - target: {fileID: 1114706607456233126, guid: e7214f3789ad0df4283a7bb57086eb7a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1114706607456233126, guid: e7214f3789ad0df4283a7bb57086eb7a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1114706607456233126, guid: e7214f3789ad0df4283a7bb57086eb7a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1794475166}
+    - target: {fileID: 1114706607456233126, guid: e7214f3789ad0df4283a7bb57086eb7a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1114706607456233126, guid: e7214f3789ad0df4283a7bb57086eb7a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeVolumn
+      objectReference: {fileID: 0}
+    - target: {fileID: 1114706607456233126, guid: e7214f3789ad0df4283a7bb57086eb7a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MusicPlayerUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1114706607456233126, guid: e7214f3789ad0df4283a7bb57086eb7a,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1114706607456233127, guid: e7214f3789ad0df4283a7bb57086eb7a,
         type: 3}
       propertyPath: m_Pivot.x
@@ -37065,27 +37102,27 @@ PrefabInstance:
     - target: {fileID: 7879756417338112996, guid: e7214f3789ad0df4283a7bb57086eb7a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 7879756417338112996, guid: e7214f3789ad0df4283a7bb57086eb7a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7879756417338112996, guid: e7214f3789ad0df4283a7bb57086eb7a,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 7879863741959574466, guid: e7214f3789ad0df4283a7bb57086eb7a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 7879863741959574466, guid: e7214f3789ad0df4283a7bb57086eb7a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -37098,6 +37135,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1847366553}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1847366555 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1114706607456233126, guid: e7214f3789ad0df4283a7bb57086eb7a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1847366553}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1849126628
 GameObject:
   m_ObjectHideFlags: 0
@@ -38709,7 +38758,7 @@ MonoBehaviour:
   creditIncome: {fileID: 1440198561}
   scienceIncome: {fileID: 990470558}
   shipyardText: {fileID: 442609052}
-  planetName: {fileID: 0}
+  planetName: {fileID: 419931404}
   captureText: {fileID: 2043394128}
   shipyardButton: {fileID: 630965113}
   infoPanel: {fileID: 283362286}
@@ -38772,6 +38821,8 @@ MonoBehaviour:
   musicSounds:
   - name: Background
     clip: {fileID: 8300000, guid: 467ff29d7afe04a21b11d24c21bc679c, type: 3}
+  - name: Faster Than Light
+    clip: {fileID: 8300000, guid: fbfc6924c6b32254689680b20b222314, type: 3}
   sfxSounds:
   - name: ClickUI
     clip: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
@@ -44951,7 +45002,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &964396281860533350
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45044,7 +45095,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MusicPlayer-Name
+  m_text: Background
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a85a5fb20be32c74e8b4a078e736f5ab, type: 2}
   m_sharedMaterial: {fileID: -8262044034710385518, guid: a85a5fb20be32c74e8b4a078e736f5ab,

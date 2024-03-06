@@ -22,6 +22,19 @@ public class GameLoader : MonoBehaviour
         { new HexCoordinates(10, 12), Owner.ENEMY },
     };
 
+    private List<string> INITIAL_Name = new List<string>
+    {
+        "Chandra5-B",
+        "Peno3-C",
+        "Vega122-A",
+        "Sirius6-D",
+        "Lyra4-E",
+        "Rigel1-B",
+        "Altair7-C",
+        "Deneb5-A",
+        "Caligula",
+    };
+
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -31,8 +44,11 @@ public class GameLoader : MonoBehaviour
 
     private void Start()
     {
+        int i = 0;
         foreach (HexCoordinates coords in INITIAL_PLANETS.Keys)
         {
+            string name = INITIAL_Name[i];
+            i++;
             //Planet planet = Instantiate(Planet.planetPrefab);
             //planet.SetProperties(
             //    INITIAL_PLANETS[coords],
@@ -43,7 +59,7 @@ public class GameLoader : MonoBehaviour
             //gameManager.AddPlanetToCell(hexGrid.GetCell(coords), planet);
             //gameManager.CreatePlanet()
             //Debug.Log(hexGrid);
-            gameManager.CreatePlanet(hexGrid.GetCell(coords), INITIAL_PLANETS[coords], Random.Range(100, 200), 3);
+            gameManager.CreatePlanet(hexGrid.GetCell(coords), INITIAL_PLANETS[coords], Random.Range(100, 200), 3, name);
         }    
     }
 }

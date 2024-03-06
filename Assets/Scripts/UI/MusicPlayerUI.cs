@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MusicPlayerUI : PopupUI
 {
@@ -11,6 +13,12 @@ public class MusicPlayerUI : PopupUI
 
     [SerializeField]
     private AudioManager musicManager;
+
+    [SerializeField]
+    private TextMeshProUGUI musicText;
+
+    [SerializeField]
+    private Slider musicVolumn;
 
     public int musicIndex = 0;
 
@@ -65,6 +73,7 @@ public class MusicPlayerUI : PopupUI
     {
         ChooseNextIndex();
         musicManager.PlayMusic(musicIndex);
+        musicText.text = musicManager.musicSounds[musicIndex].name;
 
     }
 
@@ -72,8 +81,15 @@ public class MusicPlayerUI : PopupUI
     {
         ChoosePrevIndex();
         musicManager.PlayMusic(musicIndex);
+        musicText.text = musicManager.musicSounds[musicIndex].name;
     }
 
+    public void ChangeVolumn()
+    {
+        float volumn = musicVolumn.value;
+
+        musicManager.musicSource.volume = volumn;
+    }
 
     // Start is called before the first frame update
     void Start()

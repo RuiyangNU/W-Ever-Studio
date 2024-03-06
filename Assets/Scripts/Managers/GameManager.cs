@@ -327,7 +327,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CreatePlanet(HexCell cell, Owner owner, int baseCreditsPerTick, int buildingLimit)
+    public void CreatePlanet(HexCell cell, Owner owner, int baseCreditsPerTick, int buildingLimit, string name)
     {
         //HexCell cell = GetCellUnderCursor();
         if (cell && !cell.planet)
@@ -340,6 +340,7 @@ public class GameManager : MonoBehaviour
 
             planet.transform.localPosition = cell.Position;
             planet.SetProperties(owner);
+            planet.name = name;
             //cell.DisablePlanetRender();
             if (planet.owner == Owner.PLAYER)
             {
@@ -423,6 +424,7 @@ public class GameManager : MonoBehaviour
         
         else if(enemyManager.enemyControlledPlanets.Count == 0)
         {
+            AddFlag("game_won");
             gameState = GameState.WIN;
         }
         else if (playerManager.playerControlledPlanets.Count == 0)
