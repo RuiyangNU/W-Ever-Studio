@@ -54,9 +54,42 @@ public class EnemyManager : MonoBehaviour
 
 
 
-        foreach (Fleet fleet in enemyControlledFleets) {
+        //foreach (Fleet fleet in enemyControlledFleets) {
+        //    //Debug.Log(fleet.enemyTask.id);
+        //    //Hold
+        //    if (fleet != null && fleet.enemyTask.id == 0)
+        //    {
+
+        //    }
+        //    //Move to Enemy planet
+        //    else if (fleet != null && fleet.enemyTask.id == 1)
+        //    {
+            
+
+        //        if(fleet.enemyTask.targetPlanet != null)
+        //        {
+
+        //            //Already Occupying, abort mission
+        //            if (fleet.enemyTask.targetPlanet.CurrentCell.fleet != null && fleet.enemyTask.targetPlanet.CurrentCell.fleet.owner == Owner.ENEMY)
+        //            {
+        //                AssignAiTask(fleet, 0);
+        //            }
+        //            else
+        //            {
+        //                MoveAiFleetCell(fleet.enemyTask.targetPlanet.CurrentCell, fleet);
+        //            }
+                    
+        //        }
+                
+        //    }
+
+        //}
+
+        for (int i = enemyControlledFleets.Count - 1; i >= 0; i--)
+        {
             //Debug.Log(fleet.enemyTask.id);
             //Hold
+            Fleet fleet = enemyControlledFleets[i];
             if (fleet != null && fleet.enemyTask.id == 0)
             {
 
@@ -64,9 +97,9 @@ public class EnemyManager : MonoBehaviour
             //Move to Enemy planet
             else if (fleet != null && fleet.enemyTask.id == 1)
             {
-            
 
-                if(fleet.enemyTask.targetPlanet != null)
+
+                if (fleet.enemyTask.targetPlanet != null)
                 {
 
                     //Already Occupying, abort mission
@@ -78,11 +111,10 @@ public class EnemyManager : MonoBehaviour
                     {
                         MoveAiFleetCell(fleet.enemyTask.targetPlanet.CurrentCell, fleet);
                     }
-                    
-                }
-                
-            }
 
+                }
+
+            }
         }
     }
 
