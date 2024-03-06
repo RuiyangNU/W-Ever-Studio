@@ -107,10 +107,12 @@ public class Planet : MonoBehaviour, ISelectable
         //Add to player list if planet is owned by player
         if (prevOwner != Owner.PLAYER && owner == Owner.PLAYER)
         {
+            AudioManager.Instance.PlaySFX("PlanetCapturePlayer");
             playerManager.AddPlanet(this);
         }
         if (prevOwner == Owner.PLAYER && owner != Owner.PLAYER)
         {
+            AudioManager.Instance.PlaySFX("PlanetCaptureEnemy");
             playerManager.RemovePlanet(this);
         }
 
