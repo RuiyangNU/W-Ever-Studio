@@ -33748,11 +33748,6 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d8d04c6f80a1140db85ede568dab1f51, type: 3}
   - name: ShipMovement
     clip: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
-<<<<<<< Updated upstream
-=======
-  - name: Build
-    clip: {fileID: 8300000, guid: 3becec1909f194046945d85ac1077772, type: 3}
->>>>>>> Stashed changes
   musicSource: {fileID: 763889488}
   sfxSource: {fileID: 1044403131}
 --- !u!1 &1916619403
