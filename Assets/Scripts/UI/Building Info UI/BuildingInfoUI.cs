@@ -19,7 +19,7 @@ public class BuildingInfoUI : PopupUI
     public bool isUIOpen = false;
 
     public bool isConstructionUIOpen = false;
-
+    public bool tutorial_2_status = false;
     public void Link()
     {
         //if (obj == null) { throw new NullReferenceException("Link was called but a null object was given."); }
@@ -76,6 +76,11 @@ public class BuildingInfoUI : PopupUI
         {
             Debug.LogError("OpenUI was called, but no object was linked to " + this.name + ". Make sure to call Link from the object opening this UI first.");
             return;
+        }
+        if(!tutorial_2_status)
+        {
+            GameManager.gameManager.AddFlag("tutorial_2_finished");
+            tutorial_2_status = true;
         }
 
         //foreach (PopupUIElement child in children)

@@ -81,7 +81,7 @@ public class HexGameUI : MonoBehaviour
 		{
             grid.GetCell(prevCellIndex).DisableHighlight();
         }
-		if (currentCellIndex >= 0)
+		if (currentCellIndex >= 0 && grid.GetCell(currentCellIndex).IsExplored)
 		{
 			Debug.Log(grid.GetCell(currentCellIndex).visibility);
 
