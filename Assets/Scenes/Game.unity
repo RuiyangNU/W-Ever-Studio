@@ -33540,7 +33540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 602, y: 0}
+  m_AnchoredPosition: {x: 234.29, y: 0}
   m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1683698580
@@ -38819,10 +38819,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSounds:
-  - name: Background
-    clip: {fileID: 8300000, guid: 467ff29d7afe04a21b11d24c21bc679c, type: 3}
+  - name: Remnant of Stars Original Soundtrack
+    clip: {fileID: 8300000, guid: 85b7ac697f2c7b743a47701ac74faebd, type: 3}
   - name: Faster Than Light
     clip: {fileID: 8300000, guid: fbfc6924c6b32254689680b20b222314, type: 3}
+  - name: Castle Dungeon
+    clip: {fileID: 8300000, guid: 3a033a0fb87df48d78b663f02a2fab4a, type: 3}
+  - name: A Fond Farewell
+    clip: {fileID: 8300000, guid: e84908b60678a49c29df333ebf6e8019, type: 3}
+  - name: A New Beginning
+    clip: {fileID: 8300000, guid: 467ff29d7afe04a21b11d24c21bc679c, type: 3}
   sfxSounds:
   - name: ClickUI
     clip: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
@@ -38831,7 +38837,7 @@ MonoBehaviour:
   - name: Tick
     clip: {fileID: 8300000, guid: d8d04c6f80a1140db85ede568dab1f51, type: 3}
   - name: ShipMovement
-    clip: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
+    clip: {fileID: 8300000, guid: 38a17a92b9d9748c6a1e67972041b833, type: 3}
   - name: Build
     clip: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   - name: ShipBuild

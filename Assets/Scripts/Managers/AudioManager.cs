@@ -27,7 +27,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusic("Background");
+        PlayMusic("Remnant of Stars Original Soundtrack");
     }
 
     public void PlayMusic(string name)
