@@ -37420,7 +37420,7 @@ GameObject:
   - component: {fileID: 1865193397}
   - component: {fileID: 1865193399}
   m_Layer: 0
-  m_Name: User Interface
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
