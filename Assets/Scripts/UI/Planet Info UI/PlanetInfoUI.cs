@@ -154,12 +154,102 @@ public class PlanetInfoUI : PopupUI
             shipConstructionDisplay[0].transform.GetChild(3).gameObject.SetActive(false);
         }
 
+        if (linkedPlanet.CanBuildShip(ShipID.FLARE) == 0)
+        {
+            shipConstructionDisplay[1].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[1].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.SPARK) == 0)
+        {
+            shipConstructionDisplay[2].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[2].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.PULSE) == 0)
+        {
+            shipConstructionDisplay[3].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[3].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.EMBER) == 0)
+        {
+            shipConstructionDisplay[4].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[4].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.VOLT) == 0)
+        {
+            shipConstructionDisplay[5].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[5].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
+        if (linkedPlanet.CanBuildShip(ShipID.BLAST) == 0)
+        {
+            shipConstructionDisplay[6].transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            shipConstructionDisplay[6].transform.GetChild(3).gameObject.SetActive(false);
+        }
+
 
     }
 
     public void BuildMono()
     {
         linkedPlanet.BuildShip(ShipID.MONO);
+        CloseShipyardUI();
+    }
+
+    public void BuildFlare()
+    {
+        linkedPlanet.BuildShip(ShipID.FLARE);
+        CloseShipyardUI();
+    }
+
+    public void BuildSpark()
+    {
+        linkedPlanet.BuildShip(ShipID.SPARK);
+        CloseShipyardUI();
+    }
+
+    public void BuildPusle()
+    {
+        linkedPlanet.BuildShip(ShipID.PULSE);
+        CloseShipyardUI();
+    }
+
+    public void BuildEmber()
+    {
+        linkedPlanet.BuildShip(ShipID.EMBER);
+        CloseShipyardUI();
+    }
+
+    public void BuildVolt()
+    {
+        linkedPlanet.BuildShip(ShipID.VOLT);
+        CloseShipyardUI();
+    }
+
+    public void BuildBlast()
+    {
+        linkedPlanet.BuildShip(ShipID.BLAST);
         CloseShipyardUI();
     }
 

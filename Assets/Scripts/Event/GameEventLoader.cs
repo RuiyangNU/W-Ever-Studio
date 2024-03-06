@@ -25,6 +25,12 @@ public class GameEventLoader : MonoBehaviour
         TutorialEvent();
         TutorialEvent2();
         TutorialEvent3();
+        TutorialEvent4();
+        TutorialEvent5();
+        TutorialEvent6();
+
+        TutorialFleetEvent();
+        TutorialFleetEvent2();
     }
 
     public void ExperimentalEvent()
@@ -116,9 +122,12 @@ public class GameEventLoader : MonoBehaviour
         GameEvent gameEvent = new GameEvent();
         gameEvent.title = "Tutorial: Construction - Part 1";
         gameEvent.eventId = "tutorial.3";
-        gameEvent.description = "Welcome to the Construction Tutorial! Long story short, the new panel which just shows up is the planet building display. Each slot will show a building's sprite and descprition if it has a building, or it will show the button to create a new building. <color=yellow>Click the Construction Button</color> after reading the tutorial.\n\n" +
-            "A new window will popup, which will show you 5 buildings you will be able to construct in this game. Each building has it resource requirment to build, and the build button on that building will disappear if you don't meet the requirment. <color=yellow>Build a Depot</color> first, since it will provide you with 1 CM, which will unlock all other buildings.\n\n";
+        gameEvent.description = "Welcome to the Construction Tutorial! Long story short, the new panel which just shows up is the planet building display.\n\n" +
+            " Each slot will show a building's sprite and descprition if it has a building, or it will show the button to create a new building.\n\n" +
+            " <color=yellow>Click the Construction Button</color> after reading the tutorial.\n\n";
+           
         gameEvent.isTriggeredOnly = false;
+        gameEvent.triggers.Add("hasFlag == tutorial_enabled");
         gameEvent.triggers.Add("hasFlag == tutorial_2_finished");
         gameEvent.imagePath = "Sprites/EventPicture/tutorial1";
 
@@ -126,7 +135,7 @@ public class GameEventLoader : MonoBehaviour
         GameEventOption option = new GameEventOption();
         option.effectList = new List<string>();
         //option.effectList.Add("addCredits=2000");
-        option.description = "Continue to Part 3";
+        option.description = "Continue to Next Part";
 
         //gameEvent.optionList.Add(option);
         gameEvent.optionList.Add(option);
@@ -138,17 +147,19 @@ public class GameEventLoader : MonoBehaviour
         GameEvent gameEvent = new GameEvent();
         gameEvent.title = "Tutorial: Construction - Part 2";
         gameEvent.eventId = "tutorial.4";
-        gameEvent.description = "Welcome to the Construction Tutorial! Long story short, the new panel which just shows up is the planet building display. Each slot will show a building's sprite and descprition if it has a building, or it will show the button to create a new building. <color=yellow>Click the Construction Button</color> after reading the tutorial.\n\n" +
-            "A new window will popup, which will show you 5 buildings you will be able to construct in this game. Each building has it resource requirment to build, and the build button on that building will disappear if you don't meet the requirment. <color=yellow>Build a Depot</color> first, since it will provide you with 1 CM, which will unlock all other buildings.\n\n";
+        gameEvent.description = "A new window will popup, which will show you 5 buildings you will be able to construct in this game. \n\n" +
+            " Each building has it resource requirment to build, and the build button on that building will disappear if you don't meet the requirment. \n\n" +
+            "You are given 500 credits by <color=#E1D787>Legatus Aurelian</color> to <color=yellow>Build a Depot</color> first, since it will provide you with 1 CM, which will unlock all other buildings.\n\n";
         gameEvent.isTriggeredOnly = false;
         gameEvent.triggers.Add("hasFlag == tutorial_2.5_finished");
+        gameEvent.triggers.Add("hasFlag == tutorial_enabled");
         gameEvent.imagePath = "Sprites/EventPicture/tutorial1";
 
 
         GameEventOption option = new GameEventOption();
         option.effectList = new List<string>();
-        //option.effectList.Add("addCredits=2000");
-        option.description = "Continue to Part 3";
+        option.effectList.Add("addCredits=500");
+        option.description = "Continue to Next Part (Receive 500 Credits)";
 
         //gameEvent.optionList.Add(option);
         gameEvent.optionList.Add(option);
@@ -158,17 +169,91 @@ public class GameEventLoader : MonoBehaviour
     public void TutorialEvent5()
     {
         GameEvent gameEvent = new GameEvent();
-        gameEvent.title = "Tutorial: Fleet Control";
+        gameEvent.title = "Tutorial: Construction - Part 3";
         gameEvent.eventId = "tutorial.5";
-        gameEvent.description = "";
+        gameEvent.description = "Great! Now you have a depot, your next goal is to build a shipyard which will give you shipbuilding capacity on this planet.\n\n" +
+            " You will receive 1000 credits for this task. The process will be the same\n\n";
         gameEvent.isTriggeredOnly = false;
         gameEvent.triggers.Add("hasFlag == tutorial_3_finished");
+        gameEvent.triggers.Add("hasFlag == tutorial_enabled");
         gameEvent.imagePath = "Sprites/EventPicture/tutorial1";
+
 
         GameEventOption option = new GameEventOption();
         option.effectList = new List<string>();
-        //option.effectList.Add("addCredits=2000");
-        option.description = "Onward to the Sector (Tutorial Finished)";
+        option.effectList.Add("addCredits=1000");
+        option.description = "Continue to Next Part (Receive 1000 Credits)";
+
+        //gameEvent.optionList.Add(option);
+        gameEvent.optionList.Add(option);
+        GameEventManager.RegisterEvent(gameEvent);
+    }
+
+    public void TutorialEvent6()
+    {
+        GameEvent gameEvent = new GameEvent();
+        gameEvent.title = "Tutorial: Build Fleet";
+        gameEvent.eventId = "tutorial.5";
+        gameEvent.description = "With a Shipyard built, your next goal is to build a \"Mono\" class frigate in your shipyard.\n\n" +
+            "<color=yellow>Click On the Shipyard Button in Planet Info Panel</color>, and you will see the fleets there you can build.\n\n" +
+            "<color=yellow>Click On the build Button for Mono</color>, and wait for 3 turns by <color=yellow>Click the Next Turn</color>.";
+        gameEvent.isTriggeredOnly = false;
+        gameEvent.triggers.Add("hasFlag == tutorial_4_finished");
+        gameEvent.triggers.Add("hasFlag == tutorial_enabled");
+        gameEvent.imagePath = "Sprites/EventPicture/tutorial1";
+
+
+        GameEventOption option = new GameEventOption();
+        option.effectList = new List<string>();
+        option.effectList.Add("addCredits=150");
+        option.description = "Continue to Next Part (Receive 150 Credits)";
+
+        //gameEvent.optionList.Add(option);
+        gameEvent.optionList.Add(option);
+        GameEventManager.RegisterEvent(gameEvent);
+    }
+
+    public void TutorialFleetEvent()
+    {
+        GameEvent gameEvent = new GameEvent();
+        gameEvent.title = "Tutorial: Fleet Control";
+        gameEvent.eventId = "tutorialfleet.1";
+        gameEvent.description = "Now that you have your fisrt fleet. To select a fleet, clikc on the tile with the fleet. If there is a planet there as well, click so that the UI switch to the fleet.\n\n" +
+            "The fleet info UI has similar structure of the planet. In the middle, the first panel shows you the <color=green>attack of the ship and its damage type</color>.\n\n" +
+            "The second panel shows the current <color=green>action points</color> and limits of the fleet.\n\n" +
+            "The third panel shows the <color=green>resistance to each of three damage type</color> of the game. \n\n" +
+            "On the buttom, the first bar shows the <color=green>Hull</color> of the Fleet. The second bar shows the <color=green>Shield</color> of the Fleet.\n\n" +
+            "To move a fleet, <color=yellow>Left click</color> to select the fleet, <color=yellow>Move your Mouse to the destination</color>. A path to the gree highlighted destination will be shown if the flett can move there. \n\n" +
+            "Moving past each cell cost 1 action points, so the Mono class frigate can only move 2 tiles per turn. If a path is shown, <color=yellow>Right Click</color> to move.\n\n" +
+            "The action points will be restored to maximum at the beginning of the turn.";
+        gameEvent.isTriggeredOnly = false;
+        gameEvent.triggers.Add("hasFlag == tutorial_enabled");
+        gameEvent.triggers.Add("hasFlag == tutorial_fleet_finished");
+        gameEvent.imagePath = "Sprites/EventPicture/tutorialFleet";
+
+        GameEventOption option = new GameEventOption();
+        option.effectList = new List<string>();
+        option.effectList.Add("event=tutorial.7");
+        option.description = "Continue to Next Part";
+
+        //gameEvent.optionList.Add(option);
+        gameEvent.optionList.Add(option);
+        GameEventManager.RegisterEvent(gameEvent);
+    }
+
+    public void TutorialFleetEvent2()
+    {
+        GameEvent gameEvent = new GameEvent();
+        gameEvent.title = "Tutorial: Combat";
+        gameEvent.eventId = "tutorialfleet.2";
+        gameEvent.description = "WIP";
+        gameEvent.isTriggeredOnly = true;
+        gameEvent.imagePath = "Sprites/EventPicture/tutorialFleet";
+
+        GameEventOption option = new GameEventOption();
+        option.effectList = new List<string>();
+        option.effectList.Add("addCredits=1000");
+        option.description = "Onward to the Sector (Finish the tutorial)";
 
         //gameEvent.optionList.Add(option);
         gameEvent.optionList.Add(option);
@@ -179,10 +264,10 @@ public class GameEventLoader : MonoBehaviour
     {
         GameEvent gameEvent = new GameEvent();
         gameEvent.title = "Enemy Unknown: Warlords of ";
-        gameEvent.eventId = "tutorial.4";
-        gameEvent.description = "";
+        gameEvent.eventId = "enemy.1";
+        gameEvent.description = "WIP";
         gameEvent.isTriggeredOnly = false;
-        gameEvent.triggers.Add("hasFlag == tutorial_3_finished");
+        gameEvent.triggers.Add("hasFlag == enemy_spotted");
         gameEvent.imagePath = "Sprites/EventPicture/tutorial1";
 
         GameEventOption option = new GameEventOption();

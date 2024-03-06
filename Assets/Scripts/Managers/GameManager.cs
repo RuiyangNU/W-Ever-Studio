@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
     public static GameManager gameManager;
     public List<string> gameFlags = new List<string>();
-    
+    public bool tutorial_fleet_status = false;
 
     /*
      * Static
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (GameObject fleet in gameManager.shipPrefabs)
         {
+
             //Debug.Log(fleet);
             if (fleet.GetComponent<Fleet>().shipID == shipID)
             {
@@ -368,7 +369,11 @@ public class GameManager : MonoBehaviour
         {
             //HexUnit unit = Instantiate(HexUnit.unitPrefab);
             //Fleet fleet = Instantiate(GetShipByType(shipID));
-
+            if (!tutorial_fleet_status)
+            {
+                GameManager.gameManager.AddFlag("tutorial_fleet_finished");
+                tutorial_fleet_status = true;   
+            }
             GameObject fleet = Instantiate(GetShipPrefab(shipID));
 
             //fleet.transform.position += new Vector3(0,5,0);
