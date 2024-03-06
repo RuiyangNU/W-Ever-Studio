@@ -291,12 +291,12 @@ public class GameManager : MonoBehaviour
 
     private float RawToEffective(float rawDamage, int res)
     {
-        return rawDamage * (100 / Mathf.Max(50, 100 + res));
+        return rawDamage * (100.0f / Mathf.Max(50, 100 + res));
     }
 
     private float EffectiveToRaw(float effectiveDamage, int res)
     {
-        return effectiveDamage * (Mathf.Max(50, 100 + res) / 100);
+        return effectiveDamage * (Mathf.Max(50, 100 + res) / 100.0f);
     }
 
     /*
