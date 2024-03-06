@@ -107,40 +107,6 @@ public class EnemyManager : MonoBehaviour
         }
 
         // Gain ship points
-        int pointsGained = 0;
-        
-        if (TurnNumber <= 5)
-        {
-            pointsGained = 0; // Turns 0-5
-        }
-        else if (TurnNumber <= 10)
-        {
-            pointsGained = 3; // Turns 6-10
-        }
-        else if (TurnNumber <= 15)
-        {
-            pointsGained = 4; // Turns 11-15
-        }
-        else if (TurnNumber <= 20)
-        {
-            pointsGained = 6; // Turns 16-20
-        }
-        else if (TurnNumber <= 25)
-        {
-            pointsGained = 11; // Turns 21-25
-        }
-        else if (TurnNumber <= 30)
-        {
-            pointsGained = 16; // Turns 26-30
-        }
-        else if (TurnNumber <= 35)
-        {
-            pointsGained = 25; // Turns 31-35
-        }
-        else
-        {
-            pointsGained = 35 + (int)(Mathf.Floor(Mathf.Pow(1.3f, 0.5f * (TurnNumber - 35)))); // Turns 36+
-        }
         shipPoints += (int)(Mathf.Floor(Mathf.Pow(1.4f, 2.1f + 0.25f * (TurnNumber - 5))));
 
         // Queue intended ship and the planet to spawn them in
@@ -151,7 +117,11 @@ public class EnemyManager : MonoBehaviour
         }
 
         // Spawn queued ships
-
+        bool spawnSuccessful = true;
+        while (spawnSuccessful && spawnQueue.Count > 0)
+        {
+            spawnSuccessful = SpawnEnemyFleet(spawnQueue.Dequeue());
+        }
         
     }
 
@@ -162,10 +132,24 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// Todo: fix spawning logic
     /// </summary>
-    public void SpawnEnemyFleet(ShipID shipID)
+    public bool SpawnEnemyFleet(ShipID shipID)
     {
-        int randomIndex = UnityEngine.Random.Range(0, enemyControlledPlanets.Count);
-        Planet spawningPlanet = enemyControlledPlanets[randomIndex];
+        List<Planet> enemyFreePlanets = new List<Planet>();
+        foreach(Planet planet in enemyControlledPlanets) {
+            if (!planet.UnderAttack && !planet.Occupied)
+            {
+                enemyFreePlanets.Add(planet);
+            }
+        }
+
+        if(enemyFreePlanets.Count == 0)
+        {
+            Debug.Log("Fail to Find Place to Spawn Enemy Ship.");
+            return false;
+        }
+
+        int randomIndex = UnityEngine.Random.Range(0, enemyFreePlanets.Count);
+        Planet spawningPlanet = enemyFreePlanets[randomIndex];
 
         if (spawningPlanet.CurrentCell.fleet == null && enemyControlledFleets.Count <= 5)
         {
@@ -183,7 +167,7 @@ public class EnemyManager : MonoBehaviour
             //Garrison
             AssignAiTask(spawningPlanet.CurrentCell.fleet, 0);
         }
-
+        return true;
     }
 
     public void AddPlanet(Planet p)
